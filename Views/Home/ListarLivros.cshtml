@@ -1,0 +1,8 @@
+@using BiblioTec.Controllers
+@{
+    var oi = ListarLivrosController()
+    ViewData["Lista"] = oi;
+}
+
+<h1>@ViewData["Lista"]</h1>
+
