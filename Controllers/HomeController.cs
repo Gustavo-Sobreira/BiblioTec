@@ -26,18 +26,14 @@ public class HomeController : Controller
         return _context.Livros.Skip(skip).Take(take);
     }
 
-    public void CriarLivro()
+    public void CriarLivro([FromForm]string codigo, string nome)
     {
-        Livro novo_livro = new Livro
+        Livro livroParaAdicionar = new Livro()
         {
-            Codigo = "02",Nome = "Vamuuuuu"
+            Codigo = codigo,
+            Nome = nome
         };
-        Livro novoLivro = new Livro
-        {
-            Codigo = novo_livro.Codigo,
-            Nome = novo_livro.Nome
-        };
-        _context.Add(novoLivro);
+        _context.Add(livroParaAdicionar);
         _context.SaveChanges();
     }
 }

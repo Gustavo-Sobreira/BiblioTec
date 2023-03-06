@@ -15,4 +15,16 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Home\CadastrarLivros.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\CadastrarLivro\CadastrarLivros.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages" />
+  </ItemGroup>
+
 </Project>
