@@ -5,22 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d62b3618-ccab-4090-bf9a-517dce988b39" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Controllers/CadastrarLivrosController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Folder.DotSettings.user" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Views/CadastrarLivro/CadastrarLivros.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/Aluno.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Views/Livro/CadastrarLivro.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Views/Livro/Cadastro.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BiblioTec.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BiblioTec.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/AgendaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AgendaController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/AgendaController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/CadastrarLivrosController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/CadastrarLivrosController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/BibliotecContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TabelaLivroContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migrations/20230305001547_FilmeMigration.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migrations/20230305001547_FilmeMigration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migrations/BibliotecContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/Livro.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Livro.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/CadastrarLivro/CadastrarLivros.cshtml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Home/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/Home/ListarLivros.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Home/ListarLivros.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/ref/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/ref/BiblioTec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/project.razor.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/project.razor.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/ref/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/ref/BiblioTec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Tres_Porcento" beforeDir="false" afterPath="$PROJECT_DIR$/../Tres_Porcento" afterDir="false" />
@@ -95,7 +104,9 @@
       <workItem from="1677972499842" duration="1222000" />
       <workItem from="1677973751267" duration="3340000" />
       <workItem from="1678113134591" duration="3737000" />
-      <workItem from="1678125849930" duration="4640000" />
+      <workItem from="1678125849930" duration="4810000" />
+      <workItem from="1678193574387" duration="12789000" />
+      <workItem from="1678217195273" duration="636000" />
     </task>
     <servers />
   </component>
@@ -106,25 +117,5 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Views/Home/Index.cshtml</url>
-          <line>53</line>
-          <properties documentPath="$PROJECT_DIR$/Views/Home/Index.cshtml" initialLine="53" isMultiMethodBreakpoint="true">
-            <option name="multiMethodBreakpoint" value="true" />
-            <startOffsets>
-              <option value="-1" />
-            </startOffsets>
-            <endOffsets>
-              <option value="-1" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

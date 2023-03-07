@@ -23,8 +23,4 @@
     <_ContentIncludedByDefault Remove="Pages\CadastrarLivro\CadastrarLivros.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages" />
-  </ItemGroup>
-
 </Project>

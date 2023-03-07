@@ -1,0 +1,35 @@
+@{
+    Layout = Layout;
+}
+
+<form asp-action="CadastrarLivro" method="post">
+  <div class="form-group">
+    <label>Código</label>
+    <input type="number" name="_codigo" class="form-control" placeholder="Insira o código do livro" required>
+  </div>
+  
+  <br/>
+  
+  <div class="form-group">
+    <label>Nome</label>
+    <input type="text" name="_nome" class="form-control" placeholder="Insira o nome do livro" required>
+  </div>      
+  
+  <br/>
+  
+  <div class="form-group">
+      <label>Autor</label>
+      <input type="text" name="_autor" class="form-control" placeholder="Insira o autor do livro" required>
+  </div>     
+  
+  <br/>
+  
+  <div class="form-group">
+      <label>Prazo</label>
+      <input type="number" name="_prazo" class="form-control"placeholder="Insira o números de dias que este título será emprestado" required>
+  </div>      
+  
+  <br/>
+  
+  <button type="submit" class="btn btn-outline-success btn-lg">Cadastrar</button>
+</form>

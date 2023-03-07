@@ -15,16 +15,20 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/sobreira/Code/BiblioTec
 build_property._RazorSourceGeneratorDebug = 
 
-[/home/sobreira/Code/BiblioTec/Views/CadastrarLivro/CadastrarLivros.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FkYXN0cmFyTGl2cm8vQ2FkYXN0cmFyTGl2cm9zLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [/home/sobreira/Code/BiblioTec/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/sobreira/Code/BiblioTec/Views/Home/ListarLivros.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9MaXN0YXJMaXZyb3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sobreira/Code/BiblioTec/Views/Livro/CadastrarLivro.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2cm8vQ2FkYXN0cmFyTGl2cm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/sobreira/Code/BiblioTec/Views/Livro/Cadastro.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2cm8vQ2FkYXN0cm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/sobreira/Code/BiblioTec/Views/Shared/_ValidationScriptsPartial.cshtml]
