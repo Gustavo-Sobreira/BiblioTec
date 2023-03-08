@@ -1,19 +1,17 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackBiblioteca.Models;
 
-public class Aluno
+public class Emprestimo
 {
     [Key]
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public int matricula { get; set; }
+    public int id_emprestimo { get; set; }
     
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string nome { get; set; }
+    public int codigo_livro { get; set; }
     
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public int sala { get; set; }
-    
-    [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string turno { get; set; }
+    public int matricula_aluno { get; set; }
 }
