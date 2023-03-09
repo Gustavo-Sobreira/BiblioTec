@@ -1,4 +1,5 @@
 using BackBiblioteca.Data;
+using BackBiblioteca.Models;
 using Microsoft.AspNetCore.Mvc;
 using BackBiblioteca.Services;
 
@@ -15,30 +16,47 @@ public class LivroController : Controller
         _context = context;
     }
 
+    
+    [HttpGet]
+    [Route("/Listar/TodosIguais")]
+    public List<int> ListarLivrosIguais([FromHeader] string nome, string autor)
+    {
+        LivroServices novaConsulta = new LivroServices(_context);
+        return novaConsulta.ListarLivrosIguais(nome,autor);
+    }
+
+    [HttpGet]
+    [Route("/Listar/Emprestados")]
+    public List<int> ListarLivrosIguaisEmprestados([FromHeader] string nome, string autor)
+    {
+        LivroServices novaConsulta = new LivroServices(_context);
+        return novaConsulta.ListarLivrosIguaisEmprestados(nome, autor);
+    }
+    
+    
+    
     [HttpPost]
     [Route("/Cadastro")]
-    public void CadastrarNovoLivro([FromForm] int codigo, string nome, string autor, int prazo)
+    public string CadastrarNovoLivro([FromForm] Livro novoLivro)
     {
-        ValidacaoCadastroService validando = new ValidacaoCadastroService(_context);
-        var a = validando.CadastrarLivro(codigo,nome,autor,prazo);
-
-        Console.WriteLine(a);
+        LivroServices validando = new LivroServices(_context);
+        return validando.CadastrarLivro(novoLivro);
     }
 
     [HttpPost]
     [Route("/Empretimo")]
-    public void RealizarEmprestimo([FromForm] int codigo, int matricula)
+    public string RealizarEmprestimo([FromForm] int registro, int matricula)
     {
-        EmprestimoLivroService emprestimo = new EmprestimoLivroService(_context);
-        emprestimo.ValidarIntegrantes(codigo, matricula);
-
+        LivroServices emprestimo = new LivroServices(_context);
+        return emprestimo.EmprestarLivro(registro, matricula);
     }
 
     [HttpDelete]
     [Route("/Devolucao")]
-    public void RealizarDevolucao([FromForm] int matricula , int codigo)
+    public string RealizarDevolucao([FromForm] int registro, int matricula)
     {
-        EmprestimoLivroService emprestimo = new EmprestimoLivroService(_context);
-        emprestimo.DevolverLivro(matricula, codigo);
+        LivroServices emprestimo = new LivroServices(_context);
+        return emprestimo.DevolverLivro(registro, matricula);
     }
+    
 }

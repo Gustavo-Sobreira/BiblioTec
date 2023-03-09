@@ -11,6 +11,6 @@ public class BibliotecContext : DbContext
     
     public DbSet<Aluno> aluno { get; set; } = null!;
 
-    public DbSet<Emprestimo> emprestado { get; set; } = null!;
+    public DbSet<Emprestado> emprestado { get; set; } = null!;
 }
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackBiblioteca.Models;
 
-public class Emprestimo
+public class Emprestado
 {
     [Key]
     [Required(ErrorMessage = "Este campo é obrigatório")]

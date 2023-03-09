@@ -12,26 +12,26 @@ public class ValidacaoCadastroService
         _context = context;
     }
 
-    public bool CadastrarLivro(int codigo, string nome, string autor, int prazo)
-    {
-        Livro livroEmVerificacao = new Livro()
-        {
-            codigo = codigo,
-            nome = nome,
-            autor = autor,
-            prazo = prazo
-        };
-        try
-        {
-            _context.livro.Add(livroEmVerificacao);
-            _context.SaveChanges();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    // public bool CadastrarLivro(int codigo, string nome, string autor, int prazo)
+    // {
+    //     Livro livroEmVerificacao = new Livro()
+    //     {
+    //         codigo = codigo,
+    //         nome = nome,
+    //         autor = autor,
+    //         prazo = prazo
+    //     };
+    //     try
+    //     {
+    //         _context.livro.Add(livroEmVerificacao);
+    //         _context.SaveChanges();
+    //         return true;
+    //     }
+    //     catch
+    //     {
+    //         return false;
+    //     }
+    // }
 
     public bool CadastrarAluno(int matricula, string nome, int sala, string turno)
     {

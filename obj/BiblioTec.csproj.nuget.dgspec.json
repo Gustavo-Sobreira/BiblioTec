@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "/home/sobreira/Code/BiblioTec/BackBiblioteca.csproj": {}
+    "/home/sobreira/Code/BiblioTec/BiblioTec.csproj": {}
   },
   "projects": {
-    "/home/sobreira/Code/BiblioTec/BackBiblioteca.csproj": {
+    "/home/sobreira/Code/BiblioTec/BiblioTec.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/sobreira/Code/BiblioTec/BackBiblioteca.csproj",
-        "projectName": "BackBiblioteca",
-        "projectPath": "/home/sobreira/Code/BiblioTec/BackBiblioteca.csproj",
+        "projectUniqueName": "/home/sobreira/Code/BiblioTec/BiblioTec.csproj",
+        "projectName": "BiblioTec",
+        "projectPath": "/home/sobreira/Code/BiblioTec/BiblioTec.csproj",
         "packagesPath": "/home/sobreira/.nuget/packages/",
         "outputPath": "/home/sobreira/Code/BiblioTec/obj/",
         "projectStyle": "PackageReference",

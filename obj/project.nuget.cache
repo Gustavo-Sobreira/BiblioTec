@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "klvZfz2KA9oVCvWRbNaMfkt0JZLLn2wykgwhQzTGIfQXI/QRx2KY+RQkhD2CVriBTb9qJjxwVUI2mMK/7BVy5Q==",
+  "dgSpecHash": "MQbM/kJM0uDt2nEShxtTePX19rzTYjIVsPAkA+6u27x+y6UF2Dwp9DPvp0hvzbpCKzxXVXLqNNKC2ioGVF2g+Q==",
   "success": true,
-  "projectFilePath": "/home/sobreira/Code/BackBiblioteca/BackBiblioteca.csproj",
+  "projectFilePath": "/home/sobreira/Code/BiblioTec/BiblioTec.csproj",
   "expectedPackageFiles": [
     "/home/sobreira/.nuget/packages/common.logging/3.4.1/common.logging.3.4.1.nupkg.sha512",
     "/home/sobreira/.nuget/packages/common.logging.core/3.4.1/common.logging.core.3.4.1.nupkg.sha512",
