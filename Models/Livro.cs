@@ -9,11 +9,8 @@ public class Livro
     public int codigo { get; set; }
     
     [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string nome { get; set; }
+    public string titulo { get; set; }
     
     [Required(ErrorMessage = "Este campo é obrigatório")]
     public string autor { get; set; }
-    
-    [Required(ErrorMessage = "Este campo é obrigatório")]
-    public int prazo { get; set; }
 }

@@ -9,54 +9,44 @@ namespace BackBiblioteca.Controllers;
 [Route("[controller]")]
 public class LivroController : Controller
 {
-    private readonly BibliotecContext _context;
-
+    private LivroServices _livroAtual;
     public LivroController(BibliotecContext context)
     {
-        _context = context;
+        _livroAtual = new LivroServices(context);
     }
-
     
     [HttpGet]
-    [Route("/Listar/TodosIguais")]
-    public List<int> ListarLivrosIguais([FromHeader] string nome, string autor)
+    [Route("estoque")]
+    public List<string> ListarEstoque()
     {
-        LivroServices novaConsulta = new LivroServices(_context);
-        return novaConsulta.ListarLivrosIguais(nome,autor);
+        return _livroAtual.ListarEstoque();
     }
-
-    [HttpGet]
-    [Route("/Listar/Emprestados")]
-    public List<int> ListarLivrosIguaisEmprestados([FromHeader] string nome, string autor)
-    {
-        LivroServices novaConsulta = new LivroServices(_context);
-        return novaConsulta.ListarLivrosIguaisEmprestados(nome, autor);
-    }
-    
-    
     
     [HttpPost]
-    [Route("/Cadastro")]
+    [Route("cadastro")]
     public string CadastrarNovoLivro([FromForm] Livro novoLivro)
     {
-        LivroServices validando = new LivroServices(_context);
-        return validando.CadastrarLivro(novoLivro);
+        return _livroAtual.CadastrarLivro(novoLivro);
     }
 
     [HttpPost]
-    [Route("/Empretimo")]
+    [Route("empretimo")]
     public string RealizarEmprestimo([FromForm] int registro, int matricula)
     {
-        LivroServices emprestimo = new LivroServices(_context);
-        return emprestimo.EmprestarLivro(registro, matricula);
+        return _livroAtual.EmprestarLivro(registro, matricula);
     }
 
     [HttpDelete]
-    [Route("/Devolucao")]
+    [Route("devolucao")]
     public string RealizarDevolucao([FromForm] int registro, int matricula)
     {
-        LivroServices emprestimo = new LivroServices(_context);
-        return emprestimo.DevolverLivro(registro, matricula);
+        return _livroAtual.DevolverLivro(registro, matricula);
     }
-    
+
+    [HttpDelete]
+    [Route("apagar")]
+    public string RemoverLivroDaBiblioteca([FromForm] Livro livroParaApagar)
+    {
+        return _livroAtual.ApagarLivro(livroParaApagar);
+    }
 }
