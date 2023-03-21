@@ -1,16 +1,21 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackBiblioteca.Models;
 
+[Table("livro")]
 public class Livro
 {
     [Key]
-    [Required(ErrorMessage = "Este campo é obrigatório")]
-    public int codigo { get; set; }
+    [Column("registro")]
+    [Required(ErrorMessage = "[ERRO==005] Registro não pode ser nulo.")]
+    public int Registro { get; set; }
     
-    [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string titulo { get; set; }
+    [Column("titulo")]
+    [Required(ErrorMessage = "[ERRO==006] Autor não pode ser nulo.")]
+    public string? Titulo { get; set; }
     
-    [Required(ErrorMessage = "Este campo é obrigatório")]
-    public string autor { get; set; }
+    [Column("autor")]
+    [Required(ErrorMessage = "[ERRO==007] Título não pode ser nulo.")]
+    public string? Autor { get; set; }
 }

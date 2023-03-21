@@ -2,26 +2,36 @@ using BackBiblioteca.Data;
 using BackBiblioteca.Models;
 
 namespace BackBiblioteca.Services;
+
 public class LivroServices
 {
     private readonly BibliotecContext _context;
+
     public LivroServices(BibliotecContext context)
     {
         _context = context;
     }
-    
-    public string CadastrarLivro(Livro livroEmVerificacao)
+
+    public string Cadastrar(Livro livroParaCadastro)
     {
-        Livro livroExistente = PesquisarLivroPorRegistro(livroEmVerificacao.codigo)?? new Livro();
+        var livroTratdo = VerificarLivroValidoParaOperacao(livroParaCadastro);
+        if (livroTratdo.Substring(0,8) != "[ERRO=008]")
+        {
+            if (livroTratdo == "")
+            {
+                var encontrado = PesquisarLivroPorRegistro(livroParaCadastro.Registro);
+                return $"[ERRO=010] Registro já cadastrado.\n" +
+                       $"Obra : {encontrado?.Titulo}\n" +
+                       $"De: {encontrado?.Autor}\n" +
+                       $"Registro: {encontrado?.Registro}";
+            }
+            return livroTratdo;
+        }
+        
         try
         {
-            if (livroExistente.codigo != 0)
-            {
-                return $"Este N° de Registro já está sendo utilizado na obra {livroExistente.titulo} de {livroExistente.autor}";
-            }
-            _context.livro.Add(livroEmVerificacao);
+            _context.Livros.Add(livroParaCadastro);
             _context.SaveChanges();
-            
             return "Livro cadastrado com sucesso";
         }
         catch (Exception e)
@@ -29,110 +39,37 @@ public class LivroServices
             Console.WriteLine(e);
             throw;
         }
-        
     }
-    
-    private string VerificarLivroValidoParaAlteracao(int numeroRegistroLivro)
+    public string Apagar(Livro livroParaExclusao)
     {
-        if (numeroRegistroLivro <= 0)
+        var livroTratado = VerificarLivroValidoParaOperacao(livroParaExclusao);
+        if (livroTratado != "")
         {
-            return "N° de registro inesistente";
-        }
-        
-        var livroParaApagar = PesquisarLivroPorRegistro(numeroRegistroLivro);
-        if (livroParaApagar == null)
-        {
-            return "N° de Registro não encontrado";   
-        }
-        
-        var pendenciaLivro = _context.emprestado.FirstOrDefault(emprestado => emprestado.codigo_livro == numeroRegistroLivro);
-        if (pendenciaLivro != null)
-        {
-            return $"Este livro está emprestado para o aluno {pendenciaLivro.matricula_aluno}." +
-                   $"\nApós a devolução, conclua a exclusão.";    
-        }
-        return "";
-    }
-    
-    
-    public string EmprestarLivro(int numeroRegistroLivro, int matriculaAluno)
-    {
-        var validado = ValidarEmprestimo(numeroRegistroLivro, matriculaAluno);
-        if (validado != "")
-        {
-            return validado;
-        }
-        
-        var ultimoId = _context.emprestado.Max(emprestado => emprestado.id_emprestimo);
-        var novoEmprestimo = new Emprestado()
-        {
-            id_emprestimo = ultimoId + 1,
-            matricula_aluno = matriculaAluno,
-            codigo_livro = numeroRegistroLivro
-        };
-        try
-        {
-            _context.emprestado.Add(novoEmprestimo);
-            _context.SaveChanges();
-            return $"Emprétimo realizado com sucesso. ID = {novoEmprestimo.id_emprestimo}";
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-    private string ValidarEmprestimo(int numeroRegistroLivro, int matriculaAluno)
-    {
-        var alunoEmVerificacao = new AlunoServices(_context);
-        
-        var aluno = alunoEmVerificacao.VerificarMatriculaAluno(matriculaAluno);
-        if (aluno == null)
-        {
-            return "Esta matrícula não está registrada, favor registrar o aluno.";
-        }
-        
-        var pendenciaAluno = alunoEmVerificacao.VerificarPendenciaAluno(matriculaAluno);
-        if (pendenciaAluno != null)
-        {
-            return $"Este aluno possui pendências, referentes ao N° de Registro {pendenciaAluno.codigo_livro}." +
-                   $"\nPara que o empréstimo seja liberado, deve ser feita a devolução.";
+            return livroTratado;
         }
 
-        var livroPodeSerAlterado = VerificarLivroValidoParaAlteracao(numeroRegistroLivro);
-        if (livroPodeSerAlterado != "")
+        var livroEmprestado = VerificarPendenciaLivro(livroParaExclusao.Registro);
+        if (livroEmprestado != "")
         {
-            return livroPodeSerAlterado;
+            return livroEmprestado;
         }
         
-        return "";
-    }
-
-    
-    public string ApagarLivro(Livro dadosLivroParaExclusao)
-    {
-        var validoParaAlteracao = VerificarLivroValidoParaAlteracao(dadosLivroParaExclusao.codigo);
-        if (validoParaAlteracao != "")
+        var livroCadastrado = PesquisarLivroPorRegistro(livroParaExclusao.Registro) ?? new Livro();
+        if (livroCadastrado.Titulo != livroParaExclusao.Titulo)
         {
-            return validoParaAlteracao;
-        }
-       
-        var livroParaApagar = PesquisarLivroPorRegistro(dadosLivroParaExclusao.codigo)?? new Livro();
-        if (livroParaApagar.titulo != dadosLivroParaExclusao.titulo)
-        {
-            return $"O titulo que você deseja apagar({dadosLivroParaExclusao.titulo} e o título referente " +
-                   $"\n ao registro({livroParaApagar.titulo}), não coincidem.";
+            return $"O titulo que você deseja apagar({livroParaExclusao.Titulo} e o título referente "
+                   + $"\n ao registro({livroCadastrado.Titulo}), não coincidem.";
         }
 
-        if (livroParaApagar.autor != dadosLivroParaExclusao.autor)
+        if (livroCadastrado.Autor != livroParaExclusao.Autor)
         {
-            return $"O autor que você deseja apagar({dadosLivroParaExclusao.autor} e o autor referente " +
-                   $"\n ao registro({livroParaApagar.autor}), não coincidem.";
+            return $"O autor que você deseja apagar({livroParaExclusao.Autor} e o autor referente "
+                   + $"\n ao registro({livroCadastrado.Autor}), não coincidem.";
         }
 
         try
         {
-            _context.livro.Remove(livroParaApagar);
+            _context.Livros.Remove(livroCadastrado);
             _context.SaveChanges();
             return "Livro apagado com sucesso";
         }
@@ -143,53 +80,76 @@ public class LivroServices
         }
     }
     
-    public string DevolverLivro(int numeroRegistroLivro, int matriculaAluno)
+    private string VerificarLivroValidoParaOperacao(Livro livroParaVerificacao)
     {
-        AlunoServices aluno = new AlunoServices(_context);
+        livroParaVerificacao = FormatarCampos(livroParaVerificacao);
 
-        if (numeroRegistroLivro <= 0 ||matriculaAluno <= 0)
+        var camposInvalido = VerificarCamposInvalidos(livroParaVerificacao);
+        if (camposInvalido != "")
         {
-            return "Favor adicione campos válidos";
+            return camposInvalido;
         }
-
-        try
-        {
-            var pendencia = aluno.VerificarPendenciaAluno(matriculaAluno);
-            if (pendencia == null)
-            {
-                return "Este aluno não possui pendências.";
-            }
         
-            if (pendencia.codigo_livro != numeroRegistroLivro)
-            {   
-                return $"Falha na devolução, este aluno não pegou este livro (N° Registro {numeroRegistroLivro}).\n" +
-                       $"Sua matrícula está vinculada ao N° Registro {pendencia.codigo_livro}";
-            }
-            
-            var livroParaDevolucao =_context.emprestado.First(emprestado => emprestado.codigo_livro == numeroRegistroLivro);
-            _context.emprestado.Remove(livroParaDevolucao);
-            _context.SaveChanges();
-            return "Devolução concuída!";
-        }
-        catch (Exception e)
+        var livroExiste = PesquisarLivroPorRegistro(livroParaVerificacao.Registro);
+        if (livroExiste == null)
         {
-            Console.WriteLine(e);
-            throw;
+            return "[ERRO=008] Registro não encontrado";
         }
+        
+        return "";
+    }
+    private Livro FormatarCampos(Livro livroParaFormatacao)
+    {
+        livroParaFormatacao.Autor = livroParaFormatacao.Autor?.Trim();
+        livroParaFormatacao.Titulo = livroParaFormatacao.Titulo?.Trim();
+        return livroParaFormatacao;
+    }
+    private string VerificarCamposInvalidos(Livro livroEmVerificacao)
+    {
+        if (livroEmVerificacao.Registro == 0) {
+            return "[ERRO==005] Registro não pode ser nulo.";
+        }
+        if (livroEmVerificacao.Autor == null) {
+            return "[ERRO==006] Autor não pode ser nulo.";
+        }
+        if (livroEmVerificacao.Titulo == null) {
+            return "[ERRO==007] Título não pode ser nulo.";
+        }
+        return "";
+    }
+    protected internal Livro? PesquisarLivroPorRegistro(int registro)
+    {
+        return _context.Livros.Find(registro);
+    }
+    public string VerificarPendenciaLivro(int registro)
+    {
+        var livroPendente = _context.Emprestimos
+            .FirstOrDefault(emprestado => emprestado.Registro == registro);
+        
+        if (livroPendente == null)
+        {
+            return "";
+        }
+        Aluno? alunoComPendencia = _context.Alunos.Find(livroPendente.Matricula);
+        var turno = alunoComPendencia?.Turno == "1" ? "Manhã" : "Tarde";
+        
+        return "[ERRO=009] Este livro está emprestado para o aluno: \n" +
+               $"{alunoComPendencia?.Nome}\n" +
+               $"{alunoComPendencia?.Sala}\n" +
+               $"{turno}\n" +
+               $"Matrícula: {alunoComPendencia?.Matricula}";
+
     }
     
-    
+    //TODO Mudar para estoque real e não total
     public List<string> ListarEstoque()
     {
-        var estoque = _context.livro
-            .GroupBy(livro => livro.titulo, livro => livro.autor)
+        var estoque = _context.Livros
+            .GroupBy(livro => livro.Titulo, livro => livro.Autor)
             .Select(grupo => $"{grupo.Key}: {grupo.Count()}")
             .ToList();
         return estoque;
     }
-    private Livro? PesquisarLivroPorRegistro(int registro)
-    {
-        Livro? livroEncontrado = _context.livro.Find(registro);
-        return livroEncontrado;
-    }
+
+    
 }

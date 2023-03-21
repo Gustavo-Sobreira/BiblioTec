@@ -19,15 +19,21 @@ public class AlunoController : Controller
     [HttpPost]
     [Route("cadastro")]
     public string CadastrarNovoAluno([FromForm] Aluno novoAluno)
+    {   
+        return _alunoAtual.Cadastrar(novoAluno);
+    }
+
+    [HttpPut]
+    [Route("editar")]
+    public string EditarAlunoExistente([FromForm] Aluno alunoEtitado)
     {
-        // ValidacaoCadastroService validando = new ValidacaoCadastroService(_context);
-        return _alunoAtual.CadastrarAluno(novoAluno);
+        return _alunoAtual.Editar(alunoEtitado);
     }
 
     [HttpDelete]
     [Route("apagar")]
     public string RemoverAlunoDosRegistros([FromForm] Aluno alunoParaSerApagado)
     {
-        return _alunoAtual.ApagarAluno(alunoParaSerApagado);
+        return _alunoAtual.Apagar(alunoParaSerApagado);
     }
 }

@@ -7,10 +7,10 @@ public class BibliotecContext : DbContext
 {
     public BibliotecContext(DbContextOptions<BibliotecContext> options):base(options){}
     
-    public DbSet<Livro> livro { get; set; } = null!;
-    
-    public DbSet<Aluno> aluno { get; set; } = null!;
+    public DbSet<Livro> Livros { get; set; } = null!;
 
-    public DbSet<Emprestado> emprestado { get; set; } = null!;
+    public DbSet<Aluno> Alunos { get; set; } = null!;
+
+    public DbSet<Emprestimo> Emprestimos { get; set; } = null!;
 }
 

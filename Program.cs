@@ -1,6 +1,8 @@
 using BackBiblioteca.Data;
 using Microsoft.EntityFrameworkCore;
 
+Console.Clear();
+
 var builder = WebApplication.CreateBuilder(args);
 
 
