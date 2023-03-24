@@ -6,25 +6,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d62b3618-ccab-4090-bf9a-517dce988b39" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Controllers/EmprestimoController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/EmprestimoServices.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Erro/ErroResposta.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/AlunoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AlunoController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/LivroController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/LivroController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/BibliotecContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/BibliotecContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Aluno.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Aluno.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Emprestado.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Livro.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Livro.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/AlunoServices.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/AlunoServices.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/LivroServices.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/LivroServices.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WeatherForecast.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/ref/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/ref/BiblioTec.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.MvcApplicationPartsAssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.MvcApplicationPartsAssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.pdb" afterDir="false" />
@@ -57,28 +46,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/sobreira/Code/BackBiblioteca&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;HotReloadSettingsPage&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/sobreira/Code/BackBiblioteca",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ],
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/home/sobreira/.config/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
-      &quot;/home/sobreira/.config/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
-      &quot;/home/sobreira/.local/share/Symbols/src&quot;
+    "rider.external.source.directories": [
+      "/home/sobreira/.config/JetBrains/Rider2022.3/resharper-host/DecompilerCache",
+      "/home/sobreira/.config/JetBrains/Rider2022.3/resharper-host/SourcesCache",
+      "/home/sobreira/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Unnamed" type="LaunchSettings" factoryName=".NET Launch Settings Profile" nameIsGenerated="true">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/BiblioTec.csproj" />
@@ -126,6 +115,10 @@
       <workItem from="1679314954241" duration="40000" />
       <workItem from="1679322667717" duration="329000" />
       <workItem from="1679323309551" duration="19427000" />
+      <workItem from="1679360276250" duration="466000" />
+      <workItem from="1679419476754" duration="4592000" />
+      <workItem from="1679436577393" duration="1104000" />
+      <workItem from="1679592871195" duration="564000" />
     </task>
     <servers />
   </component>
@@ -136,5 +129,9 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

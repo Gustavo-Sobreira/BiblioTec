@@ -1,4 +1,5 @@
 using BackBiblioteca.Data;
+using BackBiblioteca.Respostas;
 using BackBiblioteca.Models;
 
 namespace BackBiblioteca.Services;
@@ -11,14 +12,18 @@ public class AlunoServices
     {
         _context = context;
     }
-    
+
     public string Cadastrar(Aluno alunoParaAdicionar)
     {
         alunoParaAdicionar = FormatarCamposAluno(alunoParaAdicionar);
-        
+
         var dadosValidos = VerificarDadosValidos(alunoParaAdicionar);
-        if (dadosValidos != "")
+        if (dadosValidos != AlunoErro.Erro001)
         {
+            if (dadosValidos == "" || dadosValidos == EmprestimoErro.Erro071)
+            {
+                return AlunoErro.Erro002;
+            }
             return dadosValidos;
         }
 
@@ -26,7 +31,7 @@ public class AlunoServices
         {
             _context.Alunos.Add(alunoParaAdicionar);
             _context.SaveChanges();
-            return "Aluno cadastrado com sucesso.";
+            return OperacaoConcluida.Sucesso001;
         }
         catch (Exception e)
         {
@@ -34,22 +39,23 @@ public class AlunoServices
             throw;
         }
     }
+
     public string Apagar(Aluno alunoParaRemover)
     {
         alunoParaRemover = FormatarCamposAluno(alunoParaRemover);
-        
+
         var dadosValidos = VerificarDadosValidos(alunoParaRemover);
         if (dadosValidos != "")
         {
             return dadosValidos;
         }
-        
+
         var dadosCriticos = CompararDadosDeAluno(alunoParaRemover);
         if (dadosCriticos != "")
         {
             return dadosCriticos;
         }
-        
+
         try
         {
             var alunoremovido = _context.Alunos.Find(alunoParaRemover.Matricula);
@@ -59,7 +65,7 @@ public class AlunoServices
             }
             _context.Alunos.Remove(alunoremovido);
             _context.SaveChanges();
-            return "Aluno removido com sucesso";
+            return OperacaoConcluida.Sucesso002;
         }
         catch (Exception e)
         {
@@ -67,16 +73,17 @@ public class AlunoServices
             throw;
         }
     }
+
     public string Editar(Aluno alunoParaEditar)
     {
         alunoParaEditar = FormatarCamposAluno(alunoParaEditar);
-        
+
         var dadosValidos = VerificarDadosValidos(alunoParaEditar);
         if (dadosValidos != "")
         {
             return dadosValidos;
         }
-        
+
         var aluno = _context.Alunos.Find(alunoParaEditar.Matricula);
         try
         {
@@ -87,7 +94,7 @@ public class AlunoServices
             _context.Alunos.Remove(aluno);
             _context.Alunos.Add(alunoParaEditar);
             _context.SaveChanges();
-            return "Aluno editado com sucesso";
+            return OperacaoConcluida.Sucesso003;
         }
         catch (Exception e)
         {
@@ -107,79 +114,82 @@ public class AlunoServices
         var matriculaValida = VerificarMatricula(alunoEmVerificacao.Matricula);
         if (!matriculaValida)
         {
-            return "Matrícula não encontrada.";
+            return AlunoErro.Erro001;
         }
-        
+
         var pendencia = VerificarPendenciaAluno(alunoEmVerificacao.Matricula);
         if (pendencia != null)
         {
-            return $"Este aluno possui pendencias com a biblioteca. N° Livro: {pendencia.Registro}";
+            return EmprestimoErro.Erro071;
         }
 
         return "";
     }
+
     private string VerificarCamposInvalidos(Aluno alunoEmVerificacao)
     {
         if (alunoEmVerificacao.Matricula <= 0)
         {
-            return "[ERRO=001] Matrícula inválida.";
+            return AlunoErro.Erro000;
         }
 
         if (alunoEmVerificacao.Nome == "")
         {
-            return "[ERRO=002] Nome não pode ser nulo.";
+            return AlunoErro.Erro020;
         }
 
         if (alunoEmVerificacao.Sala <= 0)
         {
-            return "[ERRO=003] O n° da Sala não pode ser nulo.";
+            return AlunoErro.Erro002;
         }
 
-        if (alunoEmVerificacao.Turno != "1" || alunoEmVerificacao.Turno != "2")
+        if (alunoEmVerificacao.Turno != "1" && alunoEmVerificacao.Turno != "2")
         {
-            return "[ERRO=004] Os turnos manhã e tarde são representados por 1(manhã) e 2(tarde).";
+            return AlunoErro.Erro030;
         }
         return "";
     }
-    protected internal  bool VerificarMatricula(int matriculaAluno)
+
+    protected internal bool VerificarMatricula(int matricula)
     {
-        return _context.Alunos.Any(aluno => aluno.Matricula == matriculaAluno);
+        return _context.Alunos.Any(aluno => aluno.Matricula == matricula);
     }
-    protected internal Emprestimo? VerificarPendenciaAluno(int matriculaAluno)
+
+    protected internal Emprestimo? VerificarPendenciaAluno(int matricula)
     {
-        return _context.Emprestimos
-            .FirstOrDefault(emprestimo => emprestimo.Matricula == matriculaAluno);
+        return _context.Emprestimos.FirstOrDefault(
+            emprestimo => emprestimo.Matricula == matricula
+        );
     }
-    
+
     private string CompararDadosDeAluno(Aluno alunoEmVerificacao)
     {
-        var alunoCadastrado =
-            _context.Alunos
-                .Find(alunoEmVerificacao.Matricula);
-        
+        var alunoCadastrado = _context.Alunos.Find(alunoEmVerificacao.Matricula);
+
         if (alunoCadastrado != alunoEmVerificacao)
         {
             if (alunoCadastrado?.Nome != alunoEmVerificacao.Nome)
             {
-                return "Nomes incopatíveis.";
+                return AlunoErro.Erro021;
             }
 
             if (alunoCadastrado?.Sala != alunoEmVerificacao.Sala)
             {
-                return "Salas incompatíveis.";
+                return AlunoErro.Erro011;
             }
 
             if (alunoCadastrado.Turno != alunoEmVerificacao.Turno)
             {
-                return "Turnos incompatíveis";
+                return AlunoErro.Erro031;
             }
         }
         return "";
     }
+
     private Aluno FormatarCamposAluno(Aluno alunoParaFormatacao)
     {
         alunoParaFormatacao.Nome = alunoParaFormatacao.Nome?.Trim();
-        alunoParaFormatacao.Turno = alunoParaFormatacao.Turno.Trim();
+        alunoParaFormatacao.Turno = alunoParaFormatacao.Turno?.Trim();
         return alunoParaFormatacao;
     }
 }

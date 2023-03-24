@@ -1,5 +1,6 @@
 using BackBiblioteca.Data;
 using BackBiblioteca.Models;
+using BackBiblioteca.Respostas;
 
 namespace BackBiblioteca.Services;
 
@@ -11,7 +12,7 @@ public class EmprestimoServices
     {
         _context = context;
     }
-    
+
     public string EmprestarLivro(int registro, int matricula)
     {
         var valido = ValidarEmprestimo(registro, matricula);
@@ -25,13 +26,14 @@ public class EmprestimoServices
         {
             IdEmprestimo = buscarUltimoId + 1,
             Matricula = matricula,
-            Registro = registro
+            Registro = registro,
+            DataEmprestimo = DateTime.Now
         };
         try
         {
             _context.Emprestimos.Add(novoEmprestimo);
             _context.SaveChanges();
-            return $"Emprétimo realizado com sucesso. ID = {novoEmprestimo.IdEmprestimo}";
+            return OperacaoConcluida.Sucesso004;
         }
         catch (Exception e)
         {
@@ -53,7 +55,7 @@ public class EmprestimoServices
         {
             return livro;
         }
-        
+
         return "";
     }
 
@@ -63,14 +65,13 @@ public class EmprestimoServices
         var matriculaEmVerificacao = alunoEmVerificacao.VerificarMatricula(matricula);
         if (!matriculaEmVerificacao)
         {
-            return "Esta matrícula não está registrada, favor registrar o aluno.";
+            return AlunoErro.Erro001;
         }
-        
+
         var pendenciaAluno = alunoEmVerificacao.VerificarPendenciaAluno(matricula);
         if (pendenciaAluno != null)
         {
-            return $"Este aluno possui pendências, referentes ao N° de Registro {pendenciaAluno.Registro}."
-                   + $"\nPara que o empréstimo seja liberado, deve ser feita a devolução.";
+            return EmprestimoErro.Erro071;
         }
 
         return "";
@@ -82,7 +83,7 @@ public class EmprestimoServices
         var registroValido = livroEmVerificacao.PesquisarLivroPorRegistro(registro);
         if (registroValido == null)
         {
-            return "Livro não encontrado";
+            return LivroErro.Erro041;
         }
 
         var pedenciaLivro = livroEmVerificacao.VerificarPendenciaLivro(registro);
@@ -93,7 +94,6 @@ public class EmprestimoServices
 
         return "";
     }
-    
 
     public string DevolverLivro(int registro, int matricula)
     {
@@ -105,11 +105,12 @@ public class EmprestimoServices
 
         try
         {
-            var livroParaDevolucao = _context.Emprestimos
-                .First(emprestado => emprestado.Registro == registro);
+            var livroParaDevolucao = _context.Emprestimos.First(
+                emprestado => emprestado.Registro == registro
+            );
             _context.Emprestimos.Remove(livroParaDevolucao);
             _context.SaveChanges();
-            return "Devolução concuída!";
+            return OperacaoConcluida.Sucesso005;
         }
         catch (Exception e)
         {
@@ -123,33 +124,35 @@ public class EmprestimoServices
         var aluno = VerificarDadosAluno(matricula);
         if (aluno == "")
         {
-            return "Não há livro emprestado a este aluno.";
+            return EmprestimoErro.Erro072;
         }
 
         var livro = VerificarDadosLivro(registro);
         if (livro == "")
         {
-            return "Este livro está no estoque";
+            return EmprestimoErro.Erro073;
         }
 
         var alunoPendencia = BuscarLivroPorMatricula(matricula);
-        var livroPendencia = BuscarLivroPorRegistro(registro);
+        if (alunoPendencia == null)
+        {
+            return AlunoErro.Erro001;
+        }
 
+        var livroPendencia = BuscarLivroPorRegistro(registro);
         if (livroPendencia != alunoPendencia)
         {
-            return "Este aluno não pegou este livro.\n" +
-                   $"Livro emprestado a ele: \n" +
-                   $"Registro: {alunoPendencia?.Registro}\n" +
-                   $"Título: {alunoPendencia?.Titulo}\n" +
-                   $"Autor: {alunoPendencia?.Autor}";
+            return EmprestimoErro.Erro074;
         }
+    
         return "";
     }
 
     private Livro? BuscarLivroPorMatricula(int matricula)
     {
-        var emprestimo = _context.Emprestimos
-            .FirstOrDefault(emprestimo => emprestimo.Matricula == matricula);
+        var emprestimo = _context.Emprestimos.FirstOrDefault(
+            emprestimo => emprestimo.Matricula == matricula
+        );
 
         var livro = new LivroServices(_context);
         if (emprestimo != null)
@@ -162,8 +165,9 @@ public class EmprestimoServices
 
     private Livro? BuscarLivroPorRegistro(int registro)
     {
-        var emprestimo = _context.Emprestimos
-            .FirstOrDefault(emprestimo => emprestimo.Registro == registro);
+        var emprestimo = _context.Emprestimos.FirstOrDefault(
+            emprestimo => emprestimo.Registro == registro
+        );
 
         var livro = new LivroServices(_context);
         if (emprestimo != null)

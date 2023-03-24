@@ -1,4 +1,5 @@
 using BackBiblioteca.Data;
+using BackBiblioteca.Respostas;
 using BackBiblioteca.Models;
 
 namespace BackBiblioteca.Services;
@@ -11,20 +12,19 @@ public class LivroServices
     {
         _context = context;
     }
-
+    
     public string Cadastrar(Livro livroParaCadastro)
     {
         var livroTratdo = VerificarLivroValidoParaOperacao(livroParaCadastro);
-        if (livroTratdo.Substring(0,8) != "[ERRO=008]")
+       
+        if (livroTratdo == "")
         {
-            if (livroTratdo == "")
-            {
-                var encontrado = PesquisarLivroPorRegistro(livroParaCadastro.Registro);
-                return $"[ERRO=010] Registro já cadastrado.\n" +
-                       $"Obra : {encontrado?.Titulo}\n" +
-                       $"De: {encontrado?.Autor}\n" +
-                       $"Registro: {encontrado?.Registro}";
-            }
+            var encontrado = PesquisarLivroPorRegistro(livroParaCadastro.Registro);
+            return LivroErro.Erro042;
+        }
+        
+        if (livroTratdo != LivroErro.Erro041)
+        {
             return livroTratdo;
         }
         
@@ -32,7 +32,7 @@ public class LivroServices
         {
             _context.Livros.Add(livroParaCadastro);
             _context.SaveChanges();
-            return "Livro cadastrado com sucesso";
+            return OperacaoConcluida.Sucesso001;
         }
         catch (Exception e)
         {
@@ -57,21 +57,19 @@ public class LivroServices
         var livroCadastrado = PesquisarLivroPorRegistro(livroParaExclusao.Registro) ?? new Livro();
         if (livroCadastrado.Titulo != livroParaExclusao.Titulo)
         {
-            return $"O titulo que você deseja apagar({livroParaExclusao.Titulo} e o título referente "
-                   + $"\n ao registro({livroCadastrado.Titulo}), não coincidem.";
+            return LivroErro.Erro061;
         }
 
         if (livroCadastrado.Autor != livroParaExclusao.Autor)
         {
-            return $"O autor que você deseja apagar({livroParaExclusao.Autor} e o autor referente "
-                   + $"\n ao registro({livroCadastrado.Autor}), não coincidem.";
+            return LivroErro.Erro051;
         }
 
         try
         {
             _context.Livros.Remove(livroCadastrado);
             _context.SaveChanges();
-            return "Livro apagado com sucesso";
+            return OperacaoConcluida.Sucesso002;
         }
         catch (Exception e)
         {
@@ -79,7 +77,34 @@ public class LivroServices
             throw;
         }
     }
-    
+    public string Editar(Livro livroParaEdicao){
+
+        livroParaEdicao = FormatarCampos(livroParaEdicao);
+
+        var dadosValidos = VerificarLivroValidoParaOperacao(livroParaEdicao);
+        if (dadosValidos != "")
+        {
+            return dadosValidos;
+        }
+
+        var livro = _context.Livros.Find(livroParaEdicao.Registro);
+        try
+        {
+            if (livro == null)
+            {
+                return "Erro";
+            }
+            _context.Livros.Remove(livro);
+            _context.Livros.Add(livroParaEdicao);
+            _context.SaveChanges();
+            return OperacaoConcluida.Sucesso003;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
     private string VerificarLivroValidoParaOperacao(Livro livroParaVerificacao)
     {
         livroParaVerificacao = FormatarCampos(livroParaVerificacao);
@@ -93,9 +118,9 @@ public class LivroServices
         var livroExiste = PesquisarLivroPorRegistro(livroParaVerificacao.Registro);
         if (livroExiste == null)
         {
-            return "[ERRO=008] Registro não encontrado";
+            return LivroErro.Erro041;
         }
-        
+
         return "";
     }
     private Livro FormatarCampos(Livro livroParaFormatacao)
@@ -107,19 +132,21 @@ public class LivroServices
     private string VerificarCamposInvalidos(Livro livroEmVerificacao)
     {
         if (livroEmVerificacao.Registro == 0) {
-            return "[ERRO==005] Registro não pode ser nulo.";
+            return LivroErro.Erro040;
         }
         if (livroEmVerificacao.Autor == null) {
-            return "[ERRO==006] Autor não pode ser nulo.";
+            return LivroErro.Erro050;
         }
         if (livroEmVerificacao.Titulo == null) {
-            return "[ERRO==007] Título não pode ser nulo.";
+            return LivroErro.Erro060;
         }
         return "";
     }
     protected internal Livro? PesquisarLivroPorRegistro(int registro)
     {
-        return _context.Livros.Find(registro);
+        var livro = _context.Livros.Find(registro);
+        _context.SaveChanges();
+        return livro;
     }
     public string VerificarPendenciaLivro(int registro)
     {
@@ -130,26 +157,21 @@ public class LivroServices
         {
             return "";
         }
-        Aluno? alunoComPendencia = _context.Alunos.Find(livroPendente.Matricula);
-        var turno = alunoComPendencia?.Turno == "1" ? "Manhã" : "Tarde";
-        
-        return "[ERRO=009] Este livro está emprestado para o aluno: \n" +
-               $"{alunoComPendencia?.Nome}\n" +
-               $"{alunoComPendencia?.Sala}\n" +
-               $"{turno}\n" +
-               $"Matrícula: {alunoComPendencia?.Matricula}";
 
+        return EmprestimoErro.Erro070;
     }
     
     //TODO Mudar para estoque real e não total
     public List<string> ListarEstoque()
     {
         var estoque = _context.Livros
+            .Where(livro => 
+                !_context.Emprestimos.Any(emprestimo => emprestimo.Registro == livro.Registro))
             .GroupBy(livro => livro.Titulo, livro => livro.Autor)
+            .OrderBy(grupo => grupo.Key)
             .Select(grupo => $"{grupo.Key}: {grupo.Count()}")
             .ToList();
         return estoque;
     }
-
     
 }

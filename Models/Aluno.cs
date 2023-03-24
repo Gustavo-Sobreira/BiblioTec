@@ -21,5 +21,5 @@ public class Aluno
 
     [Column("turno")]
     [Required(ErrorMessage ="[ERRO=004] Os turnos manhã e tarde são representados por 1(manhã) e 2(tarde).")]
-    public string Turno { get; set; }
+    public string? Turno { get; set; }
 }

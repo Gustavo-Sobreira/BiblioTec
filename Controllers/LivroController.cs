@@ -27,6 +27,13 @@ public class LivroController : Controller
         return Ok(_livroAtual.Cadastrar(novoLivro));
     }
 
+    [HttpPut]
+    [Route("editar")]
+    public string EditarLivroExistente([FromForm] Livro livroEtitado)
+    {
+        return _livroAtual.Editar(livroEtitado);
+    }
+
     [HttpDelete("apagar")]
     public ActionResult<string> RemoverLivroDaBiblioteca([FromForm] Livro livroParaApagar)
     {
