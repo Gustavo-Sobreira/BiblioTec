@@ -1,5 +1,6 @@
 using BackBiblioteca.Data;
 using BackBiblioteca.Models;
+using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,34 +10,98 @@ namespace BackBiblioteca.Controllers;
 [Route("[controller]")]
 public class LivroController : Controller
 {
-    private readonly LivroServices _livroAtual;
+    private readonly LivroService _livroService;
+
     public LivroController(BibliotecContext context)
     {
-        _livroAtual = new LivroServices(context);
+        _livroService = new LivroService(context);
     }
-    
+
     [HttpGet("estoque")]
     public ActionResult<IEnumerable<string>> ListarTodosLivrosEmEstoque()
     {
-        return Ok(_livroAtual.ListarEstoque());
+        return Ok(_livroService.ListarEstoque());
     }
-    
+
     [HttpPost("cadastro")]
-    public ActionResult<string> CadastrarNovoLivro([FromForm] Livro novoLivro)
+    public ActionResult CadastrarNovoLivro([FromForm] Livro livro)
     {
-        return Ok(_livroAtual.Cadastrar(novoLivro));
+        var livroExiste = _livroService.VerificarRegistro(livro.Registro);
+        if (livroExiste)
+        {
+            return BadRequest(LivroErro.Erro042);
+        }
+
+        livro.Autor = _livroService.FormatarTextos(livro.Autor!);
+        livro.Titulo = _livroService.FormatarTextos(livro.Titulo!);
+
+        var livroValido = _livroService.VerificarCampos(livro);
+        if (livroValido != "")
+        {
+            return BadRequest(livroValido);
+        }
+        
+        return Ok(_livroService.Cadastrar(livro));
     }
 
     [HttpPut]
     [Route("editar")]
-    public string EditarLivroExistente([FromForm] Livro livroEtitado)
+    public ActionResult EditarLivroExistente([FromForm] Livro livro)
     {
-        return _livroAtual.Editar(livroEtitado);
+        var livroRegistrado = _livroService.VerificarRegistro(livro.Registro);
+        if (!livroRegistrado)
+        {
+            return BadRequest(LivroErro.Erro041);
+        }
+        
+        livro.Autor = _livroService.FormatarTextos(livro.Autor!);
+        livro.Titulo = _livroService.FormatarTextos(livro.Titulo!);
+        
+        var livroValido = _livroService.VerificarCampos(livro);
+        if (livroValido != "")
+        {
+            return BadRequest(livroValido);
+        }
+
+        var livroPendente = _livroService.VerificarPendenciaLivro(livro.Registro);
+        if (!livroPendente)
+        {
+            return BadRequest(livroPendente);
+        }
+        
+        return Ok(_livroService.Editar(livro));
     }
 
     [HttpDelete("apagar")]
-    public ActionResult<string> RemoverLivroDaBiblioteca([FromForm] Livro livroParaApagar)
+    public ActionResult<string> RemoverLivroDaBiblioteca([FromForm] Livro livro)
     {
-        return Ok(_livroAtual.Apagar(livroParaApagar));
+        var livroRegistrado = _livroService.VerificarRegistro(livro.Registro);
+        if (!livroRegistrado)
+        {
+            return BadRequest(LivroErro.Erro041);
+        }
+        
+        livro.Autor = _livroService.FormatarTextos(livro.Autor);
+        livro.Titulo = _livroService.FormatarTextos(livro.Titulo);
+        
+        var livroValido = _livroService.VerificarCampos(livro);
+        if (livroValido != "")
+        {
+            return BadRequest(livroValido);
+        }
+
+        var livroPendente = _livroService.VerificarPendenciaLivro(livro.Registro);
+        if (livroPendente)
+        {
+            return BadRequest(EmprestimoErro.Erro070);
+        }
+
+        var livrosIguais = _livroService.CompararCampos(livro);
+        if (livrosIguais != "")
+        {
+            return BadRequest(livrosIguais);
+        }
+        
+        return Ok(_livroService.Apagar(livro));
     }
 }

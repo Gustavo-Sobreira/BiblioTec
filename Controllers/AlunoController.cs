@@ -1,5 +1,6 @@
 using BackBiblioteca.Data;
 using BackBiblioteca.Models;
+using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,31 +10,96 @@ namespace BackBiblioteca.Controllers;
 [Route("[controller]")]
 public class AlunoController : Controller
 {
-    private AlunoServices _alunoAtual;
+    private readonly AlunoService _alunoAtual;
 
     public AlunoController(BibliotecContext context)
     {
-        _alunoAtual = new AlunoServices(context);
+        _alunoAtual = new AlunoService(context);
     }
     
     [HttpPost]
     [Route("cadastro")]
-    public string CadastrarNovoAluno([FromForm] Aluno novoAluno)
-    {   
-        return _alunoAtual.Cadastrar(novoAluno);
+    public ActionResult CadastrarNovoAluno([FromForm] Aluno aluno)
+    {
+        var matriculaExiste = _alunoAtual.VerificarMatricula(aluno.Matricula);
+        if (matriculaExiste == true)
+        {
+            return BadRequest(AlunoErro.Erro002);
+        }
+
+        aluno.Nome = _alunoAtual.FormatarTextos(aluno.Nome!);
+        aluno.Turno = _alunoAtual.FormatarTextos(aluno.Turno!);
+
+        var campoValido = _alunoAtual.VerificarCampos(aluno);
+        if (campoValido != "")
+        {
+            return BadRequest(campoValido);
+        }
+
+        var cadastroFuncionou = _alunoAtual.Cadastrar(aluno);
+        return cadastroFuncionou == OperacaoConcluida.Sucesso001
+            ? Ok(cadastroFuncionou)
+            : BadRequest(cadastroFuncionou);
     }
 
     [HttpPut]
     [Route("editar")]
-    public string EditarAlunoExistente([FromForm] Aluno alunoEtitado)
+    public ActionResult EditarAlunoExistente([FromForm] Aluno aluno)
     {
-        return _alunoAtual.Editar(alunoEtitado);
+        var matriculaExiste = _alunoAtual.VerificarMatricula(aluno.Matricula);
+        if (!matriculaExiste)
+        {
+            return BadRequest(AlunoErro.Erro001);
+        }
+
+        aluno.Nome = _alunoAtual.FormatarTextos(aluno.Nome!);
+        aluno.Turno = _alunoAtual.FormatarTextos(aluno.Turno!);
+
+        var campoValido = _alunoAtual.VerificarCampos(aluno);
+        if (campoValido != "")
+        {
+            return BadRequest(campoValido);
+        }
+
+        var alunoTemPendencia = _alunoAtual.VerificarPendenciaAluno(aluno.Matricula);
+        if (alunoTemPendencia)
+        {
+            return BadRequest(EmprestimoErro.Erro071);
+        }
+        
+        return Ok(_alunoAtual.Editar(aluno));
     }
 
     [HttpDelete]
     [Route("apagar")]
-    public string RemoverAlunoDosRegistros([FromForm] Aluno alunoParaSerApagado)
+    public ActionResult RemoverAlunoDosRegistros([FromForm] Aluno aluno)
     {
-        return _alunoAtual.Apagar(alunoParaSerApagado);
+        var matriculaExiste = _alunoAtual.VerificarMatricula(aluno.Matricula);
+        if (!matriculaExiste)
+        {
+            return BadRequest(AlunoErro.Erro001);
+        }
+
+        aluno.Nome = _alunoAtual.FormatarTextos(aluno.Nome!);
+        aluno.Turno = _alunoAtual.FormatarTextos(aluno.Turno!);
+
+        var campoValido = _alunoAtual.VerificarCampos(aluno);
+        if (campoValido != "")
+        {
+            return BadRequest(campoValido);
+        }
+
+        var alunoTemPendencia = _alunoAtual.VerificarPendenciaAluno(aluno.Matricula);
+        if (alunoTemPendencia)
+        {
+            return BadRequest(EmprestimoErro.Erro071);
+        }
+
+        var confereDado = _alunoAtual.CompararDadosDeAluno(aluno);
+        if (confereDado != "")
+        {
+            return BadRequest(confereDado);
+        }
+        return Ok(_alunoAtual.Apagar(aluno.Matricula));
     }
 }

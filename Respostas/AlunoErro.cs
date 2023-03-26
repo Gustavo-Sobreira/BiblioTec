@@ -20,6 +20,6 @@ public class AlunoErro
 
     //Turno
     public static string Erro030 = "[ERRO=030] Os turnos manhã e tarde são representados por 1(manhã) e 2(tarde).";
-    public static string Erro031 = "[ERRO=031] O N° da Sala não é compatível com o N° de Sala encotrado nesta matrícula.";
+    public static string Erro031 = "[ERRO=031] O Turno não é compatível com o Turno encotrado nesta matrícula.";
         
 }
