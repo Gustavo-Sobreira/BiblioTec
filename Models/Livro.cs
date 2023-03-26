@@ -12,10 +12,10 @@ public class Livro
     public int Registro { get; set; }
     
     [Column("titulo")]
-    [Required(ErrorMessage = "[ERRO==006] Autor não pode ser nulo.")]
+    [Required(ErrorMessage = "[ERRO=060] Título não pode ser nulo.")]
     public string? Titulo { get; set; }
     
     [Column("autor")]
-    [Required(ErrorMessage = "[ERRO==007] Título não pode ser nulo.")]
+    [Required(ErrorMessage = "[ERRO=050] Autor não pode ser nulo.")]
     public string? Autor { get; set; }
 }

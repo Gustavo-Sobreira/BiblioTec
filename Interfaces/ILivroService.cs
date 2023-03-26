@@ -5,7 +5,7 @@ namespace BackBiblioteca.Interfaces;
 
 public interface ILivroService
 {
-    string Apagar(Livro livroParaRemover);
+    string Apagar(int registro);
     Livro? BuscarPorRegistro(int registro);
     string Cadastrar(Livro livroParaAdicionar);
     string Editar(Livro livroParaEditar);

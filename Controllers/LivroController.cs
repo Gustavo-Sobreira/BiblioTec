@@ -64,9 +64,9 @@ public class LivroController : Controller
         }
 
         var livroPendente = _livroService.VerificarPendenciaLivro(livro.Registro);
-        if (!livroPendente)
+        if (livroPendente)
         {
-            return BadRequest(livroPendente);
+            return BadRequest(EmprestimoErro.Erro073);
         }
         
         return Ok(_livroService.Editar(livro));
@@ -75,8 +75,8 @@ public class LivroController : Controller
     [HttpDelete("apagar")]
     public ActionResult<string> RemoverLivroDaBiblioteca([FromForm] Livro livro)
     {
-        var livroRegistrado = _livroService.VerificarRegistro(livro.Registro);
-        if (!livroRegistrado)
+        var livroEncontrado = _livroService.VerificarRegistro(livro.Registro);
+        if (!livroEncontrado)
         {
             return BadRequest(LivroErro.Erro041);
         }
@@ -93,7 +93,7 @@ public class LivroController : Controller
         var livroPendente = _livroService.VerificarPendenciaLivro(livro.Registro);
         if (livroPendente)
         {
-            return BadRequest(EmprestimoErro.Erro070);
+            return BadRequest(EmprestimoErro.Erro073);
         }
 
         var livrosIguais = _livroService.CompararCampos(livro);
@@ -102,6 +102,6 @@ public class LivroController : Controller
             return BadRequest(livrosIguais);
         }
         
-        return Ok(_livroService.Apagar(livro));
+        return Ok(_livroService.Apagar(livro.Registro));
     }
 }

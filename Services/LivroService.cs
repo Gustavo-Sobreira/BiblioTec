@@ -21,11 +21,11 @@ public class LivroService : ILivroService
         _emprestimoDao = new EmprestimoDao(context);
     }
 
-    public string Apagar(Livro livroParaRemover)
+    public string Apagar(int registro)
     {
         try
         {
-            _livroDao.Apagar(livroParaRemover);
+            _livroDao.Apagar(registro);
             return OperacaoConcluida.Sucesso002;
         }
         catch (Exception e)

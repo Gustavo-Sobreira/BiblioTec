@@ -14,9 +14,10 @@ public class LivroDao : ILivroDao
         _context = context;
     }
 
-    public void Apagar(Livro livroParaRemover)
+    public void Apagar(int registro)
     {
-        _context.Livros.Remove(livroParaRemover);
+        var livro = BuscarPorRegistro(registro);
+        _context.Livros.Remove(livro);
         _context.SaveChanges();
     }
 
