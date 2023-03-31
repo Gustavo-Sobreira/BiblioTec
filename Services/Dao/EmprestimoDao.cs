@@ -41,7 +41,7 @@ public class EmprestimoDao : IEmprestimoDao
         throw new NotImplementedException();
     }
 
-    public void Apagar(int matricula, int registro)
+    public void Apagar(int registro)
     {
         _context.Emprestimos.Remove(BuscarPorRegistro(registro)!);
         _context.SaveChanges();

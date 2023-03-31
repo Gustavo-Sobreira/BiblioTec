@@ -1,6 +1,3 @@
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
 using BackBiblioteca.Data;
 using BackBiblioteca.Respostas;
 using BackBiblioteca.Models;
@@ -11,43 +8,16 @@ namespace BackBiblioteca.Services;
 
 public class LivroService : ILivroService
 {
-    //private readonly BibliotecContext _context;
     private readonly LivroDao _livroDao;
     private readonly EmprestimoDao _emprestimoDao;
+    private readonly AlunoService _alunoService;
     public LivroService(BibliotecContext context)
     {
-        //_context = context;
         _livroDao = new LivroDao(context);
         _emprestimoDao = new EmprestimoDao(context);
+        _alunoService = new AlunoService(context);
     }
-
-    public string Apagar(int registro)
-    {
-        try
-        {
-            _livroDao.Apagar(registro);
-            return OperacaoConcluida.Sucesso002;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
-    public Livro? BuscarPorRegistro(int registro)
-    {
-        try
-        {
-            return _livroDao.BuscarPorRegistro(registro);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
+    
     public string Cadastrar(Livro livroParaAdicionar)
     {
         try
@@ -57,33 +27,21 @@ public class LivroService : ILivroService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            throw new  Exception(e.Message);
+        }
+    }
+    public void RegrasParaCadastrar(Livro livro)
+    {
+        livro.Autor = _alunoService.FormatarTextos(livro.Autor!);
+        livro.Titulo = _alunoService.FormatarTextos(livro.Titulo!);
+        VerificarCampos(livro);
+        
+        if (VerificarRegistro(livro.Registro))
+        {
+            throw new Exception(ErrorMensage.LivroRegistroExistente);
         }
     }
     
-    public string Emprestar(int registro, int matricula)
-    {
-        var buscarUltimoId = _emprestimoDao.BuscarUltimoId();
-        var novoEmprestimo = new Emprestimo()
-        {
-            IdEmprestimo = buscarUltimoId + 1,
-            Matricula = matricula,
-            Registro = registro,
-            DataEmprestimo = DateTime.Now.ToUniversalTime()
-        };
-        
-        try
-        {
-            _emprestimoDao.Cadastrar(novoEmprestimo);
-            return OperacaoConcluida.Sucesso001;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
     
     public string Editar(Livro livroParaEditar)
     {
@@ -94,60 +52,54 @@ public class LivroService : ILivroService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            throw new Exception(e.Message);
         }
     }
-
-    public bool VerificarRegistro(int registro)
+    public void RegrasParaEditar(Livro livro)
     {
-        var livroEncontrado = _livroDao.BuscarPorRegistro(registro);
-        return livroEncontrado == null ? false : true;
-    }
+        livro.Autor = _alunoService.FormatarTextos(livro.Autor!);
+        livro.Titulo = _alunoService.FormatarTextos(livro.Titulo!);
+        VerificarCampos(livro);
+        
+        if (!VerificarRegistro(livro.Registro))
+        {
+            throw new Exception(ErrorMensage.LivroRegistroNaoEncontrado);
+        }
 
-    public string CompararCampos(Livro livroEmVerificacao)
+        if (VerificarPendenciaLivro(livro.Registro))
+        {
+            throw new Exception(ErrorMensage.LivroPendente);
+        }
+    }
+    
+    
+    public string Apagar(int registro)
+    {
+        try
+        {
+            _livroDao.Apagar(registro);
+            return OperacaoConcluida.Sucesso002;
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+    }
+    public void CompararCampos(Livro livroEmVerificacao)
     {
         var livroCadastrado = _livroDao.BuscarPorRegistro(livroEmVerificacao.Registro);
         if (livroCadastrado!.Autor != livroEmVerificacao.Autor)
         {
-            return LivroErro.Erro051;
+            throw new Exception(ErrorMensage.LivroAutorIncompativel);
         }
 
         if (livroCadastrado.Titulo != livroEmVerificacao.Titulo)
         {
-            return LivroErro.Erro061;
+            throw new Exception(ErrorMensage.LivroTituloIncompativel);
         }
-
-        return "";
     }
-
-    public string FormatarTextos(string campoEmVerificacao)
-    {
-        //Remover Espaços
-        campoEmVerificacao = campoEmVerificacao.Trim();
-        campoEmVerificacao = Regex.Replace(campoEmVerificacao, @"\s+", " ");
-
-        //Remove maiusculas
-        campoEmVerificacao = campoEmVerificacao.ToLower();
-
-        //Remove acentos
-        campoEmVerificacao = Regex.Replace(
-            campoEmVerificacao.Normalize(NormalizationForm.FormD),
-            @"[\p{M}]+", 
-            "",
-            RegexOptions.Compiled,
-            TimeSpan.FromSeconds(0.5)
-        );
-        
-        //Toda palavra começa com maiúscula
-        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-        TextInfo textInfo = cultureInfo.TextInfo;
-        campoEmVerificacao = textInfo.ToTitleCase(campoEmVerificacao);
-
-        return campoEmVerificacao;
-    }
-
-
+    
+    
     public List<string> ListarEstoque()
     {
         try
@@ -160,25 +112,30 @@ public class LivroService : ILivroService
             throw;
         }
     }
-
-    public string VerificarCampos(Livro livroEmVerificacao)
+    public Livro? BuscarPorRegistro(int registro)
     {
-        if (livroEmVerificacao.Registro == 0) {
-            return LivroErro.Erro040;
+        return _livroDao.BuscarPorRegistro(registro);
+    }
+    public bool VerificarRegistro(int registro)
+    {
+        var livroEncontrado = _livroDao.BuscarPorRegistro(registro);
+        return livroEncontrado == null ? false : true;
+    }
+    public void VerificarCampos(Livro livroEmVerificacao)
+    {
+        if (livroEmVerificacao.Registro <= 0) {
+            throw new Exception(ErrorMensage.LivroRegistroNulo);
         }
         if (livroEmVerificacao.Autor == null) {
-            return LivroErro.Erro050;
+            throw new Exception(ErrorMensage.LivroAutorNulo);
         }
         if (livroEmVerificacao.Titulo == null) {
-            return LivroErro.Erro060;
+            throw new Exception(ErrorMensage.LivroTituloNulo);
         }
-        return "";
     }
-
     public bool VerificarPendenciaLivro(int registro)
     {
         var pendente = _emprestimoDao.BuscarPorRegistro(registro);
         return pendente == null ? false : true;
     }
-    
 }

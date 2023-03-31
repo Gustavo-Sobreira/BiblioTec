@@ -2,6 +2,7 @@ using BackBiblioteca.Data;
 using BackBiblioteca.Models;
 using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
+using BackBiblioteca.Errors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackBiblioteca.Controllers;
@@ -17,89 +18,112 @@ public class AlunoController : Controller
         _alunoAtual = new AlunoService(context);
     }
     
+    [HttpGet]
+    [Route("buscar/matricula")]
+    public ActionResult ProcurarAluno([FromQuery] int matricula)
+    {
+        if (!_alunoAtual.VerificarMatriculaExiste(matricula))
+        {
+            return NotFound(ErrorMensage.AlunoMatriculaNaoEncontrada);
+        }
+        try
+        {
+            return Ok(_alunoAtual.BuscarAlunoPorMatricula(matricula));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e);
+        }
+    }
+
     [HttpPost]
-    [Route("cadastro")]
+    [Route("cadastrar")]
     public ActionResult CadastrarNovoAluno([FromForm] Aluno aluno)
     {
-        var matriculaExiste = _alunoAtual.VerificarMatricula(aluno.Matricula);
-        if (matriculaExiste == true)
+        try
         {
-            return BadRequest(AlunoErro.Erro002);
+            _alunoAtual.RegrasParaCadastro(aluno);
+            return Ok(_alunoAtual.Cadastrar(aluno));
         }
-
-        aluno.Nome = _alunoAtual.FormatarTextos(aluno.Nome!);
-        aluno.Turno = _alunoAtual.FormatarTextos(aluno.Turno!);
-
-        var campoValido = _alunoAtual.VerificarCampos(aluno);
-        if (campoValido != "")
+        catch (Exception e)
         {
-            return BadRequest(campoValido);
+            switch (e)
+            {
+                case AlunoMatriculaExistenteException:
+                    return Conflict(e.Message);
+                case AlunoMatriculaInvalidaException:
+                case AlunoNomeInvalidoException:
+                case AlunoSalaNuloException:
+                case AlunoTurnoIncorretoException:
+                    return BadRequest(e.Message);
+                default:
+                    return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
+            }
         }
-
-        var cadastroFuncionou = _alunoAtual.Cadastrar(aluno);
-        return cadastroFuncionou == OperacaoConcluida.Sucesso001
-            ? Ok(cadastroFuncionou)
-            : BadRequest(cadastroFuncionou);
     }
 
     [HttpPut]
     [Route("editar")]
     public ActionResult EditarAlunoExistente([FromForm] Aluno aluno)
     {
-        var matriculaExiste = _alunoAtual.VerificarMatricula(aluno.Matricula);
-        if (!matriculaExiste)
+        try
         {
-            return BadRequest(AlunoErro.Erro001);
+            _alunoAtual.RegrasParaEdicao(aluno);
+            return Ok(_alunoAtual.Editar(aluno));
         }
-
-        aluno.Nome = _alunoAtual.FormatarTextos(aluno.Nome!);
-        aluno.Turno = _alunoAtual.FormatarTextos(aluno.Turno!);
-
-        var campoValido = _alunoAtual.VerificarCampos(aluno);
-        if (campoValido != "")
+        catch (Exception e)
         {
-            return BadRequest(campoValido);
+            switch (e)
+            { 
+                case AlunoMatriculaNaoEncontradaException:
+                    return NotFound(e.Message);
+                     
+                case AlunoPendenteException:
+                    return StatusCode(403,e.Message);
+                
+                case AlunoMatriculaInvalidaException:
+                case AlunoNomeInvalidoException:
+                case AlunoSalaNuloException:
+                case AlunoTurnoIncorretoException:
+                    return BadRequest(e.Message);
+                
+                default:
+                    return StatusCode(500, $"Houve um erro interno: {e.Message}");
+            }
         }
-
-        var alunoTemPendencia = _alunoAtual.VerificarPendenciaAluno(aluno.Matricula);
-        if (alunoTemPendencia)
-        {
-            return BadRequest(EmprestimoErro.Erro071);
-        }
-        
-        return Ok(_alunoAtual.Editar(aluno));
     }
 
     [HttpDelete]
     [Route("apagar")]
     public ActionResult RemoverAlunoDosRegistros([FromForm] Aluno aluno)
     {
-        var matriculaExiste = _alunoAtual.VerificarMatricula(aluno.Matricula);
-        if (!matriculaExiste)
+        try
         {
-            return BadRequest(AlunoErro.Erro001);
+            _alunoAtual.RegrasParaEdicao(aluno);
+            _alunoAtual.CompararDadosDeAluno(aluno);
+            return Ok(_alunoAtual.Apagar(aluno.Matricula));
         }
-
-        aluno.Nome = _alunoAtual.FormatarTextos(aluno.Nome!);
-        aluno.Turno = _alunoAtual.FormatarTextos(aluno.Turno!);
-
-        var campoValido = _alunoAtual.VerificarCampos(aluno);
-        if (campoValido != "")
+        catch (Exception e)
         {
-            return BadRequest(campoValido);
+            switch (e)
+            {
+                case AlunoMatriculaNaoEncontradaException:
+                    return NotFound(e.Message);
+                case AlunoMatriculaInvalidaException:
+                case AlunoNomeInvalidoException:
+                case AlunoSalaNuloException:
+                case AlunoTurnoIncorretoException:
+                    return BadRequest(e.Message);
+                case AlunoPendenteException:
+                    return StatusCode(403,e.Message);
+                case AlunoNomeIncompativelException:
+                case AlunoSalaIncompativelException:
+                case AlunoTurnoIncompativelException:
+                    return StatusCode(412, e.Message);
+                default:
+                    return StatusCode(500, $"Houve um erro interno: {e.Message}");
+            }
         }
-
-        var alunoTemPendencia = _alunoAtual.VerificarPendenciaAluno(aluno.Matricula);
-        if (alunoTemPendencia)
-        {
-            return BadRequest(EmprestimoErro.Erro071);
-        }
-
-        var confereDado = _alunoAtual.CompararDadosDeAluno(aluno);
-        if (confereDado != "")
-        {
-            return BadRequest(confereDado);
-        }
-        return Ok(_alunoAtual.Apagar(aluno.Matricula));
     }
 }
+

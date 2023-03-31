@@ -6,26 +6,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d62b3618-ccab-4090-bf9a-517dce988b39" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Interfaces/IAlunoDao.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interfaces/IAlunoService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interfaces/IEmprestimoDao.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interfaces/ILivroDao.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Interfaces/ILivroService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/AlunoService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Dao/AlunoDao.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Dao/EmprestimoDao.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Dao/LivroDao.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/LivroService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Errors/ExceptionTypes.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/AlunoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AlunoController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/EmprestimoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/EmprestimoController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/LivroController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/LivroController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Respostas/AlunoErro.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Respostas/AlunoErro.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Respostas/EmprestimoErro.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Respostas/EmprestimoErro.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Respostas/OperacaoConcluida.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Respostas/OperacaoConcluida.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/AlunoServices.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/EmprestimoServices.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/LivroServices.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/IAlunoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/IAlunoService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/IEmprestimoDao.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/IEmprestimoDao.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/ILivroService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaces/ILivroService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Respostas/ErrorMensage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Respostas/ErrorMensage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/AlunoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/AlunoService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Dao/EmprestimoDao.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Dao/EmprestimoDao.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/EmprestimoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/EmprestimoService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/LivroService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/LivroService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/ref/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/ref/BiblioTec.dll" afterDir="false" />
@@ -42,6 +35,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3a55740e78404477a8c7d10d13c3b33394de00/b3/6bd73333/AsyncTaskMethodBuilder.cs" root0="SKIP_HIGHLIGHTING" />
@@ -71,7 +67,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/sobreira/Code/BackBiblioteca&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -143,6 +139,14 @@
       <workItem from="1679683849288" duration="8915000" />
       <workItem from="1679758473102" duration="6716000" />
       <workItem from="1679773782265" duration="8304000" />
+      <workItem from="1680045760522" duration="26000" />
+      <workItem from="1680095679188" duration="19462000" />
+      <workItem from="1680196938651" duration="120000" />
+      <workItem from="1680197493889" duration="320000" />
+      <workItem from="1680198127028" duration="27000" />
+      <workItem from="1680198203978" duration="115000" />
+      <workItem from="1680199897744" duration="335000" />
+      <workItem from="1680263994006" duration="5199000" />
     </task>
     <servers />
   </component>
@@ -151,6 +155,17 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

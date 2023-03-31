@@ -26,82 +26,106 @@ public class LivroController : Controller
     [HttpPost("cadastro")]
     public ActionResult CadastrarNovoLivro([FromForm] Livro livro)
     {
-        var livroExiste = _livroService.VerificarRegistro(livro.Registro);
-        if (livroExiste)
+        try
         {
-            return BadRequest(LivroErro.Erro042);
+            _livroService.RegrasParaCadastrar(livro);
+            return Ok(_livroService.Cadastrar(livro));
         }
-
-        livro.Autor = _livroService.FormatarTextos(livro.Autor!);
-        livro.Titulo = _livroService.FormatarTextos(livro.Titulo!);
-
-        var livroValido = _livroService.VerificarCampos(livro);
-        if (livroValido != "")
+        catch (Exception e)
         {
-            return BadRequest(livroValido);
+            // 400 - Requisição não atende requisitos
+            if ((e.Message == ErrorMensage.LivroRegistroNulo) ||
+                (e.Message == ErrorMensage.LivroAutorNulo) ||
+                (e.Message == ErrorMensage.LivroTituloNulo))
+            {
+                return BadRequest(e.Message);
+            }
+            
+            // 409 - Conflito de ID
+            if (e.Message == ErrorMensage.LivroRegistroExistente)
+            {
+                return Conflict(e.Message);
+            }
+            return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
         }
-        
-        return Ok(_livroService.Cadastrar(livro));
     }
 
     [HttpPut]
     [Route("editar")]
     public ActionResult EditarLivroExistente([FromForm] Livro livro)
     {
-        var livroRegistrado = _livroService.VerificarRegistro(livro.Registro);
-        if (!livroRegistrado)
+        try
         {
-            return BadRequest(LivroErro.Erro041);
-        }
-        
-        livro.Autor = _livroService.FormatarTextos(livro.Autor!);
-        livro.Titulo = _livroService.FormatarTextos(livro.Titulo!);
-        
-        var livroValido = _livroService.VerificarCampos(livro);
-        if (livroValido != "")
-        {
-            return BadRequest(livroValido);
-        }
+           _livroService.RegrasParaEditar(livro);
+           return Ok(_livroService.Editar(livro));
 
-        var livroPendente = _livroService.VerificarPendenciaLivro(livro.Registro);
-        if (livroPendente)
+        }
+        catch (Exception e)
         {
-            return BadRequest(EmprestimoErro.Erro073);
+            // 400 - Requisição não atende requisitos
+            if ((e.Message == ErrorMensage.LivroRegistroNulo) ||
+                (e.Message == ErrorMensage.LivroAutorNulo) ||
+                (e.Message == ErrorMensage.LivroTituloNulo))
+            {
+                return BadRequest(e.Message);
+            }
+            
+            // 404 - ID não encontrado
+            if (e.Message == ErrorMensage.LivroRegistroNaoEncontrado)
+            {
+                return Conflict(e.Message);
+            }
+            
+            // 403 - Permissão negada
+            if (e.Message == ErrorMensage.LivroPendente)
+            {
+                return Forbid(e.Message);
+            }
+            
+            // 412 - Incompatibilidade de dados
+            if ((e.Message == ErrorMensage.LivroTituloIncompativel) ||
+                (e.Message == ErrorMensage.LivroAutorIncompativel))
+            {
+                return StatusCode(412, e.Message);
+            }
+            return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
         }
         
-        return Ok(_livroService.Editar(livro));
     }
 
     [HttpDelete("apagar")]
     public ActionResult<string> RemoverLivroDaBiblioteca([FromForm] Livro livro)
     {
-        var livroEncontrado = _livroService.VerificarRegistro(livro.Registro);
-        if (!livroEncontrado)
+        try
         {
-            return BadRequest(LivroErro.Erro041);
+            _livroService.RegrasParaEditar(livro);
+            _livroService.CompararCampos(livro);
+            return Ok(_livroService.Apagar(livro.Registro));
         }
-        
-        livro.Autor = _livroService.FormatarTextos(livro.Autor);
-        livro.Titulo = _livroService.FormatarTextos(livro.Titulo);
-        
-        var livroValido = _livroService.VerificarCampos(livro);
-        if (livroValido != "")
+        catch (Exception e)
         {
-            return BadRequest(livroValido);
-        }
+            // 400 - Requisição não atende requisitos
+            if ((e.Message == ErrorMensage.LivroRegistroNulo) ||
+                (e.Message == ErrorMensage.LivroAutorNulo) ||
+                (e.Message == ErrorMensage.LivroTituloNulo))
+            {
+                return BadRequest(e.Message);
+            }
 
-        var livroPendente = _livroService.VerificarPendenciaLivro(livro.Registro);
-        if (livroPendente)
-        {
-            return BadRequest(EmprestimoErro.Erro073);
-        }
+            // 404 - ID não encontrado
+            if (e.Message == ErrorMensage.LivroRegistroNaoEncontrado)
+            {
+                return Conflict(e.Message);
+            }
 
-        var livrosIguais = _livroService.CompararCampos(livro);
-        if (livrosIguais != "")
-        {
-            return BadRequest(livrosIguais);
+            // 403 - Permissão negada
+            if (e.Message == ErrorMensage.LivroPendente)
+            {
+                return Forbid(e.Message);
+            }
+
+            return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
         }
-        
-        return Ok(_livroService.Apagar(livro.Registro));
     }
 }
+    
