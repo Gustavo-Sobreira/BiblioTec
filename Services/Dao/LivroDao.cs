@@ -14,9 +14,8 @@ public class LivroDao : ILivroDao
         _context = context;
     }
 
-    public void Apagar(int registro)
+    public void Apagar(Livro livro)
     {
-        var livro = BuscarPorRegistro(registro);
         _context.Livros.Remove(livro);
         _context.SaveChanges();
     }
@@ -46,8 +45,16 @@ public class LivroDao : ILivroDao
             .Any(emprestimo => emprestimo.Registro == livro.Registro))
             .GroupBy(livro => livro.Titulo, livro => livro.Autor)
             .OrderBy(grupo => grupo.Key)
-            .Select(grupo => $"{grupo.Key}: {grupo.Count()}")
+            .Select(grupo => $"{grupo.Key} : {grupo.Count()}")
             .ToList();
     }
 
+    public List<Livro> ListarEstoqueCompleto()
+    {
+        return _context.Livros
+            .Where(livro => !_context.Emprestimos
+                .Any(emprestimo => emprestimo.Registro == livro.Registro))
+            .OrderBy(livro => livro.Titulo)
+            .ToList();
+    }
 }

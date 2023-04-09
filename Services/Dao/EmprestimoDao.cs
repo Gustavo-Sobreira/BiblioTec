@@ -46,4 +46,12 @@ public class EmprestimoDao : IEmprestimoDao
         _context.Emprestimos.Remove(BuscarPorRegistro(registro)!);
         _context.SaveChanges();
     }
+
+    public List<Emprestimo> ListarPendentes()
+    {
+        return _context.Emprestimos
+            .Where(emprestimo => emprestimo.IdEmprestimo >= 0 && (DateTime.UtcNow - emprestimo.DataEmprestimo).TotalDays > 7)
+            .OrderBy(emprestimo => emprestimo.DataEmprestimo)
+            .ToList();
+    }
 }

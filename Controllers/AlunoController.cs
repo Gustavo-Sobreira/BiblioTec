@@ -4,6 +4,7 @@ using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
 using BackBiblioteca.Errors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace BackBiblioteca.Controllers;
 
@@ -24,15 +25,15 @@ public class AlunoController : Controller
     {
         if (!_alunoAtual.VerificarMatriculaExiste(matricula))
         {
-            return NotFound(ErrorMensage.AlunoMatriculaNaoEncontrada);
+            return NotFound(Json(ErrorMensage.AlunoMatriculaNaoEncontrada));
         }
         try
         {
-            return Ok(_alunoAtual.BuscarAlunoPorMatricula(matricula));
+            return Ok(Json(_alunoAtual.BuscarAlunoPorMatricula(matricula)));
         }
         catch (Exception e)
         {
-            return BadRequest(e);
+            return BadRequest(Json(e));
         }
     }
 
@@ -43,21 +44,21 @@ public class AlunoController : Controller
         try
         {
             _alunoAtual.RegrasParaCadastro(aluno);
-            return Ok(_alunoAtual.Cadastrar(aluno));
+            return Ok(Json(_alunoAtual.Cadastrar(aluno)));
         }
         catch (Exception e)
         {
             switch (e)
             {
                 case AlunoMatriculaExistenteException:
-                    return Conflict(e.Message);
+                    return Conflict(Json(e.Message));
                 case AlunoMatriculaInvalidaException:
                 case AlunoNomeInvalidoException:
                 case AlunoSalaNuloException:
                 case AlunoTurnoIncorretoException:
-                    return BadRequest(e.Message);
+                    return BadRequest(Json(e.Message));
                 default:
-                    return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
+                    return StatusCode(500, Json($"Houve um erro interno não identificado: {e.Message}"));
             }
         }
     }
@@ -69,59 +70,65 @@ public class AlunoController : Controller
         try
         {
             _alunoAtual.RegrasParaEdicao(aluno);
-            return Ok(_alunoAtual.Editar(aluno));
+            return Ok(Json(_alunoAtual.Editar(aluno)));
         }
         catch (Exception e)
         {
             switch (e)
             { 
                 case AlunoMatriculaNaoEncontradaException:
-                    return NotFound(e.Message);
-                     
+                    //return NotFound(e.Message);
+                    // var erro = new { mensagem = e.Message };
+                    // return Json(erro);
+                    return NotFound(Json(e.Message ));
                 case AlunoPendenteException:
-                    return StatusCode(403,e.Message);
+                    return StatusCode(403,Json(e.Message));
                 
                 case AlunoMatriculaInvalidaException:
                 case AlunoNomeInvalidoException:
                 case AlunoSalaNuloException:
                 case AlunoTurnoIncorretoException:
-                    return BadRequest(e.Message);
+                    return BadRequest(Json(e.Message));
                 
                 default:
-                    return StatusCode(500, $"Houve um erro interno: {e.Message}");
+                    return StatusCode(500, Json($"Houve um erro interno: {e.Message}"));
             }
         }
     }
 
     [HttpDelete]
     [Route("apagar")]
-    public ActionResult RemoverAlunoDosRegistros([FromForm] Aluno aluno)
+    public ActionResult RemoverAlunoDosRegistros([FromBody] int id)
     {
         try
         {
+            var aluno = _alunoAtual.BuscarAlunoPorMatricula(id);
+            if(aluno == null){
+                throw new AlunoMatriculaNaoEncontradaException();
+            }
+            
             _alunoAtual.RegrasParaEdicao(aluno);
-            _alunoAtual.CompararDadosDeAluno(aluno);
-            return Ok(_alunoAtual.Apagar(aluno.Matricula));
+            return Ok(Json(_alunoAtual.Apagar(aluno.Matricula)));
         }
         catch (Exception e)
         {
             switch (e)
             {
                 case AlunoMatriculaNaoEncontradaException:
-                    return NotFound(e.Message);
+                    return NotFound(Json(e.Message));
                 case AlunoMatriculaInvalidaException:
                 case AlunoNomeInvalidoException:
                 case AlunoSalaNuloException:
                 case AlunoTurnoIncorretoException:
-                    return BadRequest(e.Message);
+                    return BadRequest(Json(e.Message));
                 case AlunoPendenteException:
-                    return StatusCode(403,e.Message);
+                    return StatusCode(403,Json(e.Message));
                 case AlunoNomeIncompativelException:
                 case AlunoSalaIncompativelException:
                 case AlunoTurnoIncompativelException:
-                    return StatusCode(412, e.Message);
+                    return StatusCode(412, Json(e.Message));
                 default:
-                    return StatusCode(500, $"Houve um erro interno: {e.Message}");
+                    return StatusCode(500, Json(e.Message));
             }
         }
     }

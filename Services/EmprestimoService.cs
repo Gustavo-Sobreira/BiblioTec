@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using BackBiblioteca.Data;
+using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
 using BackBiblioteca.Respostas;
 using BackBiblioteca.Services.Dao;
@@ -31,7 +33,7 @@ public class EmprestimoService
         try
         {
             _emprestimoDao.Cadastrar(novoEmprestimo);
-            return OperacaoConcluida.Sucesso001;
+            return OperacaoConcluida.Sucesso004;
         }
         catch (Exception e)
         {
@@ -49,24 +51,24 @@ public class EmprestimoService
     {
         if (!_alunoService.VerificarMatriculaExiste(matricula))
         {
-            throw new Exception(ErrorMensage.AlunoMatriculaNaoEncontrada);
+            throw new AlunoMatriculaNaoEncontradaException();
         }
         
         if (_alunoService.VerificarPendenciaAluno(matricula))
         {
-            throw new Exception(ErrorMensage.AlunoPendente);
+            throw new AlunoPendenteException();
         }
     }
     private void VerificarLivroParaEmprestimo(int registro)
     {
         if (!_livroService.VerificarRegistro(registro))
         {
-            throw new Exception(ErrorMensage.LivroRegistroNaoEncontrado);
+            throw new LivroRegistroNaoEncontradoException();
         }
         
         if (_livroService.VerificarPendenciaLivro(registro))
         {
-            throw new Exception(ErrorMensage.LivroPendente);
+            throw new LivroPendenteException();
         }
     }
     
@@ -76,7 +78,7 @@ public class EmprestimoService
         try
         {
             _emprestimoDao.Apagar(registro);
-            return OperacaoConcluida.Sucesso001;
+            return OperacaoConcluida.Sucesso005;
         }
         catch (Exception e)
         {
@@ -91,31 +93,93 @@ public class EmprestimoService
         var devolucaoCorreta = _emprestimoDao.BuscarPorRegistro(registro);
         if (devolucaoCorreta!.Matricula != matricula)
         {
-            throw new Exception(ErrorMensage.AlunoComLivroErrado);
+            throw new LivroAutorIncompativelException();
         }
     }
     private void VerificarAlunoParaDevolucao(int matricula)
     {
         if (!_alunoService.VerificarMatriculaExiste(matricula))
         {
-            throw new Exception(ErrorMensage.AlunoMatriculaNaoEncontrada);
+            throw new AlunoMatriculaNaoEncontradaException();
         }
         
         if (!_alunoService.VerificarPendenciaAluno(matricula))
         {
-            throw new Exception(ErrorMensage.AlunoNaoPendente);
+            throw new AlunoNaoPendenteException();
         }
     }
     private void VerificarLivroParaDevolucao(int registro)
     {
         if (!_livroService.VerificarRegistro(registro))
         {
-            throw new Exception(ErrorMensage.LivroRegistroNaoEncontrado);
+            throw new LivroRegistroNaoEncontradoException();
         }
         
         if (!_livroService.VerificarPendenciaLivro(registro))
         {
-            throw new Exception(ErrorMensage.LivroNaoPendente);
+            throw new LivroNaoPendenteException();
         }
     }
+
+    // public List<Object> ListarPendentes(int sala, int turno, int dias)
+    // {
+    //     var todosEmprestimos = _emprestimoDao.ListarPendentes();
+    //     var todosPendentes = new List<Object>();
+    //
+    //     foreach (var emprestimo in todosEmprestimos)
+    //     {
+    //         var aluno = _alunoService.BuscarAlunoPorMatricula(emprestimo.Matricula);
+    //         var pendente = new { 
+    //             Registro = emprestimo.Registro, 
+    //             Matricula = emprestimo.Matricula, 
+    //             Nome = aluno.Nome,
+    //             Sala = aluno.Sala,
+    //             Turno = aluno.Turno,
+    //             DataEmprestimo = emprestimo.DataEmprestimo.ToString("dd-MM-yyyy")
+    //         };
+    //         todosPendentes.Add(pendente);
+    //     }
+    //     return todosPendentes;
+    // }
+    public List<Object> ListarPendentes(int sala, int turno, int dias)
+    {
+     
+        
+        var todosEmprestimos = _emprestimoDao.ListarPendentes();
+        var todosPendentes = new List<Object>();
+    
+        foreach (var emprestimo in todosEmprestimos)
+        {
+            var aluno = _alunoService.BuscarAlunoPorMatricula(emprestimo.Matricula);
+        
+            if (sala > 0 && aluno.Sala != sala)
+            {
+                continue; // pula para a próxima iteração se a sala não corresponder
+            }
+           
+            if (turno > 0 && aluno.Turno != turno.ToString())
+            {
+                continue; // pula para a próxima iteração se o turno não corresponder
+            }
+        
+            if (dias > 0 && (DateTime.UtcNow - emprestimo.DataEmprestimo).TotalDays > dias)
+            {
+                continue; // pula para a próxima iteração se o empréstimo for mais antigo que o período especificado
+            }
+        
+            var pendente = new { 
+                Registro = emprestimo.Registro, 
+                Matricula = emprestimo.Matricula, 
+                Nome = aluno.Nome,
+                Sala = aluno.Sala,
+                Turno = aluno.Turno,
+                DataEmprestimo = emprestimo.DataEmprestimo.ToString("dd-MM-yyyy")
+            };
+        
+            todosPendentes.Add(pendente);
+        }
+    
+        return todosPendentes;
+    }
 }
+

@@ -13,9 +13,8 @@ public class AlunoDao : IAlunoDao
         _context = context;
     }
 
-    public void Apagar(int matricula)
+    public void Apagar(Aluno alunoParaRemover)
     {
-        var alunoParaRemover = BuscarPorMatricula(matricula);
         _context.Alunos.Remove(alunoParaRemover!);
         _context.SaveChanges();
     }

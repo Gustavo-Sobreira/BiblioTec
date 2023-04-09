@@ -1,4 +1,5 @@
 using BackBiblioteca.Data;
+using BackBiblioteca.Errors;
 using BackBiblioteca.Respostas;
 using BackBiblioteca.Models;
 using BackBiblioteca.Interfaces;
@@ -18,12 +19,12 @@ public class LivroService : ILivroService
         _alunoService = new AlunoService(context);
     }
     
-    public string Cadastrar(Livro livroParaAdicionar)
+    public Livro? Cadastrar(Livro livroParaAdicionar)
     {
         try
         {
             _livroDao.Cadastrar(livroParaAdicionar);
-            return OperacaoConcluida.Sucesso001;
+            return livroParaAdicionar;
         }
         catch (Exception e)
         {
@@ -38,17 +39,17 @@ public class LivroService : ILivroService
         
         if (VerificarRegistro(livro.Registro))
         {
-            throw new Exception(ErrorMensage.LivroRegistroExistente);
+            throw new LivroRegistroExistenteException();
         }
     }
     
     
-    public string Editar(Livro livroParaEditar)
+    public Livro? Editar(Livro livroParaEditar)
     {
         try
         {
             _livroDao.Editar(livroParaEditar);
-            return OperacaoConcluida.Sucesso003;
+            return livroParaEditar;
         }
         catch (Exception e)
         {
@@ -63,48 +64,72 @@ public class LivroService : ILivroService
         
         if (!VerificarRegistro(livro.Registro))
         {
-            throw new Exception(ErrorMensage.LivroRegistroNaoEncontrado);
+            throw new LivroRegistroNaoEncontradoException();
         }
 
         if (VerificarPendenciaLivro(livro.Registro))
         {
-            throw new Exception(ErrorMensage.LivroPendente);
+            throw new LivroPendenteException();
         }
     }
     
     
-    public string Apagar(int registro)
+    public Livro? Apagar(int registro)
     {
         try
         {
-            _livroDao.Apagar(registro);
-            return OperacaoConcluida.Sucesso002;
+            var livro = BuscarPorRegistro(registro); 
+            _livroDao.Apagar(livro);
+            return livro;
         }
         catch (Exception e)
         {
             throw new Exception(e.Message);
         }
     }
-    public void CompararCampos(Livro livroEmVerificacao)
-    {
-        var livroCadastrado = _livroDao.BuscarPorRegistro(livroEmVerificacao.Registro);
-        if (livroCadastrado!.Autor != livroEmVerificacao.Autor)
-        {
-            throw new Exception(ErrorMensage.LivroAutorIncompativel);
-        }
-
-        if (livroCadastrado.Titulo != livroEmVerificacao.Titulo)
-        {
-            throw new Exception(ErrorMensage.LivroTituloIncompativel);
-        }
-    }
+    // public void CompararCampos(Livro livroEmVerificacao)
+    // {
+    //     var livroCadastrado = _livroDao.BuscarPorRegistro(livroEmVerificacao.Registro);
+    //     if (livroCadastrado!.Autor != livroEmVerificacao.Autor)
+    //     {
+    //         throw new LivroAutorIncompativelException();
+    //     }
+    //
+    //     if (livroCadastrado.Titulo != livroEmVerificacao.Titulo)
+    //     {
+    //         throw new LivroTituloIncompativelException();
+    //     }
+    // }
     
     
-    public List<string> ListarEstoque()
+    public List<Livro> ListarEstoque()
     {
         try
         {
-            return _livroDao.ListarEstoque();
+            var listaLivrosContados = new List<Livro>();
+            
+            var todosLivros = _livroDao.ListarEstoqueCompleto();
+            for (int i = 0; i < todosLivros.Count -1; i++)
+            {
+                var count = 1;
+                while (todosLivros[i].Autor == todosLivros[i + 1].Autor 
+                 && todosLivros[i].Titulo == todosLivros[i + 1].Titulo )
+                {
+                    count++;
+                    if (i + 2 >= todosLivros.Count)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+
+                Livro livroAdd = new Livro();
+                livroAdd.Registro = count;
+                livroAdd.Titulo = todosLivros[i].Titulo;
+                livroAdd.Autor = todosLivros[i].Autor;
+                listaLivrosContados.Add(livroAdd);
+            }
+            return listaLivrosContados;
         }
         catch (Exception e)
         {
@@ -124,13 +149,13 @@ public class LivroService : ILivroService
     public void VerificarCampos(Livro livroEmVerificacao)
     {
         if (livroEmVerificacao.Registro <= 0) {
-            throw new Exception(ErrorMensage.LivroRegistroNulo);
+            throw new LivroRegistroNuloException();
         }
         if (livroEmVerificacao.Autor == null) {
-            throw new Exception(ErrorMensage.LivroAutorNulo);
+            throw new LivroAutorNuloException();
         }
         if (livroEmVerificacao.Titulo == null) {
-            throw new Exception(ErrorMensage.LivroTituloNulo);
+            throw new LivroTituloNuloException();
         }
     }
     public bool VerificarPendenciaLivro(int registro)
@@ -139,3 +164,5 @@ public class LivroService : ILivroService
         return pendente == null ? false : true;
     }
 }
+
+

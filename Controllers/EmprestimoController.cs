@@ -1,4 +1,5 @@
 using BackBiblioteca.Data;
+using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
 using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
@@ -23,34 +24,47 @@ public class EmprestimoController : Controller
     
 
     [HttpPost("emprestar")]
-    public ActionResult RealizarEmprestimo([FromForm] int registro, int matricula)
+    public ActionResult RealizarEmprestimo([FromQuery] int registro, [FromQuery] int matricula)
     {
         try
         {
             _emprestimoService.RegrasParaEmprestar(registro,matricula);
-            return Ok(_emprestimoService.Emprestar(registro, matricula));
+            return Ok(Json(_emprestimoService.Emprestar(registro, matricula)));
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            switch (e)
+            { 
+                case AlunoMatriculaNaoEncontradaException:
+                case LivroRegistroNaoEncontradoException:
+                    return NotFound(Json(e.Message ));
+                case AlunoPendenteException:
+                case LivroPendenteException:
+                    return StatusCode(403,Json(e.Message));
+                default:
+                    return StatusCode(500, Json(e.Message));
+            }
         }
     }
     
-    
     [HttpDelete("devolver")]
-    public ActionResult RealizarDevolucaoDeUmLivro([FromForm] int registro, int matricula)
+    public ActionResult RealizarDevolucaoDeUmLivro([FromQuery] int registro, [FromQuery] int matricula)
     {
         try
         {
             _emprestimoService.RegrasParaDevolver(registro,matricula);
-            return Ok(_emprestimoService.Devolver(registro));
+            return Ok(Json(_emprestimoService.Devolver(registro)));
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            return BadRequest(Json(e.Message));
         }
+    }
+
+    [HttpGet("pendentes")]
+    public ActionResult ListarTodosPendentes([FromQuery] int sala, int turno, int dias)
+    {
+        return Ok(Json(_emprestimoService.ListarPendentes( sala, turno, dias)));
     }
 }
 

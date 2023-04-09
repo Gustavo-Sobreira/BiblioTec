@@ -7,16 +7,16 @@ public interface IAlunoService
     public Aluno? BuscarAlunoPorMatricula(int matricula);
     
     
-    public string Cadastrar(Aluno alunoParaAdicionar);
+    public Aluno? Cadastrar(Aluno alunoParaAdicionar);
     public void RegrasParaCadastro(Aluno aluno);
 
 
-    public string Editar(Aluno alunoParaEditar);
+    public Aluno? Editar(Aluno alunoParaEditar);
     public void RegrasParaEdicao(Aluno aluno);
 
 
-    public string Apagar(int matricula);
-    public void CompararDadosDeAluno(Aluno alunoEmVerificacao);
+    public Aluno? Apagar(int matricula);
+    //public void CompararDadosDeAluno(Aluno alunoEmVerificacao);
     
 
     public string FormatarTextos(string campoEmVerificacao);

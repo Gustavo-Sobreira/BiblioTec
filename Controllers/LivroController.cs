@@ -1,6 +1,6 @@
 using BackBiblioteca.Data;
+using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
-using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +18,27 @@ public class LivroController : Controller
     }
 
     [HttpGet("estoque")]
-    public ActionResult<IEnumerable<string>> ListarTodosLivrosEmEstoque()
+    public ActionResult ListarTodosLivrosEmEstoque()
     {
-        return Ok(_livroService.ListarEstoque());
+        return Ok(Json(_livroService.ListarEstoque()));
+    }
+    
+    [HttpGet("buscar")]
+    public ActionResult BuscarLivro([FromQuery]int registro)
+    {
+        try
+        {
+            var livro = _livroService.BuscarPorRegistro(registro);
+            if (livro == null)
+            {
+                throw new LivroRegistroNaoEncontradoException();
+            }
+            return Ok(Json(livro));
+        }
+        catch (Exception e)
+        {
+            return NotFound(Json(e.Message));
+        }
     }
 
     [HttpPost("cadastro")]
@@ -29,24 +47,23 @@ public class LivroController : Controller
         try
         {
             _livroService.RegrasParaCadastrar(livro);
-            return Ok(_livroService.Cadastrar(livro));
+            return Ok(Json(_livroService.Cadastrar(livro)));
         }
         catch (Exception e)
         {
-            // 400 - Requisição não atende requisitos
-            if ((e.Message == ErrorMensage.LivroRegistroNulo) ||
-                (e.Message == ErrorMensage.LivroAutorNulo) ||
-                (e.Message == ErrorMensage.LivroTituloNulo))
+            switch (e)
             {
-                return BadRequest(e.Message);
+                // 400 - Requisição não atende requisitos
+                case LivroRegistroNuloException:
+                case LivroAutorNuloException:
+                case LivroTituloNuloException:
+                    return BadRequest(Json(e.Message));
+                // 409 - Conflito de ID
+                case LivroRegistroExistenteException:
+                    return Conflict(Json(e.Message));
+                default:
+                    return StatusCode(500, Json(e.Message));
             }
-            
-            // 409 - Conflito de ID
-            if (e.Message == ErrorMensage.LivroRegistroExistente)
-            {
-                return Conflict(e.Message);
-            }
-            return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
         }
     }
 
@@ -56,76 +73,69 @@ public class LivroController : Controller
     {
         try
         {
-           _livroService.RegrasParaEditar(livro);
-           return Ok(_livroService.Editar(livro));
+            _livroService.RegrasParaEditar(livro);
+            return Ok(Json(_livroService.Editar(livro)));
 
         }
         catch (Exception e)
         {
-            // 400 - Requisição não atende requisitos
-            if ((e.Message == ErrorMensage.LivroRegistroNulo) ||
-                (e.Message == ErrorMensage.LivroAutorNulo) ||
-                (e.Message == ErrorMensage.LivroTituloNulo))
+            switch (e)
             {
-                return BadRequest(e.Message);
+                // 404 - ID não encontrado
+                case LivroRegistroNaoEncontradoException:
+                    return NotFound(Json(e.Message));
+                // 403 - Permissão negada
+                case LivroPendenteException:
+                    return StatusCode(403,Json(e.Message));
+                // 412 - Incompatibilidade de dados
+                case LivroTituloIncompativelException:
+                case LivroAutorIncompativelException:
+                    return StatusCode(412, Json(e.Message));
+                // 400 - Requisição não atende requisitos
+                case LivroRegistroNuloException:
+                case LivroAutorNuloException:
+                case LivroTituloNuloException:
+                    return BadRequest(Json(e.Message));
+                default:
+                    return StatusCode(500, Json(e.Message));
             }
-            
-            // 404 - ID não encontrado
-            if (e.Message == ErrorMensage.LivroRegistroNaoEncontrado)
-            {
-                return Conflict(e.Message);
-            }
-            
-            // 403 - Permissão negada
-            if (e.Message == ErrorMensage.LivroPendente)
-            {
-                return Forbid(e.Message);
-            }
-            
-            // 412 - Incompatibilidade de dados
-            if ((e.Message == ErrorMensage.LivroTituloIncompativel) ||
-                (e.Message == ErrorMensage.LivroAutorIncompativel))
-            {
-                return StatusCode(412, e.Message);
-            }
-            return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
         }
-        
+
     }
 
     [HttpDelete("apagar")]
-    public ActionResult<string> RemoverLivroDaBiblioteca([FromForm] Livro livro)
+    public ActionResult<string> RemoverLivroDaBiblioteca([FromBody] int registro)
     {
         try
         {
+            var livro = _livroService.BuscarPorRegistro(registro);
+            if (livro == null)
+            {
+                throw new LivroRegistroNaoEncontradoException();
+            }
             _livroService.RegrasParaEditar(livro);
-            _livroService.CompararCampos(livro);
-            return Ok(_livroService.Apagar(livro.Registro));
+            return Ok(Json(_livroService.Apagar(livro.Registro)));
         }
         catch (Exception e)
         {
-            // 400 - Requisição não atende requisitos
-            if ((e.Message == ErrorMensage.LivroRegistroNulo) ||
-                (e.Message == ErrorMensage.LivroAutorNulo) ||
-                (e.Message == ErrorMensage.LivroTituloNulo))
+            switch (e)
             {
-                return BadRequest(e.Message);
-            }
+                // 404 - ID não encontrado
+                case LivroRegistroNaoEncontradoException:
+                    return NotFound(Json(e.Message));
 
-            // 404 - ID não encontrado
-            if (e.Message == ErrorMensage.LivroRegistroNaoEncontrado)
-            {
-                return Conflict(e.Message);
-            }
+                // 403 - Permissão negada'
+                case LivroPendenteException:
+                    return StatusCode(403,Json(e.Message));
 
-            // 403 - Permissão negada
-            if (e.Message == ErrorMensage.LivroPendente)
-            {
-                return Forbid(e.Message);
+                // 400 - Requisição não atende requisitos
+                case LivroRegistroNuloException:
+                case LivroAutorNuloException:
+                case LivroTituloNuloException:
+                    return BadRequest(Json(e.Message));
+                default:
+                    return StatusCode(500, Json(e.Message));
             }
-
-            return StatusCode(500, $"Houve um erro interno não identificado: {e.Message}");
         }
     }
 }
-    

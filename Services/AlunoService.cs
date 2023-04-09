@@ -20,12 +20,12 @@ public class AlunoService : IAlunoService
         _emprestimoDao = new EmprestimoDao(context);
     }
     
-    public string Cadastrar(Aluno alunoParaAdicionar)
+    public Aluno? Cadastrar(Aluno alunoParaAdicionar)
     {
         try
         {
             _alunoDao.Cadastrar(alunoParaAdicionar);
-            return OperacaoConcluida.Sucesso001;    
+            return alunoParaAdicionar;    
         }
         catch (Exception e)
         {
@@ -45,12 +45,12 @@ public class AlunoService : IAlunoService
     }
     
     
-    public string Editar(Aluno alunoParaEditar)
+    public Aluno? Editar(Aluno alunoParaEditar)
     {
         try
         {
             _alunoDao.Editar(alunoParaEditar);
-            return OperacaoConcluida.Sucesso003;
+            return alunoParaEditar;
         }
         catch (Exception e)
         {
@@ -75,39 +75,40 @@ public class AlunoService : IAlunoService
     }
     
 
-    public string Apagar(int matricula)
+    public Aluno? Apagar(int matricula)
     {
         try
-        { 
-            _alunoDao.Apagar(matricula);
-            return OperacaoConcluida.Sucesso002;
+        {
+            var aluno = BuscarAlunoPorMatricula(matricula);
+            _alunoDao.Apagar(aluno);
+            return aluno;
         }
         catch (Exception e)
         {
             throw new Exception(e.Message);
         }
     }
-    public void CompararDadosDeAluno(Aluno alunoEmVerificacao)
-    {
-        var alunoCadastrado = BuscarAlunoPorMatricula(alunoEmVerificacao.Matricula);
-        if (alunoCadastrado != alunoEmVerificacao)
-        {
-            if (alunoCadastrado?.Nome != alunoEmVerificacao.Nome)
-            {
-                throw new AlunoNomeIncompativelException();
-            }
-
-            if (alunoCadastrado?.Sala != alunoEmVerificacao.Sala)
-            {
-                throw new AlunoSalaIncompativelException();
-            }
-
-            if (alunoCadastrado.Turno != alunoEmVerificacao.Turno)
-            {
-                throw new AlunoTurnoIncompativelException();
-            }
-        }
-    }
+    // public void CompararDadosDeAluno(Aluno alunoEmVerificacao)
+    // {
+    //     var alunoCadastrado = BuscarAlunoPorMatricula(alunoEmVerificacao.Matricula);
+    //     if (alunoCadastrado != alunoEmVerificacao)
+    //     {
+    //         if (alunoCadastrado?.Nome != alunoEmVerificacao.Nome)
+    //         {
+    //             throw new AlunoNomeIncompativelException();
+    //         }
+    //
+    //         if (alunoCadastrado?.Sala != alunoEmVerificacao.Sala)
+    //         {
+    //             throw new AlunoSalaIncompativelException();
+    //         }
+    //
+    //         if (alunoCadastrado.Turno != alunoEmVerificacao.Turno)
+    //         {
+    //             throw new AlunoTurnoIncompativelException();
+    //         }
+    //     }
+    // }
 
     
     public Aluno? BuscarAlunoPorMatricula(int matricula)
@@ -147,11 +148,13 @@ public class AlunoService : IAlunoService
         {
             throw new AlunoMatriculaInvalidaException();
         }
+        
 
-        if (alunoEmVerificacao.Nome!.Length > 100)
+        if (alunoEmVerificacao.Nome!.Length > 100 || alunoEmVerificacao.Nome.Length <= 0)
         {
             throw new AlunoNomeInvalidoException();
         }
+  
 
         if (alunoEmVerificacao.Sala <= 0)
         {
@@ -176,13 +179,3 @@ public class AlunoService : IAlunoService
         return alunoEstaPendente == null ? false : true;
     }
 }
-
-
-
-
-
-
-
-
-
-

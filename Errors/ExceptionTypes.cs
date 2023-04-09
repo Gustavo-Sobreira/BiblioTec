@@ -42,6 +42,13 @@ namespace BackBiblioteca.Errors
         {
         }
     }
+    public class AlunoNaoPendenteException : Exception
+    {
+        public AlunoNaoPendenteException() : base(ErrorMensage.AlunoNaoPendente)
+        {
+        }
+    }
+
 
     
     public class AlunoSalaNuloException : Exception
@@ -66,6 +73,69 @@ namespace BackBiblioteca.Errors
     public class AlunoTurnoIncorretoException : Exception
     {
         public AlunoTurnoIncorretoException():base(ErrorMensage.AlunoTurnoIncorreto){
+        }
+    }
+    
+    
+    public class LivroRegistroExistenteException : Exception
+    {
+        public LivroRegistroExistenteException():base(ErrorMensage.LivroRegistroExistente)
+        {
+        }
+    }
+    public class LivroTituloIncompativelException : Exception
+    {
+        public LivroTituloIncompativelException() : base(ErrorMensage.LivroTituloIncompativel)
+        {
+        }
+    }
+    
+    public class LivroTituloNuloException : Exception
+    {
+        public LivroTituloNuloException() : base(ErrorMensage.LivroTituloNulo)
+        {
+        }
+    }
+    
+    public class LivroAutorNuloException : Exception
+    {
+        public LivroAutorNuloException() : base(ErrorMensage.LivroAutorNulo)
+        {
+        }
+    }
+    
+    public class LivroRegistroNuloException : Exception
+    {
+        public LivroRegistroNuloException() : base(ErrorMensage.LivroRegistroNulo)
+        {
+        }
+    }
+    
+    public class LivroAutorIncompativelException : Exception
+    {
+        public LivroAutorIncompativelException() : base(ErrorMensage.LivroAutorIncompativel)
+        {
+        }
+    }
+    
+    public class LivroPendenteException : Exception
+    {
+        public LivroPendenteException() : base(ErrorMensage.LivroPendente)
+        {
+        }
+    }
+    
+    public class LivroNaoPendenteException : Exception
+    {
+        public LivroNaoPendenteException() : base(ErrorMensage.LivroNaoPendente)
+        {
+        }
+    }
+    
+    public class LivroRegistroNaoEncontradoException : Exception
+    {
+        public LivroRegistroNaoEncontradoException() : base(ErrorMensage.LivroRegistroNaoEncontrado)
+        {
         }
     }
 }
