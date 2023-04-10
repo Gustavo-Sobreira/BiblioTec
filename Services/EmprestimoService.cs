@@ -24,7 +24,7 @@ public class EmprestimoService
     {
         var novoEmprestimo = new Emprestimo()
         {
-            IdEmprestimo = _emprestimoDao.BuscarUltimoId() + 1,
+            IdEmprestimo = 1,
             Matricula = matricula,
             Registro = registro,
             DataEmprestimo = DateTime.Now.ToUniversalTime()

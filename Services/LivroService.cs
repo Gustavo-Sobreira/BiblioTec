@@ -104,38 +104,31 @@ public class LivroService : ILivroService
     
     public List<Livro> ListarEstoque()
     {
-        try
+        var listaLivrosContados = new List<Livro>();
+        
+        var todosLivros = _livroDao.ListarEstoqueCompleto();
+        for (int i = 0; i < todosLivros.Count -1; i++)
         {
-            var listaLivrosContados = new List<Livro>();
-            
-            var todosLivros = _livroDao.ListarEstoqueCompleto();
-            for (int i = 0; i < todosLivros.Count -1; i++)
+            var count = 1;
+            while (todosLivros[i].Autor == todosLivros[i + 1].Autor 
+             && todosLivros[i].Titulo == todosLivros[i + 1].Titulo )
             {
-                var count = 1;
-                while (todosLivros[i].Autor == todosLivros[i + 1].Autor 
-                 && todosLivros[i].Titulo == todosLivros[i + 1].Titulo )
+                count++;
+                if (i + 2 >= todosLivros.Count)
                 {
-                    count++;
-                    if (i + 2 >= todosLivros.Count)
-                    {
-                        break;
-                    }
-                    i++;
+                    break;
                 }
-
-                Livro livroAdd = new Livro();
-                livroAdd.Registro = count;
-                livroAdd.Titulo = todosLivros[i].Titulo;
-                livroAdd.Autor = todosLivros[i].Autor;
-                listaLivrosContados.Add(livroAdd);
+                i++;
             }
-            return listaLivrosContados;
+
+            Livro livroAdd = new Livro();
+            livroAdd.Registro = count;
+            livroAdd.Titulo = todosLivros[i].Titulo;
+            livroAdd.Autor = todosLivros[i].Autor;
+            
+            listaLivrosContados.Add(livroAdd);
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        return listaLivrosContados;
     }
     public Livro? BuscarPorRegistro(int registro)
     {

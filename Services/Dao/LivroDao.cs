@@ -52,9 +52,8 @@ public class LivroDao : ILivroDao
     public List<Livro> ListarEstoqueCompleto()
     {
         return _context.Livros
-            .Where(livro => !_context.Emprestimos
-                .Any(emprestimo => emprestimo.Registro == livro.Registro))
-            .OrderBy(livro => livro.Titulo)
+            .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro))
+            .OrderBy(livro => livro.Autor)
             .ToList();
     }
 }
