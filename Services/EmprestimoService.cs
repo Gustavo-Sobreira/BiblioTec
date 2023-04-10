@@ -143,7 +143,7 @@ public class EmprestimoService
     // }
     public List<Object> ListarPendentes(int sala, int turno, int dias)
     {
-     
+    
         
         var todosEmprestimos = _emprestimoDao.ListarPendentes();
         var todosPendentes = new List<Object>();
@@ -152,12 +152,12 @@ public class EmprestimoService
         {
             var aluno = _alunoService.BuscarAlunoPorMatricula(emprestimo.Matricula);
         
-            if (sala > 0 && aluno.Sala != sala)
+            if (sala > 0 && aluno!.Sala != sala)
             {
                 continue; // pula para a próxima iteração se a sala não corresponder
             }
-           
-            if (turno > 0 && aluno.Turno != turno.ToString())
+
+            if (turno > 0 && aluno!.Turno != turno.ToString())
             {
                 continue; // pula para a próxima iteração se o turno não corresponder
             }
@@ -170,7 +170,7 @@ public class EmprestimoService
             var pendente = new { 
                 Registro = emprestimo.Registro, 
                 Matricula = emprestimo.Matricula, 
-                Nome = aluno.Nome,
+                Nome = aluno!.Nome,
                 Sala = aluno.Sala,
                 Turno = aluno.Turno,
                 DataEmprestimo = emprestimo.DataEmprestimo.ToString("dd-MM-yyyy")

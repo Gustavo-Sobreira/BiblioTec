@@ -1,10 +1,9 @@
 using BackBiblioteca.Data;
+using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
 using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
-using BackBiblioteca.Errors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Cors;
 
 namespace BackBiblioteca.Controllers;
 
@@ -77,13 +76,9 @@ public class AlunoController : Controller
             switch (e)
             { 
                 case AlunoMatriculaNaoEncontradaException:
-                    //return NotFound(e.Message);
-                    // var erro = new { mensagem = e.Message };
-                    // return Json(erro);
                     return NotFound(Json(e.Message ));
                 case AlunoPendenteException:
                     return StatusCode(403,Json(e.Message));
-                
                 case AlunoMatriculaInvalidaException:
                 case AlunoNomeInvalidoException:
                 case AlunoSalaNuloException:
@@ -133,4 +128,3 @@ public class AlunoController : Controller
         }
     }
 }
-

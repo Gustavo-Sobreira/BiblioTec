@@ -9,14 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d62b3618-ccab-4090-bf9a-517dce988b39" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BiblioTec.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Dao/LivroDao.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Dao/LivroDao.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/LivroService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/LivroService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/BiblioTec.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/BiblioTec.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/obj/staticwebassets.pack.sentinel" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BiblioTec-Front" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Tres_Porcento" beforeDir="false" afterPath="$PROJECT_DIR$/../Tres_Porcento" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,6 +143,7 @@
       <workItem from="1680827324715" duration="51000" />
       <workItem from="1680959420875" duration="9762000" />
       <workItem from="1680980663153" duration="13283000" />
+      <workItem from="1681152915101" duration="189000" />
     </task>
     <servers />
   </component>

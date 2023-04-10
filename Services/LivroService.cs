@@ -79,7 +79,7 @@ public class LivroService : ILivroService
         try
         {
             var livro = BuscarPorRegistro(registro); 
-            _livroDao.Apagar(livro);
+            _livroDao.Apagar(livro!);
             return livro;
         }
         catch (Exception e)
@@ -111,7 +111,7 @@ public class LivroService : ILivroService
         {
             var count = 1;
             while (todosLivros[i].Autor == todosLivros[i + 1].Autor 
-             && todosLivros[i].Titulo == todosLivros[i + 1].Titulo )
+            && todosLivros[i].Titulo == todosLivros[i + 1].Titulo )
             {
                 count++;
                 if (i + 2 >= todosLivros.Count)

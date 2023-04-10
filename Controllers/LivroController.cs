@@ -20,7 +20,13 @@ public class LivroController : Controller
     [HttpGet("estoque")]
     public ActionResult ListarTodosLivrosEmEstoque()
     {
-        return Ok(Json(_livroService.ListarEstoque()));
+        var todoEstoque = _livroService.ListarEstoque();
+
+        if(todoEstoque.Count == 0){
+            return NotFound(Json("Não há livros disponíveis para empréstimo."));
+        }
+        
+        return Ok(Json(todoEstoque));
     }
     
     [HttpGet("buscar")]
@@ -75,7 +81,6 @@ public class LivroController : Controller
         {
             _livroService.RegrasParaEditar(livro);
             return Ok(Json(_livroService.Editar(livro)));
-
         }
         catch (Exception e)
         {
@@ -100,7 +105,6 @@ public class LivroController : Controller
                     return StatusCode(500, Json(e.Message));
             }
         }
-
     }
 
     [HttpDelete("apagar")]

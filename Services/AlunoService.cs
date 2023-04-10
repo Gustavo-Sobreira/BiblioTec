@@ -80,7 +80,7 @@ public class AlunoService : IAlunoService
         try
         {
             var aluno = BuscarAlunoPorMatricula(matricula);
-            _alunoDao.Apagar(aluno);
+            _alunoDao.Apagar(aluno!);
             return aluno;
         }
         catch (Exception e)

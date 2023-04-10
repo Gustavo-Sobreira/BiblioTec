@@ -1,7 +1,5 @@
 using BackBiblioteca.Data;
 using BackBiblioteca.Errors;
-using BackBiblioteca.Models;
-using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
 using BackBiblioteca.Services.Dao;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +8,6 @@ namespace BackBiblioteca.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-
 public class EmprestimoController : Controller
 {
     private readonly EmprestimoDao _emprestimoDao;

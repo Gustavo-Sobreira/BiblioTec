@@ -5,7 +5,6 @@ Console.Clear();
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 //Banco
 var connectionString = builder.Configuration.GetConnectionString("BibliotecaConnection");
 builder.Services.AddDbContext<BibliotecContext>(options =>
@@ -27,11 +26,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors(x => x
-     .AllowAnyMethod()
-     .AllowAnyHeader()
-     .SetIsOriginAllowed(origin => true) 
-     .AllowCredentials()
-     );
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) 
+    .AllowCredentials()
+    );
 
 app.UseHttpsRedirection();
 
