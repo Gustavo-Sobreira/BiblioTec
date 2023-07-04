@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Banco
 var connectionString = builder.Configuration.GetConnectionString("BibliotecaConnection");
 builder.Services.AddDbContext<BibliotecContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("BibliotecaConnection")));
+    options.UseMySQL(builder.Configuration.GetConnectionString("BibliotecaConnection")));
 
 // Add services to the container.
 

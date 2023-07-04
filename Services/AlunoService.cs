@@ -5,7 +5,6 @@ using BackBiblioteca.Data;
 using BackBiblioteca.Errors;
 using BackBiblioteca.Interfaces;
 using BackBiblioteca.Models;
-using BackBiblioteca.Respostas;
 using BackBiblioteca.Services.Dao;
 
 namespace BackBiblioteca.Services;
@@ -19,32 +18,43 @@ public class AlunoService : IAlunoService
         _alunoDao = new AlunoDao(context);
         _emprestimoDao = new EmprestimoDao(context);
     }
-    
-    public Aluno? Cadastrar(Aluno alunoParaAdicionar)
+
+    public Aluno FormatarCampos(Aluno aluno)
+    {
+        aluno.Matricula = FormatarTextos(aluno.Matricula!);
+        aluno.Nome = FormatarTextos(aluno.Nome!);
+        aluno.Professor = FormatarTextos(aluno.Professor!);
+        aluno.Sala = FormatarTextos(aluno.Sala!);
+        aluno.Turno = FormatarTextos(aluno.Turno!);
+        aluno.Serie = FormatarTextos(aluno.Serie!);
+        return aluno;
+    }
+
+
+    public void RegrasParaCadastro(Aluno aluno)
+    {
+        VerificarCampos(aluno);
+
+        if (VerificarMatriculaExiste(aluno.Matricula!))
+        {
+            throw new AlunoMatriculaExistenteException();
+        }
+    }
+
+    public void Cadastrar(Aluno alunoParaAdicionar)
     {
         try
         {
             _alunoDao.Cadastrar(alunoParaAdicionar);
-            return alunoParaAdicionar;    
         }
         catch (Exception e)
         {
             throw new Exception(e.Message);
         }
     }
-    public void RegrasParaCadastro(Aluno aluno)
-    {
-        aluno.Nome = FormatarTextos(aluno.Nome!);
-        aluno.Turno = FormatarTextos(aluno.Turno!);
-        VerificarCampos(aluno);
-        
-        if (VerificarMatriculaExiste(aluno.Matricula))
-        {
-            throw new AlunoMatriculaExistenteException();
-        }
-    }
-    
-    
+
+
+
     public Aluno? Editar(Aluno alunoParaEditar)
     {
         try
@@ -62,8 +72,8 @@ public class AlunoService : IAlunoService
         aluno.Nome = FormatarTextos(aluno.Nome!);
         aluno.Turno = FormatarTextos(aluno.Turno!);
         VerificarCampos(aluno);
-        
-        if (!VerificarMatriculaExiste(aluno.Matricula))
+
+        if (!VerificarMatriculaExiste(aluno.Matricula!))
         {
             throw new AlunoMatriculaNaoEncontradaException();
         }
@@ -73,9 +83,9 @@ public class AlunoService : IAlunoService
             throw new AlunoPendenteException();
         }
     }
-    
 
-    public Aluno? Apagar(int matricula)
+
+    public Aluno? Apagar(string matricula)
     {
         try
         {
@@ -110,12 +120,12 @@ public class AlunoService : IAlunoService
     //     }
     // }
 
-    
-    public Aluno? BuscarAlunoPorMatricula(int matricula)
+
+    public Aluno? BuscarAlunoPorMatricula(string matricula)
     {
         return _alunoDao.BuscarPorMatricula(matricula);
     }
-    
+
     public string FormatarTextos(string campoEmVerificacao)
     {
         //Remover Espaços
@@ -128,12 +138,12 @@ public class AlunoService : IAlunoService
         //Remove acentos
         campoEmVerificacao = Regex.Replace(
         campoEmVerificacao.Normalize(NormalizationForm.FormD),
-        @"[\p{M}]+", 
+        @"[\p{M}]+",
         "",
         RegexOptions.Compiled,
         TimeSpan.FromSeconds(0.5)
         );
-        
+
         //Toda palavra começa com maiúscula
         CultureInfo cultureInfo = CultureInfo.CurrentCulture;
         TextInfo textInfo = cultureInfo.TextInfo;
@@ -144,38 +154,41 @@ public class AlunoService : IAlunoService
 
     public void VerificarCampos(Aluno alunoEmVerificacao)
     {
-        if (alunoEmVerificacao.Matricula <= 0)
+        int id_matricula = int.Parse(alunoEmVerificacao.Matricula!);
+        if (id_matricula <= 0)
         {
             throw new AlunoMatriculaInvalidaException();
         }
-        
 
-        if (alunoEmVerificacao.Nome!.Length > 100 || alunoEmVerificacao.Nome.Length <= 0)
-        {
-            throw new AlunoNomeInvalidoException();
-        }
-  
-
-        if (alunoEmVerificacao.Sala <= 0)
+        int vl_sala = int.Parse(alunoEmVerificacao.Sala!);
+        if (vl_sala <= 0)
         {
             throw new AlunoSalaNuloException();
         }
 
-        if (alunoEmVerificacao.Turno != "1" && alunoEmVerificacao.Turno != "2")
+        int vl_serie = int.Parse(alunoEmVerificacao.Serie!);
+        if (vl_serie <= 0)
+        {
+            throw new AlunoSerieException();
+        }
+
+        string vl_turno = alunoEmVerificacao.Turno!;
+        if (vl_turno != "1" && vl_turno != "2")
         {
             throw new AlunoTurnoIncorretoException();
         }
     }
 
-    public bool VerificarMatriculaExiste(int matricula)
+    public bool VerificarMatriculaExiste(string matricula)
     {
         var aluno = _alunoDao.BuscarPorMatricula(matricula);
         return aluno == null ? false : true;
     }
 
-    public bool VerificarPendenciaAluno(int matricula)
+    public bool VerificarPendenciaAluno(string matricula)
     {
         var alunoEstaPendente = _emprestimoDao.BuscarPorMatricula(matricula);
         return alunoEstaPendente == null ? false : true;
     }
+
 }

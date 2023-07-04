@@ -2,9 +2,11 @@ using BackBiblioteca.Respostas;
 
 namespace BackBiblioteca.Errors
 {
+
+    //MATRÍCULA
     public class AlunoMatriculaExistenteException : Exception
     {
-        public AlunoMatriculaExistenteException() : base(ErrorMensage.AlunoMatriculaExistente)
+        public AlunoMatriculaExistenteException() : base("[ ERRO ] - A matrícula existente, por favor verifique o número de matrícula do aluno.")
         {
         }
     }
@@ -16,12 +18,12 @@ namespace BackBiblioteca.Errors
     }
     public class AlunoMatriculaInvalidaException : Exception
     {
-        public AlunoMatriculaInvalidaException() : base(ErrorMensage.AlunoMatriculaInvalida)
+        public AlunoMatriculaInvalidaException() : base("[ ERRO ] - A matrícula deve ser maior que 1(um).")
         {
         }
     }
 
-    
+    //NOME ALUNO
     public class AlunoNomeIncompativelException : Exception
     {
         public AlunoNomeIncompativelException() : base(ErrorMensage.AlunoNomeIncompativel)
@@ -30,7 +32,13 @@ namespace BackBiblioteca.Errors
     }
     public class AlunoNomeInvalidoException : Exception
     {
-        public AlunoNomeInvalidoException() : base(ErrorMensage.AlunoNomeInvalido)
+        public AlunoNomeInvalidoException() : base("[ ERRO ] - Nome do aluno é inválido. O nome deve haver até 50 caracteres.")
+        {
+        }
+    }
+    public class AlunoProfessorInválidoException : Exception
+    {
+        public AlunoProfessorInválidoException() : base("[ ERRO ] - Nome do professor é inválido. O nome deve haver até 50 caracteres.") 
         {
         }
     }
@@ -63,6 +71,15 @@ namespace BackBiblioteca.Errors
         }
     }
 
+//SÉRIE
+    public class AlunoSerieException : Exception
+    {
+        public AlunoSerieException() : base("[ ERRO ] - A série de um aluno deve estar entre 1 e 9.")
+        {
+        }
+    }
+
+//TURNO
     
     public class AlunoTurnoIncompativelException : Exception
     {
@@ -72,7 +89,8 @@ namespace BackBiblioteca.Errors
     }
     public class AlunoTurnoIncorretoException : Exception
     {
-        public AlunoTurnoIncorretoException():base(ErrorMensage.AlunoTurnoIncorreto){
+        public AlunoTurnoIncorretoException():base("[ ERRO ] - O turno deve conter valores entre 1(manhã) e 2(tarde)")
+        {
         }
     }
     

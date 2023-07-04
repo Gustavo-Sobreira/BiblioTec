@@ -21,7 +21,7 @@ public class EmprestimoController : Controller
     
 
     [HttpPost("emprestar")]
-    public ActionResult RealizarEmprestimo([FromQuery] int registro, [FromQuery] int matricula)
+    public ActionResult RealizarEmprestimo([FromQuery] int registro, [FromQuery] string matricula)
     {
         try
         {
@@ -45,7 +45,7 @@ public class EmprestimoController : Controller
     }
     
     [HttpDelete("devolver")]
-    public ActionResult RealizarDevolucaoDeUmLivro([FromQuery] int registro, [FromQuery] int matricula)
+    public ActionResult RealizarDevolucaoDeUmLivro([FromQuery] int registro, [FromQuery] string matricula)
     {
         try
         {
@@ -58,11 +58,11 @@ public class EmprestimoController : Controller
         }
     }
 
-    [HttpGet("pendentes")]
-    public ActionResult ListarTodosPendentes([FromQuery] int sala, int turno, int dias)
-    {
-        return Ok(Json(_emprestimoService.ListarPendentes( sala, turno, dias)));
-    }
+    // [HttpGet("pendentes")]
+    // public ActionResult ListarTodosPendentes([FromQuery] string sala, string turno, int dias)
+    // {
+    //     return Ok(Json(_emprestimoService.ListarPendentes(sala, turno, dias)));
+    // }
 }
 
 

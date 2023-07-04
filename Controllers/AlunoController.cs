@@ -20,7 +20,7 @@ public class AlunoController : Controller
     
     [HttpGet]
     [Route("buscar/matricula")]
-    public ActionResult ProcurarAluno([FromQuery] int matricula)
+    public ActionResult ProcurarAluno([FromQuery] string matricula)
     {
         if (!_alunoAtual.VerificarMatriculaExiste(matricula))
         {
@@ -37,28 +37,19 @@ public class AlunoController : Controller
     }
 
     [HttpPost]
-    [Route("cadastrar")]
-    public ActionResult CadastrarNovoAluno([FromForm] Aluno aluno)
+    [Route("cadastro")]
+    public ActionResult CadastrarNovoAluno([FromBody] Aluno aluno)
     {
         try
         {
-            _alunoAtual.RegrasParaCadastro(aluno);
-            return Ok(Json(_alunoAtual.Cadastrar(aluno)));
+            Aluno alunoFormatado = _alunoAtual.FormatarCampos(aluno);
+            _alunoAtual.RegrasParaCadastro(alunoFormatado);
+            _alunoAtual.Cadastrar(alunoFormatado);
+            return Ok(alunoFormatado);
         }
         catch (Exception e)
         {
-            switch (e)
-            {
-                case AlunoMatriculaExistenteException:
-                    return Conflict(Json(e.Message));
-                case AlunoMatriculaInvalidaException:
-                case AlunoNomeInvalidoException:
-                case AlunoSalaNuloException:
-                case AlunoTurnoIncorretoException:
-                    return BadRequest(Json(e.Message));
-                default:
-                    return StatusCode(500, Json($"Houve um erro interno não identificado: {e.Message}"));
-            }
+            return HandleException(e,e.Message);
         }
     }
 
@@ -93,17 +84,17 @@ public class AlunoController : Controller
 
     [HttpDelete]
     [Route("apagar")]
-    public ActionResult RemoverAlunoDosRegistros([FromBody] int id)
+    public ActionResult RemoverAlunoDosRegistros([FromBody] string matricula)
     {
         try
         {
-            var aluno = _alunoAtual.BuscarAlunoPorMatricula(id);
+            var aluno = _alunoAtual.BuscarAlunoPorMatricula(matricula);
             if(aluno == null){
                 throw new AlunoMatriculaNaoEncontradaException();
             }
             
             _alunoAtual.RegrasParaEdicao(aluno);
-            return Ok(Json(_alunoAtual.Apagar(aluno.Matricula)));
+            return Ok(Json(_alunoAtual.Apagar(aluno.Matricula!)));
         }
         catch (Exception e)
         {
@@ -127,4 +118,31 @@ public class AlunoController : Controller
             }
         }
     }
+
+    private ActionResult HandleException(Exception e, string errorMessage)
+{
+    if (e is AlunoMatriculaExistenteException)
+    {
+        return Conflict(Json(e.Message));
+    }
+    else if (e is AlunoMatriculaInvalidaException ||
+            e is AlunoNomeInvalidoException ||
+            e is AlunoSalaNuloException ||
+            e is AlunoTurnoIncorretoException)
+    {
+        return BadRequest(Json(e.Message));
+    }
+    else if (e is AlunoMatriculaNaoEncontradaException)
+    {
+        return NotFound(Json(e.Message));
+    }
+    else if (e is AlunoPendenteException)
+    {
+        return StatusCode(403, Json(e.Message));
+    }
+    else
+    {
+        return StatusCode(500, Json($"{errorMessage}: {e.Message}"));
+    }
+}
 }

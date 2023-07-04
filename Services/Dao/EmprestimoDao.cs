@@ -19,9 +19,9 @@ public class EmprestimoDao : IEmprestimoDao
        _context.SaveChanges();
     }
 
-    public Emprestimo? BuscarPorMatricula(int matricula)
+    public Emprestimo? BuscarPorMatricula(string matricula)
     {
-        return _context.Emprestimos.FirstOrDefault(emprestimo => emprestimo.Matricula == matricula);
+        return _context.Emprestimos.FirstOrDefault(emprestimo => emprestimo.Matricula == int.Parse(matricula));
     }
     
     public Emprestimo? BuscarPorRegistro(int registro)
@@ -36,7 +36,7 @@ public class EmprestimoDao : IEmprestimoDao
         return ultimoId;
     }
     
-    public void Editar(int matricula, int registro)
+    public void Editar(string matricula, int registro)
     {
         throw new NotImplementedException();
     }
