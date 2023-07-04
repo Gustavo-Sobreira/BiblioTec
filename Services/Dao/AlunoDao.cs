@@ -35,5 +35,10 @@ public class AlunoDao : IAlunoDao
         _context.Alunos.Add(alunoParaEditar);
         _context.SaveChanges();
     }
-    
+
+    public List<Aluno> BuscarTodosAlunos(int skip, int take)
+    {
+        return _context.Alunos.OrderBy(alunos => alunos.Matricula).Skip(skip).Take(take).ToList();
+    }
+
 }

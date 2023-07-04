@@ -19,6 +19,29 @@ public class AlunoService : IAlunoService
         _emprestimoDao = new EmprestimoDao(context);
     }
 
+    public Aluno? BuscarAlunoPorMatricula(string matricula)
+    {
+        return _alunoDao.BuscarPorMatricula(matricula);
+    }
+
+//TODO remover este método
+    public bool VerificarMatriculaExiste(string matricula)
+    {
+        var aluno = BuscarAlunoPorMatricula(matricula);
+        return aluno == null ? false : true;
+    }
+
+    public bool VerificarPendenciaAluno(string matricula)
+    {
+        var alunoEstaPendente = _emprestimoDao.BuscarPorMatricula(matricula);
+        return alunoEstaPendente == null ? false : true;
+    }
+
+
+
+
+
+
     public Aluno FormatarCampos(Aluno aluno)
     {
         aluno.Matricula = FormatarTextos(aluno.Matricula!);
@@ -121,11 +144,7 @@ public class AlunoService : IAlunoService
     // }
 
 
-    public Aluno? BuscarAlunoPorMatricula(string matricula)
-    {
-        return _alunoDao.BuscarPorMatricula(matricula);
-    }
-
+   
     public string FormatarTextos(string campoEmVerificacao)
     {
         //Remover Espaços
@@ -179,16 +198,8 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public bool VerificarMatriculaExiste(string matricula)
+    public List<Aluno> BuscarTodosAlunos(int skip, int take)
     {
-        var aluno = _alunoDao.BuscarPorMatricula(matricula);
-        return aluno == null ? false : true;
+        return _alunoDao.BuscarTodosAlunos(skip,take);
     }
-
-    public bool VerificarPendenciaAluno(string matricula)
-    {
-        var alunoEstaPendente = _emprestimoDao.BuscarPorMatricula(matricula);
-        return alunoEstaPendente == null ? false : true;
-    }
-
 }

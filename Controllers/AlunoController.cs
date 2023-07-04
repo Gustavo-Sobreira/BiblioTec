@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BackBiblioteca.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("aluno")]
 public class AlunoController : Controller
 {
     private readonly AlunoService _alunoAtual;
@@ -19,20 +19,31 @@ public class AlunoController : Controller
     }
     
     [HttpGet]
-    [Route("buscar/matricula")]
-    public ActionResult ProcurarAluno([FromQuery] string matricula)
+    [Route("buscar/{matricula}")]
+    public ActionResult ProcurarAluno(string matricula)
     {
-        if (!_alunoAtual.VerificarMatriculaExiste(matricula))
-        {
-            return NotFound(Json(ErrorMensage.AlunoMatriculaNaoEncontrada));
-        }
         try
         {
-            return Ok(Json(_alunoAtual.BuscarAlunoPorMatricula(matricula)));
+            Aluno alunoEncotrado = _alunoAtual.BuscarAlunoPorMatricula(matricula)!;
+            return Ok(alunoEncotrado);
         }
         catch (Exception e)
         {
-            return BadRequest(Json(e));
+            return HandleException(e,e.Message);
+        }
+    }
+
+    [HttpGet]
+    [Route("buscar/todos/{skip}/{take}")]
+    public ActionResult BuscarTodosAlunos(int skip, int take){
+        try
+        {
+            List<Aluno> listaGerada = _alunoAtual.BuscarTodosAlunos(skip, take);
+            return Ok(listaGerada);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e,e.Message);
         }
     }
 
@@ -55,7 +66,7 @@ public class AlunoController : Controller
 
     [HttpPut]
     [Route("editar")]
-    public ActionResult EditarAlunoExistente([FromForm] Aluno aluno)
+    public ActionResult EditarAlunoExistente([FromBody] Aluno aluno)
     {
         try
         {
@@ -64,21 +75,7 @@ public class AlunoController : Controller
         }
         catch (Exception e)
         {
-            switch (e)
-            { 
-                case AlunoMatriculaNaoEncontradaException:
-                    return NotFound(Json(e.Message ));
-                case AlunoPendenteException:
-                    return StatusCode(403,Json(e.Message));
-                case AlunoMatriculaInvalidaException:
-                case AlunoNomeInvalidoException:
-                case AlunoSalaNuloException:
-                case AlunoTurnoIncorretoException:
-                    return BadRequest(Json(e.Message));
-                
-                default:
-                    return StatusCode(500, Json($"Houve um erro interno: {e.Message}"));
-            }
+            return HandleException(e,e.Message);
         }
     }
 
@@ -98,24 +95,7 @@ public class AlunoController : Controller
         }
         catch (Exception e)
         {
-            switch (e)
-            {
-                case AlunoMatriculaNaoEncontradaException:
-                    return NotFound(Json(e.Message));
-                case AlunoMatriculaInvalidaException:
-                case AlunoNomeInvalidoException:
-                case AlunoSalaNuloException:
-                case AlunoTurnoIncorretoException:
-                    return BadRequest(Json(e.Message));
-                case AlunoPendenteException:
-                    return StatusCode(403,Json(e.Message));
-                case AlunoNomeIncompativelException:
-                case AlunoSalaIncompativelException:
-                case AlunoTurnoIncompativelException:
-                    return StatusCode(412, Json(e.Message));
-                default:
-                    return StatusCode(500, Json(e.Message));
-            }
+            return HandleException(e,e.Message);
         }
     }
 
