@@ -4,9 +4,9 @@ namespace BackBiblioteca.Interfaces;
 
 public interface IEmprestimoDao
 {
-    void Apagar(int registro);
+    void Apagar(string registro);
     void Cadastrar(Emprestimo emprestimo);
     Emprestimo? BuscarPorMatricula(string matricula);
-    Emprestimo? BuscarPorRegistro(int registro);
-    void Editar(string matricula, int registro);
+    Emprestimo? BuscarPorRegistro(string registro);
+    void Editar(string matricula, string registro);
 }

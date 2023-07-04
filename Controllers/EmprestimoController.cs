@@ -21,7 +21,7 @@ public class EmprestimoController : Controller
     
 
     [HttpPost("emprestar")]
-    public ActionResult RealizarEmprestimo([FromQuery] int registro, [FromQuery] string matricula)
+    public ActionResult RealizarEmprestimo([FromQuery] string registro, [FromQuery] string matricula)
     {
         try
         {
@@ -45,7 +45,7 @@ public class EmprestimoController : Controller
     }
     
     [HttpDelete("devolver")]
-    public ActionResult RealizarDevolucaoDeUmLivro([FromQuery] int registro, [FromQuery] string matricula)
+    public ActionResult RealizarDevolucaoDeUmLivro([FromQuery] string registro, [FromQuery] string matricula)
     {
         try
         {

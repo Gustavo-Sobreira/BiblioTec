@@ -20,7 +20,7 @@ public class LivroDao : ILivroDao
         _context.SaveChanges();
     }
 
-    public Livro? BuscarPorRegistro(int registro)
+    public Livro? BuscarPorRegistro(string registro)
     {
         return _context.Livros.Find(registro);
     }

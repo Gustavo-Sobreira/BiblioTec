@@ -70,8 +70,16 @@ public class AlunoController : Controller
     {
         try
         {
-            _alunoAtual.RegrasParaEdicao(aluno);
-            return Ok(Json(_alunoAtual.Editar(aluno)));
+            Aluno alunoFormatado = _alunoAtual.FormatarCampos(aluno);
+            _alunoAtual.RegrasParaEdicao(alunoFormatado);
+            
+            Aluno dadosAntigos =_alunoAtual.BuscarAlunoPorMatricula(aluno
+            .Matricula);
+
+            Aluno alunoEditado = _alunoAtual.Editar(alunoFormatado);
+
+            List<Aluno> comparacao = new List<Aluno>{dadosAntigos,alunoEditado};
+            return Ok(comparacao);
         }
         catch (Exception e)
         {
@@ -103,26 +111,26 @@ public class AlunoController : Controller
 {
     if (e is AlunoMatriculaExistenteException)
     {
-        return Conflict(Json(e.Message));
+        return StatusCode(409,e.Message);
     }
     else if (e is AlunoMatriculaInvalidaException ||
             e is AlunoNomeInvalidoException ||
             e is AlunoSalaNuloException ||
             e is AlunoTurnoIncorretoException)
     {
-        return BadRequest(Json(e.Message));
+        return StatusCode(400,e.Message);
     }
     else if (e is AlunoMatriculaNaoEncontradaException)
     {
-        return NotFound(Json(e.Message));
+        return NotFound(e.Message);
     }
     else if (e is AlunoPendenteException)
     {
-        return StatusCode(403, Json(e.Message));
+        return StatusCode(403, e.Message);
     }
     else
     {
-        return StatusCode(500, Json($"{errorMessage}: {e.Message}"));
+        return StatusCode(500, e.Message);
     }
 }
 }

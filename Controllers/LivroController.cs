@@ -30,7 +30,7 @@ public class LivroController : Controller
     }
     
     [HttpGet("buscar")]
-    public ActionResult BuscarLivro([FromQuery]int registro)
+    public ActionResult BuscarLivro([FromQuery]string registro)
     {
         try
         {
@@ -108,7 +108,7 @@ public class LivroController : Controller
     }
 
     [HttpDelete("apagar")]
-    public ActionResult<string> RemoverLivroDaBiblioteca([FromBody] int registro)
+    public ActionResult<string> RemoverLivroDaBiblioteca([FromBody] string registro)
     {
         try
         {
@@ -118,7 +118,7 @@ public class LivroController : Controller
                 throw new LivroRegistroNaoEncontradoException();
             }
             _livroService.RegrasParaEditar(livro);
-            return Ok(Json(_livroService.Apagar(livro.Registro)));
+            return Ok(Json(_livroService.Apagar(livro.Registro!)));
         }
         catch (Exception e)
         {

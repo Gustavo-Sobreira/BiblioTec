@@ -20,12 +20,12 @@ public class EmprestimoService
         _livroService = new LivroService(context);
     }
     
-    public string Emprestar(int registro, string matricula)
+    public string Emprestar(string registro, string matricula)
     {
         var novoEmprestimo = new Emprestimo()
         {
             IdEmprestimo = 1,
-            Matricula = int.Parse(matricula),
+            Matricula = matricula,
             Registro = registro,
             DataEmprestimo = DateTime.Now.ToUniversalTime()
         };
@@ -41,7 +41,7 @@ public class EmprestimoService
             throw;
         }
     }
-    public void RegrasParaEmprestar(int registro, string matricula)
+    public void RegrasParaEmprestar(string registro, string matricula)
     {
         VerificarAlunoParaEmprestimo(matricula);
         VerificarLivroParaEmprestimo(registro);
@@ -59,7 +59,7 @@ public class EmprestimoService
             throw new AlunoPendenteException();
         }
     }
-    private void VerificarLivroParaEmprestimo(int registro)
+    private void VerificarLivroParaEmprestimo(string registro)
     {
         if (!_livroService.VerificarRegistro(registro))
         {
@@ -73,7 +73,7 @@ public class EmprestimoService
     }
     
     
-    public string Devolver(int registro)
+    public string Devolver(string registro)
     {
         try
         {
@@ -85,13 +85,13 @@ public class EmprestimoService
             throw new Exception(e.Message);
         }
     }
-    public void RegrasParaDevolver(int registro, string matricula)
+    public void RegrasParaDevolver(string registro, string matricula)
     {
         VerificarAlunoParaDevolucao(matricula);
         VerificarLivroParaDevolucao(registro);
         
         var devolucaoCorreta = _emprestimoDao.BuscarPorRegistro(registro);
-        if (devolucaoCorreta!.Matricula != int.Parse(matricula))
+        if (devolucaoCorreta!.Matricula != matricula)
         {
             throw new LivroAutorIncompativelException();
         }
@@ -108,7 +108,7 @@ public class EmprestimoService
             throw new AlunoNaoPendenteException();
         }
     }
-    private void VerificarLivroParaDevolucao(int registro)
+    private void VerificarLivroParaDevolucao(string registro)
     {
         if (!_livroService.VerificarRegistro(registro))
         {

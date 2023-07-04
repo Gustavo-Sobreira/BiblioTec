@@ -1,7 +1,7 @@
 
 using BackBiblioteca.Models;
 
-namespace BackBiblioteca.Interfaces;
+namespace BackBiblioteca.stringerfaces;
 
 public interface ILivroService
 {
@@ -13,15 +13,13 @@ public interface ILivroService
     public void RegrasParaEditar(Livro livro);
 
 
-    public Livro? Apagar(int registro);
+    public Livro? Apagar(string registro);
     //public void CompararCampos(Livro livroEmVerificacao);
 
 
     public List<Livro> ListarEstoque();
-    public Livro? BuscarPorRegistro(int registro);
-    public bool VerificarRegistro(int registro);
+    public Livro? BuscarPorRegistro(string registro);
+    public bool VerificarRegistro(string registro);
     public void VerificarCampos(Livro livroEmVerificacao);
-    public bool VerificarPendenciaLivro(int registro);
+    public bool VerificarPendenciaLivro(string registro);
 }
-    
-    

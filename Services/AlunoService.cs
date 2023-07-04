@@ -92,8 +92,6 @@ public class AlunoService : IAlunoService
     }
     public void RegrasParaEdicao(Aluno aluno)
     {
-        aluno.Nome = FormatarTextos(aluno.Nome!);
-        aluno.Turno = FormatarTextos(aluno.Turno!);
         VerificarCampos(aluno);
 
         if (!VerificarMatriculaExiste(aluno.Matricula!))
@@ -101,7 +99,7 @@ public class AlunoService : IAlunoService
             throw new AlunoMatriculaNaoEncontradaException();
         }
 
-        if (VerificarPendenciaAluno(aluno.Matricula))
+        if (VerificarPendenciaAluno(aluno.Matricula!))
         {
             throw new AlunoPendenteException();
         }

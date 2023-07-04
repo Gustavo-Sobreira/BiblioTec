@@ -12,7 +12,7 @@ namespace BackBiblioteca.Errors
     }
     public class AlunoMatriculaNaoEncontradaException : Exception
     {
-        public AlunoMatriculaNaoEncontradaException() : base(ErrorMensage.AlunoMatriculaNaoEncontrada)
+        public AlunoMatriculaNaoEncontradaException() : base("[ ERRO ] - Matrícula não encontrada.")
         {
         }
     }
@@ -46,7 +46,7 @@ namespace BackBiblioteca.Errors
     
     public class AlunoPendenteException : Exception
     {
-        public AlunoPendenteException() : base(ErrorMensage.AlunoPendente)
+        public AlunoPendenteException() : base("[ ERRO ] - Este aluno possui pendências com a biblioteca, por isso não é possível altera-lo.")
         {
         }
     }

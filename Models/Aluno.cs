@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackBiblioteca.Models;
 
-[Table("aluno")]
+[Table("t_aluno")]
 public class Aluno
 {
     [Key]
