@@ -56,4 +56,14 @@ public class LivroDao : ILivroDao
             .OrderBy(livro => livro.Autor)
             .ToList();
     }
+
+    public int ContarTotalLivrosIguaisDisponiveis(string autor, string titulo)
+    {
+        return _context.Livros
+            .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro)
+            && _context.Livros.Any(e => e.Autor == autor)
+            && _context.Livros.Any(e => e.Titulo == titulo))
+            .OrderBy(livro => livro.Autor)
+            .ToList().Count();
+    }
 }

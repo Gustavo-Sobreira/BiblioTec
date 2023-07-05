@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace BackBiblioteca.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("livro")]
 public class LivroController : Controller
 {
     private readonly LivroService _livroService;
-
     public LivroController(BibliotecContext context)
     {
         _livroService = new LivroService(context);
@@ -20,17 +19,12 @@ public class LivroController : Controller
     [HttpGet("estoque")]
     public ActionResult ListarTodosLivrosEmEstoque()
     {
-        var todoEstoque = _livroService.ListarEstoque();
-
-        if(todoEstoque.Count == 0){
-            return NotFound(Json("Não há livros disponíveis para empréstimo."));
-        }
-        
-        return Ok(Json(todoEstoque));
+        var todoEstoque = _livroService.ListarEstoqueDisponivelParaEmprestimo();
+        return Ok(todoEstoque);
     }
     
-    [HttpGet("buscar")]
-    public ActionResult BuscarLivro([FromQuery]string registro)
+    [HttpGet("buscar/{registro}")]
+    public ActionResult BuscarLivro(string registro)
     {
         try
         {
@@ -53,23 +47,12 @@ public class LivroController : Controller
         try
         {
             _livroService.RegrasParaCadastrar(livro);
-            return Ok(Json(_livroService.Cadastrar(livro)));
+            Livro? livroCadastrado = _livroService.Cadastrar(livro);
+            return Ok(livroCadastrado);
         }
         catch (Exception e)
         {
-            switch (e)
-            {
-                // 400 - Requisição não atende requisitos
-                case LivroRegistroNuloException:
-                case LivroAutorNuloException:
-                case LivroTituloNuloException:
-                    return BadRequest(Json(e.Message));
-                // 409 - Conflito de ID
-                case LivroRegistroExistenteException:
-                    return Conflict(Json(e.Message));
-                default:
-                    return StatusCode(500, Json(e.Message));
-            }
+            return NotFound(Json(e.Message));
         }
     }
 
@@ -82,28 +65,9 @@ public class LivroController : Controller
             _livroService.RegrasParaEditar(livro);
             return Ok(Json(_livroService.Editar(livro)));
         }
-        catch (Exception e)
+       catch (Exception e)
         {
-            switch (e)
-            {
-                // 404 - ID não encontrado
-                case LivroRegistroNaoEncontradoException:
-                    return NotFound(Json(e.Message));
-                // 403 - Permissão negada
-                case LivroPendenteException:
-                    return StatusCode(403,Json(e.Message));
-                // 412 - Incompatibilidade de dados
-                case LivroTituloIncompativelException:
-                case LivroAutorIncompativelException:
-                    return StatusCode(412, Json(e.Message));
-                // 400 - Requisição não atende requisitos
-                case LivroRegistroNuloException:
-                case LivroAutorNuloException:
-                case LivroTituloNuloException:
-                    return BadRequest(Json(e.Message));
-                default:
-                    return StatusCode(500, Json(e.Message));
-            }
+            return NotFound(Json(e.Message));
         }
     }
 
@@ -122,24 +86,34 @@ public class LivroController : Controller
         }
         catch (Exception e)
         {
-            switch (e)
-            {
-                // 404 - ID não encontrado
+            return NotFound(Json(e.Message));
+        }
+    }
+
+    private ActionResult HandleException(Exception e, string errorMessage)
+    {
+        switch(e)
+        {
+            // 400 - Requisição não atende requisitos
+            case LivroRegistroNuloException:
+            case LivroAutorNuloException:
+            case LivroTituloNuloException:
+                return StatusCode(400,e.Message);
+            // 403 - Permissão negada'
+            case LivroPendenteException:
+                return StatusCode(403,e.Message);
+            // 404 - ID não encontrado
                 case LivroRegistroNaoEncontradoException:
-                    return NotFound(Json(e.Message));
-
-                // 403 - Permissão negada'
-                case LivroPendenteException:
-                    return StatusCode(403,Json(e.Message));
-
-                // 400 - Requisição não atende requisitos
-                case LivroRegistroNuloException:
-                case LivroAutorNuloException:
-                case LivroTituloNuloException:
-                    return BadRequest(Json(e.Message));
-                default:
-                    return StatusCode(500, Json(e.Message));
-            }
+                    return StatusCode(404,e.Message);
+            // 409 - Conflito de ID
+            case LivroRegistroExistenteException:
+                return StatusCode(409,e.Message);
+            // 412 - Incompatibilidade de dados
+            case LivroTituloIncompativelException:
+            case LivroAutorIncompativelException:
+                return StatusCode(412, e.Message);
+            default:
+                return StatusCode(500, e.Message);               
         }
     }
 }

@@ -16,3 +16,10 @@ CREATE Table t_emprestimo(
     dt_emprestimo DATE
 );
 
+CREATE TABLE t_livro(
+    id_registro VARCHAR(15) PRIMARY KEY,
+    nm_titulo VARCHAR(50),
+    nm_autor VARCHAR(50),
+    nm_editora VARCHAR(20),
+    fl_genero VARCHAR(20)
+)
