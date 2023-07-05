@@ -25,6 +25,9 @@ public class AlunoController : Controller
         try
         {
             Aluno alunoEncotrado = _alunoAtual.BuscarAlunoPorMatricula(matricula)!;
+            if(alunoEncotrado == null){
+                throw new AlunoMatriculaNaoEncontradaException();
+            }
             return Ok(alunoEncotrado);
         }
         catch (Exception e)

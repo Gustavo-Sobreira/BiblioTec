@@ -16,12 +16,12 @@ public class LivroController : Controller
         _livroService = new LivroService(context);
     }
 
-    [HttpGet("estoque")]
-    public ActionResult ListarTodosLivrosEmEstoque()
+    [HttpGet("estoque/{skip}/{take}")]
+    public ActionResult ListarTodosLivrosEmEstoque(int skip, int take)
     {
         try
         {
-            var todoEstoque = _livroService.ListarEstoqueDisponivelParaEmprestimo();
+            var todoEstoque = _livroService.ListarEstoqueDisponivelParaEmprestimo(skip,take);
             return Ok(todoEstoque);
         }
         catch (Exception e)
@@ -66,12 +66,14 @@ public class LivroController : Controller
 
     [HttpPut]
     [Route("editar")]
-    public ActionResult EditarLivroExistente([FromForm] Livro livro)
+    public ActionResult EditarLivroExistente([FromBody] Livro livro)
     {
         try
         {
-            _livroService.RegrasParaEditar(livro);
-            return Ok(Json(_livroService.Editar(livro)));
+            Livro livroFormatado = _livroService.FormatarCampos(livro);
+            _livroService.RegrasParaEditar(livroFormatado);
+            Livro livroEditado = _livroService.Editar(livroFormatado)!;
+            return Ok(livroEditado);
         }
         catch (Exception e)
         {
@@ -79,8 +81,8 @@ public class LivroController : Controller
         }
     }
 
-    [HttpDelete("apagar")]
-    public ActionResult<string> RemoverLivroDaBiblioteca([FromBody] string registro)
+    [HttpDelete("apagar/{registro}")]
+    public ActionResult RemoverLivroDaBiblioteca(string registro)
     {
         try
         {
@@ -90,7 +92,8 @@ public class LivroController : Controller
                 throw new LivroRegistroNaoEncontradoException();
             }
             _livroService.RegrasParaEditar(livro);
-            return Ok(Json(_livroService.Apagar(livro.Registro!)));
+            Livro livroApagado = _livroService.Apagar(livro.Registro!)!;
+            return Ok(livroApagado);
         }
         catch (Exception e)
         {

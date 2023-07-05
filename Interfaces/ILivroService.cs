@@ -18,7 +18,7 @@ public interface ILivroService
     //public void CompararCampos(Livro livroEmVerificacao);
 
 
-    public List<LivroDTO> ListarEstoqueDisponivelParaEmprestimo();
+    public IEnumerable<LivroDTO> ListarEstoqueDisponivelParaEmprestimo(int skip, int take);
     public Livro? BuscarPorRegistro(string registro);
     public void VerificarCampos(Livro livroEmVerificacao);
     public bool VerificarPendenciaLivro(string registro);

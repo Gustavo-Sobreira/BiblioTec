@@ -74,16 +74,14 @@ public class LivroService : ILivroService
     }
     public void RegrasParaEditar(Livro livro)
     {
-
-
         VerificarCampos(livro);
 
-        if (BuscarPorRegistro(livro.Registro) == null)
+        if (BuscarPorRegistro(livro.Registro!) == null)
         {
             throw new LivroRegistroNaoEncontradoException();
         }
 
-        if (VerificarPendenciaLivro(livro.Registro))
+        if (VerificarPendenciaLivro(livro.Registro!))
         {
             throw new LivroPendenteException();
         }
@@ -103,21 +101,8 @@ public class LivroService : ILivroService
             throw new Exception(e.Message);
         }
     }
-    // public void CompararCampos(Livro livroEmVerificacao)
-    // {
-    //     var livroCadastrado = _livroDao.BuscarPorRegistro(livroEmVerificacao.Registro);
-    //     if (livroCadastrado!.Autor != livroEmVerificacao.Autor)
-    //     {
-    //         throw new LivroAutorIncompativelException();
-    //     }
-    //
-    //     if (livroCadastrado.Titulo != livroEmVerificacao.Titulo)
-    //     {
-    //         throw new LivroTituloIncompativelException();
-    //     }
-    // }
 
-    public List<LivroDTO> ListarEstoqueDisponivelParaEmprestimo()
+    public IEnumerable<LivroDTO> ListarEstoqueDisponivelParaEmprestimo(int skip, int take)
     {
         var listaLivrosContados = new List<LivroDTO>();
 
@@ -139,7 +124,8 @@ public class LivroService : ILivroService
 
             i += contador;
         }
-        return listaLivrosContados;
+        var resultado = listaLivrosContados.Skip(skip).Take(take);
+        return resultado;
     }
 
 
