@@ -25,6 +25,9 @@ public class AlunoController : Controller
         try
         {
             Aluno alunoEncotrado = _alunoAtual.BuscarAlunoPorMatricula(matricula)!;
+            if(alunoEncotrado == null){
+                throw new AlunoMatriculaNaoEncontradaException();
+            }
             return Ok(alunoEncotrado);
         }
         catch (Exception e)
@@ -107,29 +110,29 @@ public class AlunoController : Controller
     }
 
     private ActionResult HandleException(Exception e, string errorMessage)
-{
-    if (e is AlunoMatriculaExistenteException)
     {
-        return StatusCode(409,e.Message);
+        if (e is AlunoMatriculaExistenteException)
+        {
+            return StatusCode(409,e.Message);
+        }
+        else if (e is AlunoMatriculaInvalidaException ||
+                e is AlunoNomeInvalidoException ||
+                e is AlunoSalaNuloException ||
+                e is AlunoTurnoIncorretoException)
+        {
+            return StatusCode(400,e.Message);
+        }
+        else if (e is AlunoMatriculaNaoEncontradaException)
+        {
+            return NotFound(e.Message);
+        }
+        else if (e is AlunoPendenteException)
+        {
+            return StatusCode(403, e.Message);
+        }
+        else
+        {
+            return StatusCode(500, e.Message);
+        }
     }
-    else if (e is AlunoMatriculaInvalidaException ||
-            e is AlunoNomeInvalidoException ||
-            e is AlunoSalaNuloException ||
-            e is AlunoTurnoIncorretoException)
-    {
-        return StatusCode(400,e.Message);
-    }
-    else if (e is AlunoMatriculaNaoEncontradaException)
-    {
-        return NotFound(e.Message);
-    }
-    else if (e is AlunoPendenteException)
-    {
-        return StatusCode(403, e.Message);
-    }
-    else
-    {
-        return StatusCode(500, e.Message);
-    }
-}
 }

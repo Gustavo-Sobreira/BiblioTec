@@ -38,22 +38,31 @@ public class LivroDao : ILivroDao
         _context.SaveChanges();
     }
     
-    public List<string> ListarEstoque()
+    public List<Livro> ListarTodosLivrosExistentes(int skip, int take)
     {
-        return _context!.Livros
-            .Where(livro => !_context.Emprestimos
-            .Any(emprestimo => emprestimo.Registro == livro.Registro))
-            .GroupBy(livro => livro.Titulo, livro => livro.Autor)
-            .OrderBy(grupo => grupo.Key)
-            .Select(grupo => $"{grupo.Key} : {grupo.Count()}")
-            .ToList();
+        return _context.Livros
+        .OrderBy(livro => livro.Registro)
+        .Skip(skip)
+        .Take(take)
+        .ToList();
     }
+    
 
-    public List<Livro> ListarEstoqueCompleto()
+    public List<Livro> ListarTodosLivrosDisponiveis()
     {
         return _context.Livros
             .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro))
             .OrderBy(livro => livro.Autor)
             .ToList();
+    }
+
+    public int ContarTotalLivrosIguaisDisponiveis(string autor, string titulo)
+    {
+        return _context.Livros
+            .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro)
+            && _context.Livros.Any(e => e.Autor == autor)
+            && _context.Livros.Any(e => e.Titulo == titulo))
+            .OrderBy(livro => livro.Autor)
+            .ToList().Count();
     }
 }

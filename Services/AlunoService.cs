@@ -1,6 +1,3 @@
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
 using BackBiblioteca.Data;
 using BackBiblioteca.Errors;
 using BackBiblioteca.Interfaces;
@@ -13,22 +10,17 @@ public class AlunoService : IAlunoService
 {
     private readonly AlunoDao _alunoDao;
     private readonly EmprestimoDao _emprestimoDao;
+    private readonly TextosService _textoService;
     public AlunoService(BibliotecContext context)
     {
         _alunoDao = new AlunoDao(context);
         _emprestimoDao = new EmprestimoDao(context);
+        _textoService = new TextosService();
     }
 
     public Aluno? BuscarAlunoPorMatricula(string matricula)
     {
         return _alunoDao.BuscarPorMatricula(matricula);
-    }
-
-//TODO remover este método
-    public bool VerificarMatriculaExiste(string matricula)
-    {
-        var aluno = BuscarAlunoPorMatricula(matricula);
-        return aluno == null ? false : true;
     }
 
     public bool VerificarPendenciaAluno(string matricula)
@@ -37,20 +29,17 @@ public class AlunoService : IAlunoService
         return alunoEstaPendente == null ? false : true;
     }
 
-
-
-
-
-
-    public Aluno FormatarCampos(Aluno aluno)
+    public Aluno FormatarCampos(Aluno alunoSemFormatacao)
     {
-        aluno.Matricula = FormatarTextos(aluno.Matricula!);
-        aluno.Nome = FormatarTextos(aluno.Nome!);
-        aluno.Professor = FormatarTextos(aluno.Professor!);
-        aluno.Sala = FormatarTextos(aluno.Sala!);
-        aluno.Turno = FormatarTextos(aluno.Turno!);
-        aluno.Serie = FormatarTextos(aluno.Serie!);
-        return aluno;
+        Aluno alunoFormatado = new Aluno{
+            Matricula = _textoService.FormatarIds(alunoSemFormatacao.Matricula!),
+            Nome = _textoService.FormatarTextos(alunoSemFormatacao.Nome!),
+            Professor = _textoService.FormatarTextos(alunoSemFormatacao.Professor!),
+            Sala = _textoService.FormatarTextos(alunoSemFormatacao.Sala!),
+            Turno = _textoService.FormatarTextos(alunoSemFormatacao.Turno!),
+            Serie = _textoService.FormatarTextos(alunoSemFormatacao.Serie!)
+        };
+        return alunoFormatado;
     }
 
 
@@ -58,7 +47,7 @@ public class AlunoService : IAlunoService
     {
         VerificarCampos(aluno);
 
-        if (VerificarMatriculaExiste(aluno.Matricula!))
+        if (BuscarAlunoPorMatricula(aluno.Matricula!) == null)
         {
             throw new AlunoMatriculaExistenteException();
         }
@@ -94,7 +83,7 @@ public class AlunoService : IAlunoService
     {
         VerificarCampos(aluno);
 
-        if (!VerificarMatriculaExiste(aluno.Matricula!))
+        if (BuscarAlunoPorMatricula(aluno.Matricula!) == null)
         {
             throw new AlunoMatriculaNaoEncontradaException();
         }
@@ -143,35 +132,11 @@ public class AlunoService : IAlunoService
 
 
    
-    public string FormatarTextos(string campoEmVerificacao)
-    {
-        //Remover Espaços
-        campoEmVerificacao = campoEmVerificacao.Trim();
-        campoEmVerificacao = Regex.Replace(campoEmVerificacao, @"\s+", " ");
-
-        //Remove maiusculas
-        campoEmVerificacao = campoEmVerificacao.ToLower();
-
-        //Remove acentos
-        campoEmVerificacao = Regex.Replace(
-        campoEmVerificacao.Normalize(NormalizationForm.FormD),
-        @"[\p{M}]+",
-        "",
-        RegexOptions.Compiled,
-        TimeSpan.FromSeconds(0.5)
-        );
-
-        //Toda palavra começa com maiúscula
-        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-        TextInfo textInfo = cultureInfo.TextInfo;
-        campoEmVerificacao = textInfo.ToTitleCase(campoEmVerificacao);
-
-        return campoEmVerificacao;
-    }
+    
 
     public void VerificarCampos(Aluno alunoEmVerificacao)
     {
-        int id_matricula = int.Parse(alunoEmVerificacao.Matricula!);
+        long id_matricula = long.Parse(alunoEmVerificacao.Matricula!);
         if (id_matricula <= 0)
         {
             throw new AlunoMatriculaInvalidaException();

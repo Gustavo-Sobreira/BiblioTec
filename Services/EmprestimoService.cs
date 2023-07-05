@@ -49,7 +49,7 @@ public class EmprestimoService
 
     private void VerificarAlunoParaEmprestimo(string matricula)
     {
-        if (!_alunoService.VerificarMatriculaExiste(matricula))
+        if (_alunoService.BuscarAlunoPorMatricula(matricula) == null)
         {
             throw new AlunoMatriculaNaoEncontradaException();
         }
@@ -61,7 +61,7 @@ public class EmprestimoService
     }
     private void VerificarLivroParaEmprestimo(string registro)
     {
-        if (!_livroService.VerificarRegistro(registro))
+        if (_livroService.BuscarPorRegistro(registro) == null)
         {
             throw new LivroRegistroNaoEncontradoException();
         }
@@ -98,7 +98,7 @@ public class EmprestimoService
     }
     private void VerificarAlunoParaDevolucao(string matricula)
     {
-        if (!_alunoService.VerificarMatriculaExiste(matricula))
+        if (_alunoService.BuscarAlunoPorMatricula(matricula) == null)
         {
             throw new AlunoMatriculaNaoEncontradaException();
         }
@@ -110,7 +110,7 @@ public class EmprestimoService
     }
     private void VerificarLivroParaDevolucao(string registro)
     {
-        if (!_livroService.VerificarRegistro(registro))
+        if (_livroService.BuscarPorRegistro(registro) == null)
         {
             throw new LivroRegistroNaoEncontradoException();
         }
