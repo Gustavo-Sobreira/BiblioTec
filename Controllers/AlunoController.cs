@@ -88,8 +88,8 @@ public class AlunoController : Controller
     }
 
     [HttpDelete]
-    [Route("apagar")]
-    public ActionResult RemoverAlunoDosRegistros([FromBody] string matricula)
+    [Route("apagar/{matricula}")]
+    public ActionResult RemoverAlunoDosRegistros(string matricula)
     {
         try
         {
@@ -97,9 +97,8 @@ public class AlunoController : Controller
             if(aluno == null){
                 throw new AlunoMatriculaNaoEncontradaException();
             }
-            
             _alunoAtual.RegrasParaEdicao(aluno);
-            return Ok(Json(_alunoAtual.Apagar(aluno.Matricula!)));
+            return Ok(_alunoAtual.Apagar(aluno.Matricula!));
         }
         catch (Exception e)
         {
