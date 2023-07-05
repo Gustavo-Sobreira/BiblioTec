@@ -9,5 +9,5 @@ public interface ILivroDao
     Livro? BuscarPorRegistro(string registro);
     void Cadastrar(Livro livroParaAdicionar);
     void Editar(Livro livroParaEditar);
-    public List<string> ListarEstoque();
+    public List<Livro> ListarTodosLivrosExistentes(int skip, int take);
 }

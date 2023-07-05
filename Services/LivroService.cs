@@ -106,7 +106,7 @@ public class LivroService : ILivroService
     {
         var listaLivrosContados = new List<LivroDTO>();
 
-        var todosLivrosDisponiveisEmEstoque = _livroDao.ListarEstoqueCompleto();
+        var todosLivrosDisponiveisEmEstoque = _livroDao.ListarTodosLivrosDisponiveis();
         for (int i = 0; i < todosLivrosDisponiveisEmEstoque.Count;)
         {
             int contador = ContarLivrosIguais(i, 0, todosLivrosDisponiveisEmEstoque);
@@ -162,6 +162,11 @@ public class LivroService : ILivroService
     {
         var pendente = _emprestimoDao.BuscarPorRegistro(registro);
         return pendente == null ? false : true;
+    }
+
+    internal List<Livro> BuscarTodosLivros(int skip, int take)
+    {
+        return _livroDao.ListarTodosLivrosExistentes(skip,take);
     }
 }
 
