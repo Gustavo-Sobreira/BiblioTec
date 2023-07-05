@@ -20,7 +20,7 @@ public class EmprestimoService
         _livroService = new LivroService(context);
     }
     
-    public string Emprestar(int registro, int matricula)
+    public string Emprestar(string registro, string matricula)
     {
         var novoEmprestimo = new Emprestimo()
         {
@@ -41,13 +41,13 @@ public class EmprestimoService
             throw;
         }
     }
-    public void RegrasParaEmprestar(int registro, int matricula)
+    public void RegrasParaEmprestar(string registro, string matricula)
     {
         VerificarAlunoParaEmprestimo(matricula);
         VerificarLivroParaEmprestimo(registro);
     }
 
-    private void VerificarAlunoParaEmprestimo(int matricula)
+    private void VerificarAlunoParaEmprestimo(string matricula)
     {
         if (!_alunoService.VerificarMatriculaExiste(matricula))
         {
@@ -59,7 +59,7 @@ public class EmprestimoService
             throw new AlunoPendenteException();
         }
     }
-    private void VerificarLivroParaEmprestimo(int registro)
+    private void VerificarLivroParaEmprestimo(string registro)
     {
         if (!_livroService.VerificarRegistro(registro))
         {
@@ -73,7 +73,7 @@ public class EmprestimoService
     }
     
     
-    public string Devolver(int registro)
+    public string Devolver(string registro)
     {
         try
         {
@@ -85,7 +85,7 @@ public class EmprestimoService
             throw new Exception(e.Message);
         }
     }
-    public void RegrasParaDevolver(int registro, int matricula)
+    public void RegrasParaDevolver(string registro, string matricula)
     {
         VerificarAlunoParaDevolucao(matricula);
         VerificarLivroParaDevolucao(registro);
@@ -96,7 +96,7 @@ public class EmprestimoService
             throw new LivroAutorIncompativelException();
         }
     }
-    private void VerificarAlunoParaDevolucao(int matricula)
+    private void VerificarAlunoParaDevolucao(string matricula)
     {
         if (!_alunoService.VerificarMatriculaExiste(matricula))
         {
@@ -108,7 +108,7 @@ public class EmprestimoService
             throw new AlunoNaoPendenteException();
         }
     }
-    private void VerificarLivroParaDevolucao(int registro)
+    private void VerificarLivroParaDevolucao(string registro)
     {
         if (!_livroService.VerificarRegistro(registro))
         {
@@ -121,65 +121,45 @@ public class EmprestimoService
         }
     }
 
-    // public List<Object> ListarPendentes(int sala, int turno, int dias)
+    // public List<Object> ListarPendentes(string sala, string turno, int dias)
     // {
+    
+        
     //     var todosEmprestimos = _emprestimoDao.ListarPendentes();
     //     var todosPendentes = new List<Object>();
-    //
+    
     //     foreach (var emprestimo in todosEmprestimos)
     //     {
     //         var aluno = _alunoService.BuscarAlunoPorMatricula(emprestimo.Matricula);
+        
+    //         if (sala > 0 && aluno!.Sala != sala)
+    //         {
+    //             continue; // pula para a próxima iteração se a sala não corresponder
+    //         }
+
+    //         if (turno > 0 && aluno!.Turno != turno.ToString())
+    //         {
+    //             continue; // pula para a próxima iteração se o turno não corresponder
+    //         }
+        
+    //         if (dias > 0 && (DateTime.UtcNow - emprestimo.DataEmprestimo).TotalDays > dias)
+    //         {
+    //             continue; // pula para a próxima iteração se o empréstimo for mais antigo que o período especificado
+    //         }
+        
     //         var pendente = new { 
     //             Registro = emprestimo.Registro, 
     //             Matricula = emprestimo.Matricula, 
-    //             Nome = aluno.Nome,
+    //             Nome = aluno!.Nome,
     //             Sala = aluno.Sala,
     //             Turno = aluno.Turno,
     //             DataEmprestimo = emprestimo.DataEmprestimo.ToString("dd-MM-yyyy")
     //         };
+        
     //         todosPendentes.Add(pendente);
     //     }
+    
     //     return todosPendentes;
     // }
-    public List<Object> ListarPendentes(int sala, int turno, int dias)
-    {
-    
-        
-        var todosEmprestimos = _emprestimoDao.ListarPendentes();
-        var todosPendentes = new List<Object>();
-    
-        foreach (var emprestimo in todosEmprestimos)
-        {
-            var aluno = _alunoService.BuscarAlunoPorMatricula(emprestimo.Matricula);
-        
-            if (sala > 0 && aluno!.Sala != sala)
-            {
-                continue; // pula para a próxima iteração se a sala não corresponder
-            }
-
-            if (turno > 0 && aluno!.Turno != turno.ToString())
-            {
-                continue; // pula para a próxima iteração se o turno não corresponder
-            }
-        
-            if (dias > 0 && (DateTime.UtcNow - emprestimo.DataEmprestimo).TotalDays > dias)
-            {
-                continue; // pula para a próxima iteração se o empréstimo for mais antigo que o período especificado
-            }
-        
-            var pendente = new { 
-                Registro = emprestimo.Registro, 
-                Matricula = emprestimo.Matricula, 
-                Nome = aluno!.Nome,
-                Sala = aluno.Sala,
-                Turno = aluno.Turno,
-                DataEmprestimo = emprestimo.DataEmprestimo.ToString("dd-MM-yyyy")
-            };
-        
-            todosPendentes.Add(pendente);
-        }
-    
-        return todosPendentes;
-    }
 }
 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/sobreira/Code/BiblioTec/BiblioTec.csproj": {}
+    "/home/sobreira/Codes/BiblioTec/BiblioTec.csproj": {}
   },
   "projects": {
-    "/home/sobreira/Code/BiblioTec/BiblioTec.csproj": {
+    "/home/sobreira/Codes/BiblioTec/BiblioTec.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/sobreira/Code/BiblioTec/BiblioTec.csproj",
+        "projectUniqueName": "/home/sobreira/Codes/BiblioTec/BiblioTec.csproj",
         "projectName": "BiblioTec",
-        "projectPath": "/home/sobreira/Code/BiblioTec/BiblioTec.csproj",
+        "projectPath": "/home/sobreira/Codes/BiblioTec/BiblioTec.csproj",
         "packagesPath": "/home/sobreira/.nuget/packages/",
-        "outputPath": "/home/sobreira/Code/BiblioTec/obj/",
+        "outputPath": "/home/sobreira/Codes/BiblioTec/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/sobreira/.nuget/NuGet/NuGet.Config"
@@ -42,9 +42,13 @@
               "target": "Package",
               "version": "[7.0.3, )"
             },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+            "MySql.Data": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[8.0.33, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.2, )"
             },
             "Spring.Core": {
               "target": "Package",
@@ -61,7 +65,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -73,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/6.0.113/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/sobreira/.dotnet/sdk/6.0.411/RuntimeIdentifierGraph.json"
         }
       }
     }

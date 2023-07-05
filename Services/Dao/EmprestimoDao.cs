@@ -7,7 +7,7 @@ namespace BackBiblioteca.Services.Dao;
 public class EmprestimoDao : IEmprestimoDao
 {
     private readonly BibliotecContext _context;
-       
+    
     public EmprestimoDao(BibliotecContext context)
     {
         _context = context;
@@ -15,33 +15,33 @@ public class EmprestimoDao : IEmprestimoDao
     
     public void Cadastrar(Emprestimo novoEmprestimo)
     {
-       _context.Emprestimos.Add(novoEmprestimo);
-       _context.SaveChanges();
+        _context.Emprestimos.Add(novoEmprestimo);
+        _context.SaveChanges();
     }
 
-    public Emprestimo? BuscarPorMatricula(int matricula)
+    public Emprestimo? BuscarPorMatricula(string matricula)
     {
         return _context.Emprestimos.FirstOrDefault(emprestimo => emprestimo.Matricula == matricula);
     }
     
-    public Emprestimo? BuscarPorRegistro(int registro)
+    public Emprestimo? BuscarPorRegistro(string registro)
     {
         return _context.Emprestimos.FirstOrDefault(emprestimo => emprestimo.Registro == registro);
     }
 
-    public int BuscarUltimoId()
+    public string BuscarUltimoId()
     {
         int ultimoId = _context.Emprestimos
             .Select(emprestimo => emprestimo.IdEmprestimo).Max();
-        return ultimoId;
+        return ultimoId.ToString();
     }
     
-    public void Editar(int matricula, int registro)
+    public void Editar(string matricula, string registro)
     {
         throw new NotImplementedException();
     }
 
-    public void Apagar(int registro)
+    public void Apagar(string registro)
     {
         _context.Emprestimos.Remove(BuscarPorRegistro(registro)!);
         _context.SaveChanges();

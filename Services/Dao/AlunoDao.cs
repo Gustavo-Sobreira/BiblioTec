@@ -24,16 +24,21 @@ public class AlunoDao : IAlunoDao
         _context.Alunos.Add(alunoParaAdicionar);
         _context.SaveChanges();
     }
-    public Aluno? BuscarPorMatricula(int matricula)
+    public Aluno? BuscarPorMatricula(string matricula)
     {
         return _context.Alunos.Find(matricula);
     }
     
     public void Editar(Aluno alunoParaEditar)
     {
-        _context.Alunos.Remove(BuscarPorMatricula(alunoParaEditar.Matricula)!);
+        _context.Alunos.Remove(BuscarPorMatricula(alunoParaEditar.Matricula!)!);
         _context.Alunos.Add(alunoParaEditar);
         _context.SaveChanges();
     }
-    
+
+    public List<Aluno> BuscarTodosAlunos(int skip, int take)
+    {
+        return _context.Alunos.OrderBy(alunos => alunos.Matricula).Skip(skip).Take(take).ToList();
+    }
+
 }

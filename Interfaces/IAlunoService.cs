@@ -4,18 +4,19 @@ namespace BackBiblioteca.Interfaces;
 
 public interface IAlunoService
 {
-    public Aluno? BuscarAlunoPorMatricula(int matricula);
+    public Aluno? BuscarAlunoPorMatricula(string matricula);
     
     
-    public Aluno? Cadastrar(Aluno alunoParaAdicionar);
+    public void Cadastrar(Aluno alunoParaAdicionar);
     public void RegrasParaCadastro(Aluno aluno);
+    
 
 
     public Aluno? Editar(Aluno alunoParaEditar);
     public void RegrasParaEdicao(Aluno aluno);
 
 
-    public Aluno? Apagar(int matricula);
+    public Aluno? Apagar(string matricula);
     //public void CompararDadosDeAluno(Aluno alunoEmVerificacao);
     
 
@@ -23,7 +24,7 @@ public interface IAlunoService
 
     
     public void VerificarCampos(Aluno alunoEmVerificacao);
-    public bool VerificarMatriculaExiste(int matricula);
-    public bool VerificarPendenciaAluno(int matricula);
+    public bool VerificarMatriculaExiste(string matricula);
+    public bool VerificarPendenciaAluno(string matricula);
 
 }
