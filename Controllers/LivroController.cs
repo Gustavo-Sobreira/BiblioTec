@@ -19,8 +19,15 @@ public class LivroController : Controller
     [HttpGet("estoque")]
     public ActionResult ListarTodosLivrosEmEstoque()
     {
-        var todoEstoque = _livroService.ListarEstoqueDisponivelParaEmprestimo();
-        return Ok(todoEstoque);
+        try
+        {
+            var todoEstoque = _livroService.ListarEstoqueDisponivelParaEmprestimo();
+            return Ok(todoEstoque);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e,e.Message);
+        }
     }
     
     [HttpGet("buscar/{registro}")]
@@ -33,26 +40,27 @@ public class LivroController : Controller
             {
                 throw new LivroRegistroNaoEncontradoException();
             }
-            return Ok(Json(livro));
+            return Ok(livro);
         }
         catch (Exception e)
         {
-            return NotFound(Json(e.Message));
+            return HandleException(e,e.Message);
         }
     }
 
     [HttpPost("cadastro")]
-    public ActionResult CadastrarNovoLivro([FromForm] Livro livro)
+    public ActionResult CadastrarNovoLivro([FromBody] Livro livro)
     {
         try
         {
-            _livroService.RegrasParaCadastrar(livro);
-            Livro? livroCadastrado = _livroService.Cadastrar(livro);
+            Livro livroFormatado = _livroService.FormatarCampos(livro);
+            _livroService.RegrasParaCadastrar(livroFormatado);
+            Livro livroCadastrado = _livroService.Cadastrar(livroFormatado);
             return Ok(livroCadastrado);
         }
         catch (Exception e)
         {
-            return NotFound(Json(e.Message));
+            return HandleException(e,e.Message);
         }
     }
 
@@ -65,9 +73,9 @@ public class LivroController : Controller
             _livroService.RegrasParaEditar(livro);
             return Ok(Json(_livroService.Editar(livro)));
         }
-       catch (Exception e)
+        catch (Exception e)
         {
-            return NotFound(Json(e.Message));
+            return HandleException(e,e.Message);
         }
     }
 
@@ -86,7 +94,7 @@ public class LivroController : Controller
         }
         catch (Exception e)
         {
-            return NotFound(Json(e.Message));
+            return HandleException(e,e.Message);
         }
     }
 

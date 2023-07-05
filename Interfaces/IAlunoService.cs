@@ -19,12 +19,8 @@ public interface IAlunoService
     public Aluno? Apagar(string matricula);
     //public void CompararDadosDeAluno(Aluno alunoEmVerificacao);
     
-
-    public string FormatarTextos(string campoEmVerificacao);
-
     
     public void VerificarCampos(Aluno alunoEmVerificacao);
-    public bool VerificarMatriculaExiste(string matricula);
     public bool VerificarPendenciaAluno(string matricula);
 
 }

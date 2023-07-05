@@ -20,7 +20,6 @@ public interface ILivroService
 
     public List<LivroDTO> ListarEstoqueDisponivelParaEmprestimo();
     public Livro? BuscarPorRegistro(string registro);
-    public bool VerificarRegistro(string registro);
     public void VerificarCampos(Livro livroEmVerificacao);
     public bool VerificarPendenciaLivro(string registro);
 }
