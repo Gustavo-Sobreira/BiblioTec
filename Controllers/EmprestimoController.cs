@@ -1,9 +1,12 @@
 using BackBiblioteca.Data;
-using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
 using BackBiblioteca.Services;
 using BackBiblioteca.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
+using static BackBiblioteca.Errors.Aluno.MatriculaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.PendenciaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Livro.PendenteErros;
+using static BackBiblioteca.Errors.Livro.RegistroErros;
 
 namespace BackBiblioteca.Controllers;
 
@@ -69,14 +72,12 @@ public class EmprestimoController : Controller
             { 
                 case AlunoMatriculaNaoEncontradaException:
                 case LivroRegistroNaoEncontradoException:
-                    return NotFound(Json(e.Message ));
+                    return NotFound(e.Message );
                 case AlunoPendenteException:
                 case LivroPendenteException:
-                    return StatusCode(403,Json(e.Message));
+                    return StatusCode(403, e.Message);
                 default:
-                    return StatusCode(500, Json(e.Message));
+                    return StatusCode(500, e.Message);
             }
     }
 }
-
-

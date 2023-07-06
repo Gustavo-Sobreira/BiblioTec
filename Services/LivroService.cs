@@ -1,12 +1,12 @@
 using BackBiblioteca.Data;
-using BackBiblioteca.Errors;
-using BackBiblioteca.Respostas;
 using BackBiblioteca.Models;
-using BackBiblioteca.Interfaces;
 using BackBiblioteca.Services.Dao;
-using BackBiblioteca.stringerfaces;
+using BackBiblioteca.Interface;
 using BackBiblioteca.Services.DTO;
-using static BackBiblioteca.Errors.LivroErrors;
+using static BackBiblioteca.Errors.Livro.PendenteErros;
+using static BackBiblioteca.Errors.Livro.RegistroErros;
+using static BackBiblioteca.Errors.Livro.TituloErros;
+
 
 namespace BackBiblioteca.Services;
 

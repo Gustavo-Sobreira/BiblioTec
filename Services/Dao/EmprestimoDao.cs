@@ -1,5 +1,5 @@
 using BackBiblioteca.Data;
-using BackBiblioteca.Interfaces;
+using BackBiblioteca.Interface;
 using BackBiblioteca.Models;
 
 namespace BackBiblioteca.Services.Dao;

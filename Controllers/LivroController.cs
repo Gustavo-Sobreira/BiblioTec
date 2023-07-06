@@ -1,10 +1,10 @@
 using BackBiblioteca.Data;
-using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
 using BackBiblioteca.Services;
-using BackBiblioteca.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
-using static BackBiblioteca.Errors.LivroErrors;
+using static BackBiblioteca.Errors.Livro.PendenteErros;
+using static BackBiblioteca.Errors.Livro.RegistroErros;
+using static BackBiblioteca.Errors.Livro.TituloErros;
 
 namespace BackBiblioteca.Controllers;
 
@@ -139,8 +139,6 @@ public class LivroController : Controller
         {
             // 400 - Requisição não atende requisitos
             case LivroRegistroNuloException:
-            case LivroAutorNuloException:
-            case LivroTituloNuloException:
                 return StatusCode(400, e.Message);
             // 403 - Permissão negada'
             case LivroPendenteException:
@@ -152,10 +150,6 @@ public class LivroController : Controller
             // 409 - Conflito de ID
             case LivroRegistroExistenteException:
                 return StatusCode(409, e.Message);
-            // 412 - Incompatibilidade de dados
-            case LivroTituloIncompativelException:
-            case LivroAutorIncompativelException:
-                return StatusCode(412, e.Message);
             default:
                 return StatusCode(500, e.Message);
         }

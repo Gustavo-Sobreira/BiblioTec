@@ -1,6 +1,6 @@
 using BackBiblioteca.Models;
 
-namespace BackBiblioteca.Interfaces;
+namespace BackBiblioteca.Interface;
 
 public interface IAlunoService
 {

@@ -1,8 +1,6 @@
 using BackBiblioteca.Data;
-using BackBiblioteca.Interfaces;
+using BackBiblioteca.Interface;
 using BackBiblioteca.Models;
-using BackBiblioteca.Respostas;
-using BackBiblioteca.Services.DTO;
 
 namespace BackBiblioteca.Services.Dao;
 

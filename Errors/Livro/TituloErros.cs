@@ -1,5 +1,6 @@
-namespace BackBiblioteca.Errors;
-public class LivroErrors
+
+namespace BackBiblioteca.Errors.Livro;
+public class TituloErros
 {
     public class  LivroTituloNaoEncontradoException: Exception
     {
@@ -7,4 +8,5 @@ public class LivroErrors
         {
         }
     }
+
 }

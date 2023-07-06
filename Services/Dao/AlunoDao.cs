@@ -1,6 +1,6 @@
 using BackBiblioteca.Data;
 using BackBiblioteca.Models;
-using BackBiblioteca.Interfaces;
+using BackBiblioteca.Interface;
 
 namespace BackBiblioteca.Services.Dao;
 

@@ -1,9 +1,10 @@
-using System.Text.Json.Serialization;
 using BackBiblioteca.Data;
-using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
-using BackBiblioteca.Respostas;
 using BackBiblioteca.Services.Dao;
+using static BackBiblioteca.Errors.Aluno.MatriculaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.PendenciaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Livro.PendenteErros;
+using static BackBiblioteca.Errors.Livro.RegistroErros;
 
 namespace BackBiblioteca.Services;
 
@@ -91,7 +92,7 @@ public class EmprestimoService
         var devolucaoCorreta = _emprestimoDao.BuscarPorRegistro(registro);
         if (devolucaoCorreta!.Matricula != matricula)
         {
-            throw new LivroAutorIncompativelException();
+            throw new LivroComDevolucaoIncompativel();
         }
     }
     private void VerificarAlunoParaDevolucao(string matricula)

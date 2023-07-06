@@ -1,8 +1,11 @@
 using BackBiblioteca.Data;
-using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
 using BackBiblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
+using static BackBiblioteca.Errors.Aluno.MatriculaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.PendenciaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.SalaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.TurnoErros.LivroTituloNaoEncontradoException;
 
 namespace BackBiblioteca.Controllers;
 
@@ -117,7 +120,6 @@ public class AlunoController : Controller
             return StatusCode(409,e.Message);
         }
         else if (e is AlunoMatriculaInvalidaException ||
-                e is AlunoNomeInvalidoException ||
                 e is AlunoSalaNuloException ||
                 e is AlunoTurnoIncorretoException)
         {

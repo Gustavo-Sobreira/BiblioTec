@@ -2,7 +2,7 @@
 using BackBiblioteca.Models;
 using BackBiblioteca.Services.DTO;
 
-namespace BackBiblioteca.stringerfaces;
+namespace BackBiblioteca.Interface;
 
 public interface ILivroService
 {

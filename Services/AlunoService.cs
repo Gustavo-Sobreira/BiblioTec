@@ -1,8 +1,12 @@
 using BackBiblioteca.Data;
-using BackBiblioteca.Errors;
-using BackBiblioteca.Interfaces;
+using BackBiblioteca.Interface;
 using BackBiblioteca.Models;
 using BackBiblioteca.Services.Dao;
+using static BackBiblioteca.Errors.Aluno.MatriculaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.PendenciaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.SalaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.SerieErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.TurnoErros.LivroTituloNaoEncontradoException;
 
 namespace BackBiblioteca.Services;
 
@@ -42,7 +46,6 @@ public class AlunoService : IAlunoService
         return alunoFormatado;
     }
 
-
     public void RegrasParaCadastro(Aluno aluno)
     {
         VerificarCampos(aluno);
@@ -64,8 +67,6 @@ public class AlunoService : IAlunoService
             throw new Exception(e.Message);
         }
     }
-
-
 
     public Aluno? Editar(Aluno alunoParaEditar)
     {
@@ -108,31 +109,6 @@ public class AlunoService : IAlunoService
             throw new Exception(e.Message);
         }
     }
-    // public void CompararDadosDeAluno(Aluno alunoEmVerificacao)
-    // {
-    //     var alunoCadastrado = BuscarAlunoPorMatricula(alunoEmVerificacao.Matricula);
-    //     if (alunoCadastrado != alunoEmVerificacao)
-    //     {
-    //         if (alunoCadastrado?.Nome != alunoEmVerificacao.Nome)
-    //         {
-    //             throw new AlunoNomeIncompativelException();
-    //         }
-    //
-    //         if (alunoCadastrado?.Sala != alunoEmVerificacao.Sala)
-    //         {
-    //             throw new AlunoSalaIncompativelException();
-    //         }
-    //
-    //         if (alunoCadastrado.Turno != alunoEmVerificacao.Turno)
-    //         {
-    //             throw new AlunoTurnoIncompativelException();
-    //         }
-    //     }
-    // }
-
-
-   
-    
 
     public void VerificarCampos(Aluno alunoEmVerificacao)
     {
