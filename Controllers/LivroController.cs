@@ -2,7 +2,9 @@ using BackBiblioteca.Data;
 using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
 using BackBiblioteca.Services;
+using BackBiblioteca.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
+using static BackBiblioteca.Errors.LivroErrors;
 
 namespace BackBiblioteca.Controllers;
 
@@ -11,9 +13,11 @@ namespace BackBiblioteca.Controllers;
 public class LivroController : Controller
 {
     private readonly LivroService _livroService;
+    private readonly TextosService _textoService;
     public LivroController(BibliotecContext context)
     {
         _livroService = new LivroService(context);
+        _textoService = new TextosService();
     }
 
     [HttpGet("estoque/{skip}/{take}")]
@@ -54,6 +58,20 @@ public class LivroController : Controller
         try{
             List<Livro> lisvrosExistentes = _livroService.BuscarTodosLivros(skip,take);
             return Ok(lisvrosExistentes);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e, e.Message);
+        }
+    }
+
+    [HttpGet("localizar/{titulo}")]
+    public ActionResult LocalizarLivroPeloTitulo(string titulo){
+        try
+        {
+            string tituloFormatado = _textoService.FormatarTextos(titulo);
+            List<string> localizacao = _livroService.LocalizarLivroPeloTitulo(tituloFormatado)!;
+            return Ok(localizacao);
         }
         catch (Exception e)
         {
@@ -127,7 +145,8 @@ public class LivroController : Controller
             // 403 - Permissão negada'
             case LivroPendenteException:
                 return StatusCode(403, e.Message);
-            // 404 - ID não encontrado
+            // 404 - Não encontrado
+            case LivroTituloNaoEncontradoException:
             case LivroRegistroNaoEncontradoException:
                 return StatusCode(404, e.Message);
             // 409 - Conflito de ID

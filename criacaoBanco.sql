@@ -21,5 +21,6 @@ CREATE TABLE t_livro(
     nm_titulo VARCHAR(50),
     nm_autor VARCHAR(50),
     nm_editora VARCHAR(20),
-    fl_genero VARCHAR(20)
+    fl_genero VARCHAR(20),
+    nm_prateleira VARCHAR(10)
 )

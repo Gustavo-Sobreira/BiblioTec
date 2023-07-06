@@ -6,6 +6,7 @@ using BackBiblioteca.Interfaces;
 using BackBiblioteca.Services.Dao;
 using BackBiblioteca.stringerfaces;
 using BackBiblioteca.Services.DTO;
+using static BackBiblioteca.Errors.LivroErrors;
 
 namespace BackBiblioteca.Services;
 
@@ -39,11 +40,12 @@ public class LivroService : ILivroService
     {
         Livro livroFormatado = new Livro
         {
-            Registro = _textoService.FormatarIds(livroSemFormatacao.Registro),
+            Registro = _textoService.FormatarIds(livroSemFormatacao.Registro!),
             Autor = _textoService.FormatarTextos(livroSemFormatacao.Autor!),
             Titulo = _textoService.FormatarTextos(livroSemFormatacao.Titulo!),
             Editora = _textoService.FormatarTextos(livroSemFormatacao.Editora!),
-            Genero = _textoService.FormatarTextos(livroSemFormatacao.Genero!)
+            Genero = _textoService.FormatarTextos(livroSemFormatacao.Genero!),
+            Prateleira = _textoService.FormatarTextos(livroSemFormatacao.Prateleira!)
         };
         return livroFormatado;
     }
@@ -166,7 +168,18 @@ public class LivroService : ILivroService
 
     internal List<Livro> BuscarTodosLivros(int skip, int take)
     {
-        return _livroDao.ListarTodosLivrosExistentes(skip,take);
+        return _livroDao.ListarTodosLivrosExistentes(skip, take);
+    }
+
+    internal List<string>? LocalizarLivroPeloTitulo(string titulo)
+    {
+        List<string> prateleiras = _livroDao.LocalizarLivroDisponiveisPeloTitulo(titulo)!;
+        if (prateleiras.Count == 0)
+        {
+            throw new LivroTituloNaoEncontradoException();
+        }
+        
+        return prateleiras;    
     }
 }
 

@@ -47,11 +47,13 @@ public class EmprestimoDao : IEmprestimoDao
         _context.SaveChanges();
     }
 
-    public List<Emprestimo> ListarPendentes()
+    public List<Emprestimo> ListarPendentes(int tempo, int skip, int take)
     {
         return _context.Emprestimos
-            .Where(emprestimo => emprestimo.IdEmprestimo >= 0 && (DateTime.UtcNow - emprestimo.DataEmprestimo).TotalDays > 7)
+            .Where(emprestimo => (DateTime.UtcNow - emprestimo.DataEmprestimo).TotalDays > tempo)
             .OrderBy(emprestimo => emprestimo.DataEmprestimo)
+            .Skip(skip)
+            .Take(take)
             .ToList();
     }
 }
