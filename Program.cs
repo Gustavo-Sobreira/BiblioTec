@@ -8,10 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 //Banco
 var connectionString = builder.Configuration.GetConnectionString("BibliotecaConnection");
 builder.Services.AddDbContext<BibliotecContext>(options =>
-    options.UseMySQL(builder.Configuration.GetConnectionString("BibliotecaConnection")));
+    options.UseMySQL(builder.Configuration.GetConnectionString("BibliotecaConnection")!));
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

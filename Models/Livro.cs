@@ -30,7 +30,12 @@ public class Livro
     public string? Editora{ get; set; }
 
     [Column("fl_genero")]
-    [Required(ErrorMessage = "[ ERRO ] - O gênnero do livro é obrigatório.")]
+    [Required(ErrorMessage = "[ ERRO ] - O gênero do livro é obrigatório.")]
     [MaxLength(20,ErrorMessage = "[ ERRO ] - O gênero do livro pode conter até 20 caracteres.")]
     public string? Genero { get; set; }
+
+    [Column("nm_prateleira")]
+    [Required(ErrorMessage = "[ ERRO ] - A prateleira é obrigatória. ")]
+    [MaxLength(10,ErrorMessage = "[ ERRO ] - A sigla da prateleira deve conter até 10 caracteres.")]
+    public string? Prateleira { get; set; }
 }

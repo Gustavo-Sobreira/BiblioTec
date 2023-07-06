@@ -1,7 +1,6 @@
 using BackBiblioteca.Data;
 using BackBiblioteca.Errors;
 using BackBiblioteca.Models;
-using BackBiblioteca.Respostas;
 using BackBiblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +11,6 @@ namespace BackBiblioteca.Controllers;
 public class AlunoController : Controller
 {
     private readonly AlunoService _alunoAtual;
-
     public AlunoController(BibliotecContext context)
     {
         _alunoAtual = new AlunoService(context);
@@ -74,12 +72,15 @@ public class AlunoController : Controller
         try
         {
             Aluno alunoFormatado = _alunoAtual.FormatarCampos(aluno);
-            _alunoAtual.RegrasParaEdicao(alunoFormatado);
-            
-            Aluno dadosAntigos =_alunoAtual.BuscarAlunoPorMatricula(aluno
-            .Matricula);
 
-            Aluno alunoEditado = _alunoAtual.Editar(alunoFormatado);
+            Aluno dadosAntigos =_alunoAtual.BuscarAlunoPorMatricula(aluno
+            .Matricula!)!;
+            if(dadosAntigos == null){
+                throw new AlunoMatriculaNaoEncontradaException();
+            }
+
+            _alunoAtual.RegrasParaEdicao(alunoFormatado);
+            Aluno alunoEditado = _alunoAtual.Editar(alunoFormatado)!;
 
             List<Aluno> comparacao = new List<Aluno>{dadosAntigos,alunoEditado};
             return Ok(comparacao);

@@ -1,36 +1,71 @@
 using BackBiblioteca.Data;
 using BackBiblioteca.Errors;
+using BackBiblioteca.Models;
 using BackBiblioteca.Services;
-using BackBiblioteca.Services.Dao;
+using BackBiblioteca.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackBiblioteca.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("emprestimo")]
 public class EmprestimoController : Controller
 {
-    private readonly EmprestimoDao _emprestimoDao;
     private readonly EmprestimoService _emprestimoService;
 
     public EmprestimoController(BibliotecContext context)
     {
-        _emprestimoDao = new EmprestimoDao(context);
         _emprestimoService = new EmprestimoService(context);
     }
     
 
-    [HttpPost("emprestar")]
-    public ActionResult RealizarEmprestimo([FromQuery] string registro, [FromQuery] string matricula)
+    [HttpPost("novo")]
+    public ActionResult RealizarEmprestimo([FromBody] EmprestimoDTO dadosEmprestimos)
     {
         try
         {
-            _emprestimoService.RegrasParaEmprestar(registro,matricula);
-            return Ok(Json(_emprestimoService.Emprestar(registro, matricula)));
+            _emprestimoService.RegrasParaEmprestar(dadosEmprestimos.Registro!, dadosEmprestimos.Matricula!);
+            _emprestimoService.Emprestar(dadosEmprestimos.Registro!, dadosEmprestimos.Matricula!);
+            return Ok();
         }
         catch (Exception e)
         {
-            switch (e)
+            return HandleException(e,e.Message);
+        }
+    }
+    
+    [HttpDelete("devolver")]
+    public ActionResult RealizarDevolucaoDeUmLivro([FromBody] EmprestimoDTO dadosEmprestimos)
+    {
+        try
+        {
+            _emprestimoService.RegrasParaDevolver(dadosEmprestimos.Registro!, dadosEmprestimos.Matricula!);
+            _emprestimoService.Devolver(dadosEmprestimos.Registro!);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return HandleException(e,e.Message);
+        }
+    }
+
+    [HttpGet("pendentes/{tempo}/{skip}/{take}")]
+    public ActionResult ListarPendentes(int tempo, int skip, int take)
+    {
+        try
+        {
+            List<Emprestimo> pendentes = _emprestimoService.ListarPendentes(tempo, skip, take);
+            return Ok(pendentes);            
+        }
+        catch (Exception e)
+        {
+            return HandleException(e,e.Message);
+        }
+    }
+
+    private ActionResult HandleException(Exception e, string errorMessage)
+    {
+        switch (e)
             { 
                 case AlunoMatriculaNaoEncontradaException:
                 case LivroRegistroNaoEncontradoException:
@@ -41,28 +76,7 @@ public class EmprestimoController : Controller
                 default:
                     return StatusCode(500, Json(e.Message));
             }
-        }
     }
-    
-    [HttpDelete("devolver")]
-    public ActionResult RealizarDevolucaoDeUmLivro([FromQuery] string registro, [FromQuery] string matricula)
-    {
-        try
-        {
-            _emprestimoService.RegrasParaDevolver(registro,matricula);
-            return Ok(Json(_emprestimoService.Devolver(registro)));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(Json(e.Message));
-        }
-    }
-
-    // [HttpGet("pendentes")]
-    // public ActionResult ListarTodosPendentes([FromQuery] string sala, string turno, int dias)
-    // {
-    //     return Ok(Json(_emprestimoService.ListarPendentes(sala, turno, dias)));
-    // }
 }
 
 

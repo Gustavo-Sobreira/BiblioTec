@@ -2,6 +2,7 @@ using BackBiblioteca.Data;
 using BackBiblioteca.Interfaces;
 using BackBiblioteca.Models;
 using BackBiblioteca.Respostas;
+using BackBiblioteca.Services.DTO;
 
 namespace BackBiblioteca.Services.Dao;
 
@@ -33,7 +34,7 @@ public class LivroDao : ILivroDao
 
     public void Editar(Livro livroParaEditar)
     {
-        _context.Livros.Remove(BuscarPorRegistro(livroParaEditar.Registro)!);
+        _context.Livros.Remove(BuscarPorRegistro(livroParaEditar.Registro!)!);
         _context.Livros.Add(livroParaEditar);
         _context.SaveChanges();
     }
@@ -64,5 +65,14 @@ public class LivroDao : ILivroDao
             && _context.Livros.Any(e => e.Titulo == titulo))
             .OrderBy(livro => livro.Autor)
             .ToList().Count();
+    }
+
+    internal List<string?> LocalizarLivroDisponiveisPeloTitulo(string titulo)
+    {
+        return _context.Livros
+        .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro) 
+        && l.Titulo == titulo)
+        .Select( livro => livro.Prateleira)
+        .ToList();
     }
 }
