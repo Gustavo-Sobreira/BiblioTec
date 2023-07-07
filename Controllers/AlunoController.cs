@@ -3,6 +3,7 @@ using BackBiblioteca.Models;
 using BackBiblioteca.Services;
 using Microsoft.AspNetCore.Mvc;
 using static BackBiblioteca.Errors.Aluno.MatriculaErros.LivroTituloNaoEncontradoException;
+using static BackBiblioteca.Errors.Aluno.NomeErros.AlunoNomeException;
 using static BackBiblioteca.Errors.Aluno.PendenciaErros.LivroTituloNaoEncontradoException;
 using static BackBiblioteca.Errors.Aluno.SalaErros.LivroTituloNaoEncontradoException;
 using static BackBiblioteca.Errors.Aluno.TurnoErros.LivroTituloNaoEncontradoException;
@@ -14,14 +15,18 @@ namespace BackBiblioteca.Controllers;
 public class AlunoController : Controller
 {
     private readonly AlunoService _alunoAtual;
+    private readonly TextosService _formatarTextos;
+
     public AlunoController(BibliotecContext context)
     {
         _alunoAtual = new AlunoService(context);
+        _formatarTextos = new TextosService();
+
     }
     
     [HttpGet]
     [Route("buscar/{matricula}")]
-    public ActionResult ProcurarAluno(string matricula)
+    public ActionResult ProcurarAlunoPelaMatricula(string matricula)
     {
         try
         {
@@ -37,9 +42,28 @@ public class AlunoController : Controller
         }
     }
 
+    [HttpGet("buscar/aluno/{nome}")]
+    public ActionResult ProcurarAlunoPeloNome(string nome)
+    {
+        try
+        {
+            string nomeFormatado = _formatarTextos.FormatarTextos(nome);
+            List<Aluno> alunoEncotrado = _alunoAtual.BuscarAlunoPeloNome(nomeFormatado)!;
+            if(alunoEncotrado.Count == 0){
+                throw new AlunoNomeNaoEncontradoException();
+            }
+            return Ok(alunoEncotrado);
+        }
+        catch (Exception e)
+        {
+            return HandleException(e,e.Message);
+        }
+    }
+
+
     [HttpGet]
     [Route("buscar/todos/{skip}/{take}")]
-    public ActionResult BuscarTodosAlunos(int skip, int take){
+    public ActionResult BuscarTodosAlunos(int skip = 0, int take = 25){
         try
         {
             List<Aluno> listaGerada = _alunoAtual.BuscarTodosAlunos(skip, take);

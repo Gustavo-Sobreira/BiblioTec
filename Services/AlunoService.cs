@@ -2,6 +2,7 @@ using BackBiblioteca.Data;
 using BackBiblioteca.Interface;
 using BackBiblioteca.Models;
 using BackBiblioteca.Services.Dao;
+using static BackBiblioteca.Errors.Aluno.DadosIncorretosErros;
 using static BackBiblioteca.Errors.Aluno.MatriculaErros.LivroTituloNaoEncontradoException;
 using static BackBiblioteca.Errors.Aluno.PendenciaErros.LivroTituloNaoEncontradoException;
 using static BackBiblioteca.Errors.Aluno.SalaErros.LivroTituloNaoEncontradoException;
@@ -27,6 +28,16 @@ public class AlunoService : IAlunoService
         return _alunoDao.BuscarPorMatricula(matricula);
     }
 
+    public List<Aluno> BuscarTodosAlunos(int skip, int take)
+    {
+        return _alunoDao.BuscarTodosAlunos(skip, take);
+    }
+
+    public List<Aluno> BuscarAlunoPeloNome(string nome)
+    {
+        return _alunoDao.BuscarPeloNome(nome);
+    }
+
     public bool VerificarPendenciaAluno(string matricula)
     {
         var alunoEstaPendente = _emprestimoDao.BuscarPorMatricula(matricula);
@@ -35,7 +46,8 @@ public class AlunoService : IAlunoService
 
     public Aluno FormatarCampos(Aluno alunoSemFormatacao)
     {
-        Aluno alunoFormatado = new Aluno{
+        Aluno alunoFormatado = new Aluno
+        {
             Matricula = _textoService.FormatarIds(alunoSemFormatacao.Matricula!),
             Nome = _textoService.FormatarTextos(alunoSemFormatacao.Nome!),
             Professor = _textoService.FormatarTextos(alunoSemFormatacao.Professor!),
@@ -50,7 +62,7 @@ public class AlunoService : IAlunoService
     {
         VerificarCampos(aluno);
 
-        if (BuscarAlunoPorMatricula(aluno.Matricula!) == null)
+        if (BuscarAlunoPorMatricula(aluno.Matricula!) != null)
         {
             throw new AlunoMatriculaExistenteException();
         }
@@ -112,6 +124,16 @@ public class AlunoService : IAlunoService
 
     public void VerificarCampos(Aluno alunoEmVerificacao)
     {
+        int numero;
+        bool matricula = int.TryParse(alunoEmVerificacao.Matricula, out numero);
+        bool sala = int.TryParse(alunoEmVerificacao.Sala, out numero);
+        bool serie = int.TryParse(alunoEmVerificacao.Serie, out numero);
+        bool turno = int.TryParse(alunoEmVerificacao.Turno, out numero);
+        if (!matricula || !sala || !serie || !turno)
+        {
+            throw new AlunoDadosCorrompidosException();
+        }
+
         long id_matricula = long.Parse(alunoEmVerificacao.Matricula!);
         if (id_matricula <= 0)
         {
@@ -137,8 +159,5 @@ public class AlunoService : IAlunoService
         }
     }
 
-    public List<Aluno> BuscarTodosAlunos(int skip, int take)
-    {
-        return _alunoDao.BuscarTodosAlunos(skip,take);
-    }
+
 }
