@@ -1,4 +1,9 @@
--- Active: 1688483127593@@127.0.0.1@3306@bibliotec
+-- Active: 1689037465891@@127.0.0.1@3306@bibliotec
+
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -v /caminho/no/host:/caminho/no/container -p 127.0.0.1:3306:3306 -d mysql:tag
+docker exec -it bibliotec mysql -u root -p
+CREATE DATABASE bibliotec;
+
 CREATE TABLE t_aluno(
     id_matricula VARCHAR(15) PRIMARY KEY,
     nm_aluno VARCHAR(50),

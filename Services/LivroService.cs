@@ -171,15 +171,15 @@ public class LivroService : ILivroService
         return _livroDao.ListarTodosLivrosExistentes(skip, take);
     }
 
-    internal List<string>? LocalizarLivroPeloTitulo(string titulo)
+    internal List<Livro?> BuscarLivrosPeloTitulo(string titulo, int skip, int take)
     {
-        List<string> prateleiras = _livroDao.LocalizarLivroDisponiveisPeloTitulo(titulo)!;
-        if (prateleiras.Count == 0)
+        List<Livro> livrosEncontrados = _livroDao.LocalizarLivroDisponiveisPeloTitulo(titulo, skip, take)!;
+        if (livrosEncontrados.Count == 0)
         {
             throw new LivroTituloNaoEncontradoException();
         }
         
-        return prateleiras;    
+        return livrosEncontrados!;    
     }
 }
 

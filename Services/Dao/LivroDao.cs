@@ -65,12 +65,13 @@ public class LivroDao : ILivroDao
             .ToList().Count();
     }
 
-    internal List<string?> LocalizarLivroDisponiveisPeloTitulo(string titulo)
+    internal List<Livro> LocalizarLivroDisponiveisPeloTitulo(string titulo, int skip, int take)
     {
         return _context.Livros
         .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro) 
-        && l.Titulo == titulo)
-        .Select( livro => livro.Prateleira)
+        && l.Titulo.Contains(titulo))
+        .Skip(skip)
+        .Take(take)
         .ToList();
     }
 }

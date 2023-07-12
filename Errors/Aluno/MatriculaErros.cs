@@ -5,7 +5,7 @@ public class MatriculaErros
     {
         public class AlunoMatriculaExistenteException : Exception
         {
-            public AlunoMatriculaExistenteException() : base("[ ERRO ] - A matrícula existente, por favor verifique o número de matrícula do aluno.")
+            public AlunoMatriculaExistenteException() : base("[ ERRO ] - Matrícula existente, por favor verifique o número de matrícula do aluno.")
             {
             }
         }

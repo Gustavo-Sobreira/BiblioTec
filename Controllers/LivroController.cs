@@ -26,7 +26,7 @@ public class LivroController : Controller
         try
         {
             var todoEstoque = _livroService.ListarEstoqueDisponivelParaEmprestimo(skip, take);
-            return Ok(todoEstoque);
+            return StatusCode(200,Json(todoEstoque));
         }
         catch (Exception e)
         {
@@ -39,12 +39,12 @@ public class LivroController : Controller
     {
         try
         {
-            var livro = _livroService.BuscarPorRegistro(registro);
+            Livro? livro = _livroService.BuscarPorRegistro(registro);
             if (livro == null)
             {
                 throw new LivroRegistroNaoEncontradoException();
             }
-            return Ok(livro);
+            return StatusCode(200,Json(livro));
         }
         catch (Exception e)
         {
@@ -57,7 +57,7 @@ public class LivroController : Controller
     {
         try{
             List<Livro> lisvrosExistentes = _livroService.BuscarTodosLivros(skip,take);
-            return Ok(lisvrosExistentes);
+            return StatusCode(200,Json(lisvrosExistentes));
         }
         catch (Exception e)
         {
@@ -65,13 +65,13 @@ public class LivroController : Controller
         }
     }
 
-    [HttpGet("localizar/{titulo}")]
-    public ActionResult LocalizarLivroPeloTitulo(string titulo){
+    [HttpGet("localizar/{titulo}/{skip}/{take}")]
+    public ActionResult BuscarLivroPeloTitulo(string titulo, int skip = 0, int take = 25){
         try
         {
             string tituloFormatado = _textoService.FormatarTextos(titulo);
-            List<string> localizacao = _livroService.LocalizarLivroPeloTitulo(tituloFormatado)!;
-            return Ok(localizacao);
+            List<Livro?> livrosEncontrados = _livroService.BuscarLivrosPeloTitulo(tituloFormatado,skip,take)!;
+            return StatusCode(200,Json(livrosEncontrados));
         }
         catch (Exception e)
         {
@@ -88,7 +88,7 @@ public class LivroController : Controller
             Livro livroFormatado = _livroService.FormatarCampos(livro);
             _livroService.RegrasParaCadastrar(livroFormatado);
             Livro livroCadastrado = _livroService.Cadastrar(livroFormatado);
-            return Ok(livroCadastrado);
+            return StatusCode(200,Json(livroCadastrado));
         }
         catch (Exception e)
         {
@@ -105,7 +105,7 @@ public class LivroController : Controller
             Livro livroFormatado = _livroService.FormatarCampos(livro);
             _livroService.RegrasParaEditar(livroFormatado);
             Livro livroEditado = _livroService.Editar(livroFormatado)!;
-            return Ok(livroEditado);
+            return StatusCode(200,Json(livroEditado));
         }
         catch (Exception e)
         {
@@ -125,7 +125,7 @@ public class LivroController : Controller
             }
             _livroService.RegrasParaEditar(livro);
             Livro livroApagado = _livroService.Apagar(livro.Registro!)!;
-            return Ok(livroApagado);
+            return StatusCode(200,Json(livroApagado));
         }
         catch (Exception e)
         {
@@ -139,19 +139,19 @@ public class LivroController : Controller
         {
             // 400 - Requisição não atende requisitos
             case LivroRegistroNuloException:
-                return StatusCode(400, e.Message);
+                return StatusCode(400, Json(e.Message));
             // 403 - Permissão negada'
             case LivroPendenteException:
-                return StatusCode(403, e.Message);
+                return StatusCode(403, Json(e.Message));
             // 404 - Não encontrado
             case LivroTituloNaoEncontradoException:
             case LivroRegistroNaoEncontradoException:
-                return StatusCode(404, e.Message);
+                return StatusCode(404, Json(e.Message));
             // 409 - Conflito de ID
             case LivroRegistroExistenteException:
-                return StatusCode(409, e.Message);
+                return StatusCode(409, Json(e.Message));
             default:
-                return StatusCode(500, e.Message);
+                return StatusCode(500, Json("[ ERRO ] - " + e.Message));
         }
     }
 }

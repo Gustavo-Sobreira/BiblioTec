@@ -77,7 +77,7 @@ public class EmprestimoController : Controller
                 case LivroPendenteException:
                     return StatusCode(403, e.Message);
                 default:
-                    return StatusCode(500, e.Message);
+                    return StatusCode(500, "[ ERRO ] - " + e.Message);
             }
     }
 }

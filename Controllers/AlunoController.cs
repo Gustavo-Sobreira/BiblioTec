@@ -34,7 +34,7 @@ public class AlunoController : Controller
             if(alunoEncotrado == null){
                 throw new AlunoMatriculaNaoEncontradaException();
             }
-            return Ok(alunoEncotrado);
+            return StatusCode(200,alunoEncotrado);
         }
         catch (Exception e)
         {
@@ -52,7 +52,7 @@ public class AlunoController : Controller
             if(alunoEncotrado.Count == 0){
                 throw new AlunoNomeNaoEncontradoException();
             }
-            return Ok(alunoEncotrado);
+            return StatusCode(200,alunoEncotrado);
         }
         catch (Exception e)
         {
@@ -67,7 +67,7 @@ public class AlunoController : Controller
         try
         {
             List<Aluno> listaGerada = _alunoAtual.BuscarTodosAlunos(skip, take);
-            return Ok(listaGerada);
+            return StatusCode(200,listaGerada);
         }
         catch (Exception e)
         {
@@ -84,7 +84,7 @@ public class AlunoController : Controller
             Aluno alunoFormatado = _alunoAtual.FormatarCampos(aluno);
             _alunoAtual.RegrasParaCadastro(alunoFormatado);
             _alunoAtual.Cadastrar(alunoFormatado);
-            return Ok(alunoFormatado);
+            return StatusCode(200,Json(alunoFormatado));
         }
         catch (Exception e)
         {
@@ -110,7 +110,7 @@ public class AlunoController : Controller
             Aluno alunoEditado = _alunoAtual.Editar(alunoFormatado)!;
 
             List<Aluno> comparacao = new List<Aluno>{dadosAntigos,alunoEditado};
-            return Ok(comparacao);
+            return StatusCode(200,comparacao);
         }
         catch (Exception e)
         {
@@ -129,7 +129,8 @@ public class AlunoController : Controller
                 throw new AlunoMatriculaNaoEncontradaException();
             }
             _alunoAtual.RegrasParaEdicao(aluno);
-            return Ok(_alunoAtual.Apagar(aluno.Matricula!));
+            Aluno? alunoApagado = _alunoAtual.Apagar(aluno.Matricula!);
+            return StatusCode(200,alunoApagado);
         }
         catch (Exception e)
         {
@@ -139,27 +140,27 @@ public class AlunoController : Controller
 
     private ActionResult HandleException(Exception e, string errorMessage)
     {
-        if (e is AlunoMatriculaExistenteException)
-        {
-            return StatusCode(409,e.Message);
-        }
-        else if (e is AlunoMatriculaInvalidaException ||
+        if (e is AlunoMatriculaInvalidaException ||
                 e is AlunoSalaNuloException ||
                 e is AlunoTurnoIncorretoException)
         {
-            return StatusCode(400,e.Message);
-        }
-        else if (e is AlunoMatriculaNaoEncontradaException)
-        {
-            return NotFound(e.Message);
+            return StatusCode(400,Json(e.Message));
         }
         else if (e is AlunoPendenteException)
         {
-            return StatusCode(403, e.Message);
+            return StatusCode(403,Json(e.Message));
+        }
+        else if (e is AlunoMatriculaNaoEncontradaException)
+        {
+            return StatusCode(404,Json(e.Message));
+        }
+        else if (e is AlunoMatriculaExistenteException)
+        {
+            return StatusCode(409,Json(e.Message));
         }
         else
         {
-            return StatusCode(500, e.Message);
+            return StatusCode(500, "[ ERRO ] - " + e.Message);
         }
     }
 }
