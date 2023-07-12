@@ -1,0 +1,65 @@
+#pg-sucesso {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(180, 242, 200, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+#pg-sucesso div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  
+  width: 30%;
+  height: 40%;
+
+  border-radius: 15px;
+  box-shadow: 3px 4px 10px rgba(62, 172, 117, 0.5); /* Eixo x - Eixo y - Blur */
+  background-color: rgb(255, 255, 255);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2rem 1fr 4rem;
+}
+
+#pg-sucesso div h3 {
+  width: 98%;
+  margin-top: 2%;
+
+  text-align: center;
+  font-weight: 900;
+  color: aliceblue;
+
+  background-image: linear-gradient(to right, #ff000000, #229f54, #ff000000);
+}
+
+#pg-sucesso div p {
+  width: 90%;
+
+  margin-left: 5%;
+  margin-top: 5%;
+
+  text-align: start;
+  color: black;
+}
+
+#pg-sucesso div button {
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 2%;
+
+  text-align: center;
+
+  background-color: rgba(200, 191, 191, 0.128);
+  transition: background-color 0.5s ease-in-out;
+
+  border-radius: 15px;
+}
+
+#pg-sucesso div button:hover {
+  color: #ffffff;
+  background-color: rgba(0, 255, 30, 0.54);
+}

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiblioTec</title>
+    
+    <!-- Reset.css -->
+    <link rel="stylesheet" href="reset.css">
+
+       <!-- Side-bar -->
+       <link rel="stylesheet" href="Side-Bar/side-bar.css">
+       <script src="Side-Bar/side-bar.js"></script>
+   
+    <!-- Livro -->
+    <script src="Livros/Cadastrar/livroCadastro.js"></script>
+
+    <script src="Livros/Listar/livroListar.js"></script>
+    <script src="Livros/livro.js"></script>
+
+    <!-- Aluno -->
+    <link rel="stylesheet" href="Aluno/alunos.css">
+    <script src="Aluno/alunos.js"></script>
+
+    <link rel="stylesheet" href="Aluno/Cadastrar/alunoCadastro.css">
+    <script src="Aluno/Cadastrar/alunosCadastro.js"></script>
+
+    <link rel="stylesheet" href="Aluno/Listar/alunoListar.css">
+    <script src="Aluno/Listar/alunoListar.js"></script>
+
+    <link rel="stylesheet" href="Aluno/Deletar/alunoDeletar.css">
+    <script src="Aluno/Deletar/alunoDeletar.js"></script>
+
+    <link rel="stylesheet" href="Aluno/Editar/alunoEditar.css">
+    <script src="Aluno/Editar/alunoEditar.js"></script>
+
+
+
+    <!-- Respostas -->
+
+    <link rel="stylesheet" href="Respostas/erros.css">
+    <script src="Respostas/erro.js"></script>
+
+    <link rel="stylesheet" href="Respostas/sucesso.css">
+    <script src="Respostas/sucesso.js"></script>
+ 
+
+
+
+    <link rel="stylesheet" href="estrutura.css">
+    <link rel="stylesheet" href="geral.css">
+    <link rel="stylesheet" href="emprestimos.css">
+    <link rel="stylesheet" href="livros.css">
+
+   
+<link rel="stylesheet" href="tela-cadastro-generica.css">
+<link rel="stylesheet" href="tela-lista-generica.css">
+ 
+</head>
+<body>
+    <nav id="side-bar">
+        <h1>BiblioTec</h1>
+        <ul>
+            <li onclick="sideBarGeral()">📊 Geral     </li>
+            <li onclick="sideBarEmprestimo()">🔄 Emprestimo </li>
+            <li onclick="sideBarLivros()">📚 Livros     </li>
+            <li onclick="sideBarAlunos()">🧑‍🎓 Alunos     </li>
+            <li onclick="sideBarPendentes()">🚨 Pendentes  </li>
+        </ul>
+    </nav>
+    <div id="pg-geral" class="pagina hidden">
+        <div id="conteudo-pg-geral">
+            <div>
+                <h2>Livros</h2>
+                <ul>
+                    <li>
+                        <p>Total</p>
+                        <p>56</p>
+                    </li>
+                    <li>
+                        <p>Emprestados</p>
+                        <p>16</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2>Pendentes</h2>
+                <ul>
+                    <li>
+                        <p>Total</p>
+                        <p>8</p>
+                    </li>
+                    <li>
+                        <p>Mais de 15 dias</p>
+                        <p>2</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2>Alunos</h2>
+                <ul>
+                    <li>
+                        <p>Total</p>
+                        <p>256</p>
+                    </li>
+                    <li>
+                        <p>Com Livros</p>
+                        <p>24</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2>Turmas</h2>
+                <ul>
+                    <li>
+                        <p>5° Ano</p>
+                    </li>
+                    <li>
+                        <p>4° Ano</p>
+                    </li>
+                    <li>
+                        <p>3° Ano</p>
+                    </li>
+                    <li>
+                        <p>2° Ano</p>
+                    </li>
+                    <li>
+                        <p>1° Ano</p>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="pg-emprestimo" class="hidden pagina">
+        <div id="conteudo-pg-emprestimos">
+            <h2>Emprestimo</h2>
+            <span></span>
+            
+            <div id="campo-aluno-pg-emprestimo"> 
+                <h3>Aluno</h3>
+
+                <div id="pg-emprestimo-buscar-aluno">Buscar Aluno</div>
+
+                <ul>
+
+                    <li>Matrícula</li>
+                    <li>Nome</li>
+                    <li>Sala</li>
+                    <li>Turno</li>
+                    <li>Período</li>
+                    <li>Série</li>
+                </ul>
+
+            </div>
+
+            <div id="campo-livro-pg-emprestimo">
+                <h3>Livro</h3>
+
+                <div id="pg-emprestimo-buscar-livro">Buscar Livro</div>
+
+                <ul>
+
+                    <li>Registro</li>
+                    <li>Nome</li>
+                    <li>Autor</li>
+                    <li>Gênero</li>
+                    <li>Editora</li>
+                    <li>Prateleira</li>
+                </ul>
+            </div>
+            <span></span>
+            <button>Emprestar</button>
+        </div>
+    </div>
+
+    <div id="pg-livros" class="hiddenc pagina">
+        <div id="pg-livros-conteudo">
+            <h2>📚 Livros</h2>
+            <!-- TODO deixar componentes mais genéricos -->
+            <div id="alunos-menu">
+                <button id="alunos-bt-cadastrar" onclick="abrirPaginaLivroCadastrar()">Cadastrar</button>
+                <button id="alunos-bt-listar" onclick="abrirPaginaLivroListar()">Listar</button>
+            </div>
+            <span></span>
+            
+            <!-- Cadastro -->
+            <div id="pg-livros-cadastrar" class="hidden paginaLivro area-cadastro ">
+                <h3>Cadastrar</h3>
+
+                <form id="pg-livros-cadastrar-formulario">
+                    <label>Registro</label>
+                    <input name="Registro" type="number" placeholder="Registro"></input>
+
+                    <label>Título</label>
+                    <input name="Titulo" type="text" placeholder="Título"></input>
+
+                    <label>Autor</label>
+                    <input name="Autor" type="text" placeholder="Autor"></input>
+
+                    <label>Gênero</label>
+                    <input name="Genero" type="text" placeholder="Gênero"></input>
+
+                    <label>Editora</label>
+                    <input name="Editora" type="text" placeholder="Editora"></input>
+
+                    <label>Prateleira</label>
+                    <input name="Prateleira" type="text" placeholder="Prateleira"></input>
+
+                </form>
+                <button type="button" id="bt-cadastrar-livro" onclick="cadastrarLivro()">Cadastrar</button>
+            </div>
+
+            <!-- Lista -->
+            <div id="pg-livros-listar" class="paginaLivro area-lista">
+                <div>
+                    <input type="text" id="pg-livros-listar-campo-busca" placeholder="Título / Registro"></input>
+                    <button class="area-lista-bt-pesquisa" onclick="buscarLivros()">🔍 Buscar Livro</button>
+                </div>
+                <ul id="pg-livros-listar-resultados">
+                    <li id="pg-livros-listar-cabecalho" class="area-lista-cabecalho">
+                        <h6>Registro</h6>
+                        <span></span>
+                        <h6>Título</h6>
+                        <span></span>
+                        <h6>Autor</h6>
+                        <span></span>
+                        <h6>Editora</h6>
+                        <span></span>
+                        <h6>Gênero</h6>
+                        <span></span>
+                        <h6>Prateleira</h6>
+                        <span></span>
+                        <h6>Ações</h6>
+                    </li>
+                </ul>
+                <!-- <div id="pg-livros-listar-menu-paginacao" class="area-lista-paginacao">
+                    <button id="pg-livros-listar-bt-voltar">⬅️</button>
+                    <input type="number" placeholder="Total de itens por página"/>
+                    <button id="pg-livros-listar-bt-avancar">➡️</button>
+                </div> -->
+            </div>
+
+
+
+
+
+            <div id="pg-livros-apagar" class="hidden">
+                <h3>Apagar</h3>
+                <div id="pg-livro-buscar-livro">Buscar Livro</div>
+                <ul>
+                    <li>Registro</li>
+                    <li>Nome</li>
+                    <li>Autor</li>
+                    <li>Gênero</li>
+                    <li>Editora</li>
+                    <li>Prateleira</li>
+                </ul>
+                <button>Apagar</button>
+            </div>
+            <span></span>
+     
+        </div>
+    </div>
+
+    <div id="pg-alunos" class="hidden pagina">
+        <div id="conteudo-pg-alunos">
+            <h2>Alunos</h2>
+            <div id="alunos-menu">
+                <button id="alunos-bt-cadastrar" onclick="abrirPaginaAlunoCadastrar()">Cadastrar</button>
+                <button id="alunos-bt-listar" onclick="abrirPaginaAlunoListar()">Listar</button>
+            </div>
+            
+            <div id="pg-alunos-cadastrar" class="hidden paginaAluno area-cadastro">
+                <h3>Cadastrar</h3>
+
+                <form id="pg-alunos-cadastrar-formulario">
+                    <label>Matricula</label>
+                    <input name="Matricula" type="number" placeholder="Matricula"/>
+
+                    <label>Nome</label>
+                    <input name="Nome" type="text" placeholder="Nome"/>
+
+                    <label>Sala</label>
+                    <input name="Sala" type="number" placeholder="Sala"/>
+
+                    
+                    <label>Série</label>
+                    <input name="Série" type="text" placeholder="Série"/>
+                    
+                    <label>Professor</label>
+                    <input name="Professor" type="text" placeholder="Professor"/>
+                    
+                    <label>Turno</label>
+                    <select id="pg-alunos-cadastrar-formulario-turno" name="turno">
+                      <option value="1">Manhã</option>
+                      <option value="2">Tarde</option>
+                    </select>
+                </form>
+                <button type="button" id="bt-cadastrar-alunos" onclick="cadastrarAluno()">Cadastrar</button>
+            </div>
+
+            <div id="pg-alunos-apagar" class="hidden paginaAluno">
+                <h3>Apagar</h3>
+                <form>
+                    <label for="">Matricula</label>
+                    <input type="text" placeholder="Matricula"></input>
+                </form>
+                <button id="bt-apagar-aluno">Apagar</button>
+            </div>
+           
+            <div id="pg-alunos-editar" class="hidden paginaAluno">
+                <h3>Editar</h3>
+
+                <form>
+                    <label for="">Matricula</label>
+                    <input type="text" placeholder="Matricula"/>
+
+                    <label for="">Nome</label>
+                    <input type="text" placeholder="Nome"/>
+
+                    <label for="">Sala</label>
+                    <input type="text" placeholder="Sala"/>
+
+                    <label for="">Turno</label>
+                    <input type="text" placeholder="Turno"/>
+
+                    <label for="">Série</label>
+                    <input type="text" placeholder="Série"/>
+
+                    <label for="">Professor</label>
+                    <input type="text" placeholder="Professor"/>
+                </form>
+                <button id="bt-editar-alunos">Editar</button>
+            </div>
+            
+            <div id="pg-alunos-listar" class="paginaAluno area-lista">
+                <h3>Listar</h3>
+                <div><input placeholder="Buscar Aluno"></input></div>
+                <ul>
+                    <li id="pg-alunos-listar-cabecalho" class="area-lista-cabecalho">
+                        <h6>Matrícula</h6>
+                        <span></span>
+                        <h6>Nome</h6>
+                        <span></span>
+                        <h6>Professor</h6>
+                        <span></span>
+                        <h6>Sala</h6>
+                        <span></span>
+                        <h6>Série</h6>
+                        <span></span>
+                        <h6>Turno</h6>
+                        <span></span>
+                        <h6>Ações</h6>
+                    </li>
+                    <li class="area-lista-dados">
+                        <p>145236789154</p>
+                        <span></span>
+                        <p>Gustavo Sobreira Pinto</p>
+                        <span></span>
+                        <p>Joselaine</p>
+                        <span></span>
+                        <p>32</p>
+                        <span></span>
+                        <p>1</p>
+                        <span></span>
+                        <p>Manhã</p>
+                        <span></span>
+                        <div>
+                            <button id="alunos-bt-editar" class="area-lista-dados-bt-editar">Editar</button>
+                            <button id="alunos-bt-deletar" class="area-lista-dados-bt-apagar">Apagar</button>
+                        </div>
+                    </li>
+                   
+                    </li>
+                </ul>
+                <div id="pg-alunos-listar-menu-paginacao" class="area-lista-paginacao">
+                    <button id="pg-alunos-listar-bt-voltar">⬅️</button>
+                    <input type="number" placeholder="Total de itens por página"/>
+                    <button id="pg-alunos-listar-bt-avancar">➡️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pg-erros" class="hidden pagina">
+        <div>
+            <h3>ERRO</h3>
+            <p id="pg-erros-campo-de-erros"></p>
+            <button id="pg-erros-bt-fechar" onclick="fecharMensagemDeErro()">SAIR</button>
+        </div>
+    </div>
+    <div id="pg-sucesso" class="hidden">
+        <div>
+            <h3>SUCESSO</h3>
+            <p id="pg-sucesso-campo-de-sucesso"></p>
+            <button id="pg-sucesso-bt-fechar" onclick="fecharMensagemDeSucesso()">SAIR</button>
+        </div>
+    </div>
+
+</body>
+</html>

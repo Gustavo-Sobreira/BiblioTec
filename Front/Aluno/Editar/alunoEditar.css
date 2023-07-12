@@ -1,0 +1,63 @@
+#pg-alunos-editar {
+    background-color: rgba(224, 214, 106, 0.452);
+    border: 2px solid rgba(140, 132, 39, 0.152);
+    border-radius: 10px;
+    padding: 30px;
+  }
+  
+  #pg-alunos-editar h3 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+  }
+  
+  #pg-alunos-editar form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+  
+    margin-top: 30px;
+  }
+  
+  #pg-alunos-editar input {
+    border: none;
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
+  
+    margin-bottom: 2%;
+    padding: 5px;
+  
+    background-color: rgba(255, 255, 255, 0.768);
+  }
+  
+  #pg-alunos-editar input:hover {
+    background-color: rgba(224, 214, 106, 0.452);
+  }
+  
+  #pg-alunos-editar input:focus {
+    background-color: rgba(224, 214, 106, 0.452);
+  }
+  
+  #bt-editar-alunos {
+      border: none;
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
+  
+    margin-bottom: 30px;
+    padding: 5px;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(161, 150, 30, 0.452);
+  }
+  
+  #bt-editar-alunos:hover {
+    background-color: rgba(78, 71, 2, 0.452);
+    cursor: pointer;
+  }
+  

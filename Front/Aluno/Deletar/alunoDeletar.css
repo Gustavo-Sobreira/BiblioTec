@@ -1,0 +1,59 @@
+#pg-alunos-apagar {
+    background-color: rgba(224, 106, 106, 0.452);
+    border: 2px solid rgba(151, 23, 23, 0.152);
+    border-radius: 10px;
+    padding: 30px;
+  }
+  
+  
+  #pg-alunos-apagar h3 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+  }
+  
+  #pg-alunos-apagar form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+  }
+  
+  #pg-alunos-apagar input {
+    border: none;
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
+  
+    margin-bottom: 30px;
+    padding: 5px;
+  
+    background-color: rgba(218, 72, 72, 0.452);
+  
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  #bt-apagar-aluno{
+    border: none;
+    height: 30px;
+    width: 100%;
+    border-radius: 10px;
+  
+    margin-bottom: 30px;
+    padding: 5px;
+  
+    background-color: rgba(199, 25, 25, 0.74);
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #bt-apagar-aluno:hover {
+    background-color: rgba(223, 27, 27, 0.452);
+    cursor: pointer;
+  }
+  

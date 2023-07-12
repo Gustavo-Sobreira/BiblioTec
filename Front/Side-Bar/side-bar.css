@@ -1,0 +1,47 @@
+nav{
+    background-color: rgba(16, 111, 111, 0.609);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#side-bar h1{
+    color: #ffffff;
+
+    font-size: 40px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-style: italic;
+    font-weight: 900;
+
+    margin-top:35px;
+    margin-bottom: 35px;
+}
+
+#side-bar ul{
+    width: 100%;
+    background-color: transparent;
+}
+
+#side-bar li{
+    width: 90%;
+    height: 30px;
+    margin-bottom:15px;
+    padding-left: 4%;
+    background-color: #ffffff;
+
+    border-radius: 0px 20px 20px 0px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    transition-timing-function:linear;
+}
+
+#side-bar li:hover{
+    background-color: rgba(41, 41, 185, 0.096);
+    color: #ffffff;
+    cursor: pointer;
+}

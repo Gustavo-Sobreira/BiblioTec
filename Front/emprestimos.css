@@ -1,0 +1,233 @@
+#conteudo-pg-emprestimos{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 50px 1fr;
+
+    gap: 1rem;
+
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 5vh;
+}
+
+#campo-livro-pg-emprestimo{
+    background-color: rgba(22, 98, 133, 0.479);
+}
+
+#conteudo-pg-emprestimos div{
+    border-radius: 10px;
+    height: 60vh;
+    padding: 20px;
+}
+
+#conteudo-pg-emprestimos h2{
+    font-size: 50px;
+    font-weight: 550;
+}
+
+
+#conteudo-pg-emprestimos button{
+    height: 10vh;
+    border-radius: 10px;
+    border: 3px solid rgba(250, 225, 4, 0.089);
+    background-color: rgba(250, 225, 4, 0.308);
+}
+#conteudo-pg-emprestimos button:hover{
+    background-color: rgba(255, 230, 0, 0.555);
+    cursor: pointer;
+}
+
+/*ALUNO*/
+
+#campo-aluno-pg-emprestimo{
+    background-color: rgba(23, 151, 151, 0.048);
+    border: 2px solid rgba(23, 151, 151, 0.452);
+
+}
+
+#campo-aluno-pg-emprestimo h3{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+#pg-emprestimo-buscar-aluno{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(23, 151, 151, 0.452);
+}
+
+#pg-emprestimo-buscar-aluno:hover{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(23, 151, 151, 0.664);
+    cursor: pointer;
+}
+
+
+#campo-aluno-pg-emprestimo li{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+
+    height: 40px;
+    width: 100%;
+
+    border-radius: 10px;
+
+    margin-top: 20px;
+    padding-left: 5px;
+    border:1px solid  rgba(23, 151, 151, 0.664);
+}
+
+#campo-aluno-pg-emprestimo li:hover{
+    background-color: rgba(23, 151, 151, 0.664);
+}
+
+
+/* LIVRO */
+
+#campo-livro-pg-emprestimo{
+    background-color: rgba(17, 75, 129, 0.048);
+    border: 2px solid rgba(17, 75, 129, 0.452);
+
+}
+
+#campo-livro-pg-emprestimo h3{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+#pg-emprestimo-buscar-livro{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(17, 75, 129, 0.452);
+}
+
+#pg-emprestimo-buscar-livro:hover{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(17, 75, 129, 0.575);
+    cursor: pointer;
+}
+
+
+#campo-livro-pg-emprestimo li{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+
+    height: 40px;
+    width: 100%;
+
+    border-radius: 10px;
+
+    margin-top: 20px;
+    padding-left: 5px;
+    border:1px solid  rgba(17, 75, 129, 0.452);
+}
+
+#campo-livro-pg-emprestimo li:hover{
+    background-color: rgba(17, 75, 129, 0.452);
+}
+
+
+/* #campo-alunos-pg-emprestimo {
+    background-color: rgba(224, 214, 106, 0.452);
+    border: 2px solid rgba(17, 75, 129, 0.452);
+  }
+  
+  #pg-emprestimo-buscar-alunos {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(17, 75, 129, 0.452);
+  }
+  
+  #pg-emprestimo-buscar-alunos:hover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(17, 75, 129, 0.575);
+    cursor: pointer;
+  }
+  
+  #campo-alunos-pg-emprestimo li {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  
+    height: 40px;
+    width: 100%;
+  
+    border-radius: 10px;
+  
+    margin-top: 20px;
+    padding-left: 5px;
+    border: 1px solid rgba(17, 75, 129, 0.452);
+  }
+  
+  #campo-alunos-pg-emprestimo li:hover {
+    background-color: rgba(17, 75, 129, 0.452);
+  } */
+/* 
+  #campo-alunos-pg-emprestimo {
+    background-color: rgba(17, 75, 129, 0.048);
+    border: 2px solid rgba(17, 75, 129, 0.452);
+  }
+  
+  #pg-emprestimo-buscar-alunos {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(17, 75, 129, 0.452);
+  }
+  
+  #pg-emprestimo-buscar-alunos:hover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 2vh;
+    background-color: rgba(17, 75, 129, 0.575);
+    cursor: pointer;
+  }
+  
+  #campo-alunos-pg-emprestimo li {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  
+    height: 40px;
+    width: 100%;
+  
+    border-radius: 10px;
+  
+    margin-top: 20px;
+    padding-left: 5px;
+    border: 1px solid rgba(17, 75, 129, 0.452);
+  }
+  
+  #campo-alunos-pg-emprestimo li:hover {
+    background-color: rgba(17, 75, 129, 0.452);
+  } */
+  

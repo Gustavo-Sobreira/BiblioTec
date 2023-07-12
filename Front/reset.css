@@ -1,0 +1,79 @@
+/* Reset CSS */
+
+/* Remova as margens e preenchimentos padrão */
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Defina a fonte padrão e o tamanho para o corpo do texto */
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+  }
+  
+  /* Remova a lista de estilos e o espaçamento padrão para listas não ordenadas e ordenadas */
+  ol, ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Remova a decoração de link padrão */
+  a {
+    text-decoration: none;
+  }
+  
+  /* Remova a formatação de cabeçalhos */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+  }
+  
+  /* Remova a formatação padrão de elementos de formulário */
+  input, select, textarea, button {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  
+  /* Remova a borda padrão dos elementos de formulário */
+  input, select, textarea, button {
+    border: none;
+  }
+  
+  /* Remova a formatação padrão de botões */
+  button {
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  /* Remova a quebra de texto automática em elementos <pre> */
+  pre {
+    white-space: pre-wrap;
+  }
+  
+  /* Remova a margem e o preenchimento padrão para elementos de imagem */
+  img {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  
+  /* Remova o espaçamento adicional para elementos inline */
+  span, em, strong {
+    line-height: 1;
+  }
+  
+  /* Remova a formatação de legenda de tabela padrão */
+  caption {
+    text-align: left;
+  }
+  
+  /* Remova a formatação padrão de borda de tabela */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  

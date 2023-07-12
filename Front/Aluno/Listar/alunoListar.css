@@ -1,0 +1,180 @@
+/* #pg-alunos-listar {
+  background-color: rgba(106, 185, 224, 0.6);
+  border: 2px solid rgba(45, 115, 151, 0.3);
+  border-radius: 10px;
+  padding: 2%;
+}
+
+#pg-alunos-listar h3 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+#pg-alunos-listar-cabecalho {
+  display: grid;
+  grid-template-columns:
+    1fr
+    0.01rem
+    1.5fr
+    0.01rem
+    1fr
+    0.01rem
+    5rem
+    0.01rem
+    5rem
+    0.01rem
+    1fr
+    0.01rem
+    1fr;
+
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 700;
+
+  border-bottom: 1px white solid;
+}
+
+#pg-alunos-listar-cabecalho p {
+  text-align: center;
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+#pg-alunos-listar-cabecalho span {
+  height: 100%;
+  width: 100%;
+  border-right: 1px solid white;
+}
+
+
+.aluno-listar-dados {
+  display: grid;
+  grid-template-columns:
+    1fr
+    0.01rem
+    1.5fr
+    0.01rem
+    1fr
+    0.01rem
+    5rem
+    0.01rem
+    5rem
+    0.01rem
+    1fr
+    1fr;
+  align-items: center;
+  width: 100%;
+  height: 7vh;
+
+  background-color: #b7cfd6;
+  margin-bottom: 2%;
+}
+
+.aluno-listar-dados span {
+  height: 100%;
+  width: 100%;
+  border-right: 1px solid white;
+}
+
+.aluno-listar-dados p {
+  text-align: center;
+  height: 50%;
+  width: 100%;
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: auto;
+  padding-bottom: 4px;
+}
+
+.aluno-listar-dados p::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.aluno-listar-dados p::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+
+.aluno-listar-dados p::-webkit-scrollbar-thumb {
+  background-color: #7b58cbee;
+}
+
+.aluno-listar-dados div {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  padding: 1%;
+  gap: 1%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.aluno-listar-dados button {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#alunos-bt-deletar {
+  background-color: rgba(224, 106, 106, 0.6);
+  border: 2px solid rgba(151, 23, 23, 0.3);
+}
+
+#alunos-bt-editar {
+  background-color: rgba(224, 214, 106, 0.6);
+  border: 2px solid rgba(140, 132, 39, 0.6);
+}
+
+#alunos-bt-deletar:hover {
+  background-color: rgb(255, 0, 0);
+  border: 2px solid rgba(151, 23, 23, 0.6);
+}
+
+#alunos-bt-editar:hover {
+  background-color: rgb(255, 234, 1);
+  border: 2px solid rgba(140, 132, 39, 0.6);
+}
+
+#pg-alunos-listar-menu-paginacao {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 3%;
+  margin-top: 2%;
+}
+
+#pg-alunos-listar-menu-paginacao button {
+  width: 10%;
+  border-radius: 5px;
+}
+
+#pg-alunos-listar-menu-paginacao button:hover {
+  width: 15%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pg-alunos-listar-menu-paginacao input {
+  width: 10%;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#pg-alunos-listar-bt-voltar {
+  background-color: rgb(94, 134, 222);
+  color: white;
+}
+
+#pg-alunos-listar-bt-avancar {
+  background-color: rgb(94, 134, 222);
+  color: white;
+} */

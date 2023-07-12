@@ -1,0 +1,74 @@
+/* #pg-alunos-cadastrar {
+  background-color: rgba(23, 151, 151, 0.2);
+  border: 2px solid rgba(23, 151, 151, 0.6);
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+#pg-alunos-cadastrar h3 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+#pg-alunos-cadastrar form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+#pg-alunos-cadastrar label {
+  font-weight: 900;
+}
+
+#pg-alunos-cadastrar input,
+#pg-alunos-cadastrar select {
+  height: 4vh;
+  width: 100%;
+  margin-bottom: 2%;
+  padding: 5px;
+  border-radius: 10px;
+  border: none;
+}
+
+#pg-alunos-cadastrar input {
+  background-color: rgba(32, 126, 52, 0.1);
+}
+
+#pg-alunos-cadastrar input:hover {
+  background-color: rgba(1, 29, 7, 0.5);
+}
+
+#pg-alunos-cadastrar input:focus {
+  background-color: rgba(90, 202, 114, 0.7);
+}
+
+#pg-alunos-cadastrar select {
+  background-color: rgba(32, 126, 52, 0.1);
+}
+
+#bt-cadastrar-alunos {
+  height: 8vh;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 5px;
+  border: none;
+  border-radius: 10px;
+  color: aliceblue;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.62);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(3, 58, 15, 0.6);
+}
+
+#bt-cadastrar-alunos:hover {
+  background-color: rgba(3, 58, 15, 0.8);
+  cursor: pointer;
+} */
