@@ -1,4 +1,4 @@
-function sideBarGeral(){
+function sideBarDashboard(){
     trocarPagina('pg-geral')
 }
 function sideBarEmprestimo(){

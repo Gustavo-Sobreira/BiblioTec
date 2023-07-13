@@ -1,0 +1,10 @@
+body{
+    display: grid;
+    grid-template-columns: 15vw 81vw;
+    grid-auto-rows: 100vh;
+    gap: 4vh;
+}
+
+.hidden{
+    display: none;
+}

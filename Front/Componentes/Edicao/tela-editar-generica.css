@@ -1,4 +1,5 @@
 #pg-edicao {
+  margin-top: 0;
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -38,23 +39,22 @@
   background-color: rgba(255, 255, 0, 0.575);
 }
 
-
-.pg-edicao-area-comparacao{
-    display: grid;
-    grid-template-columns: 1fr 1px 1fr;
+.pg-edicao-area-comparacao {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
 }
 
-.pg-edicao-area-comparacao span{
-    height: 64vh;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
+.pg-edicao-area-comparacao span {
+  height: 64vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 
-    background-color: rgba(0, 0, 0, 0.349);
+  background-color: rgba(0, 0, 0, 0.349);
 }
 
 .pg-edicao-area-dados-antigos {
-    width: 100%;
-    padding: 1vw;
+  
+  width: 100%;
   max-height: 65vh;
 
   white-space: nowrap;
@@ -62,12 +62,17 @@
   padding-bottom: 4px;
 }
 
-.pg-edicao-area-dados-editar li {
+.pg-edicao-area-dados-antigos p {
+  padding: 1vw;
 
+  font-size: 1rem;
 }
 
 .pg-edicao-area-dados-novos {
-    padding: 1vw;
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
   max-height: 65vh;
 
   white-space: nowrap;
@@ -75,38 +80,48 @@
   padding-bottom: 4px;
 }
 
-.pg-edicao-area-dados-editar li {
+.pg-edicao-area-dados-novos input {
+  padding: 1vw;
 
+  font-size: 1rem;
 }
 
-.pg-edicao-area-botoes{
-    display: flex;
+.pg-edicao-area-dados-novos input:hover {
+  padding: 1vw;
+
+  font-size: 1rem;
+
+background-color: rgb(215, 252, 252);
+}
+
+.pg-edicao-area-botoes {
+  display: flex;
   align-items: center;
   justify-content: center;
 
   height: 10vh;
-  
+
   border-radius: 0 0 1rem 1rem;
-    background-color: rgba(255, 255, 0, 0.575);
+  background-color: rgba(255, 255, 0, 0.575);
 }
-.pg-edicao-area-botoes button{ 
-    width: 100%;
-    height: 100%;
+.pg-edicao-area-botoes button {
+  width: 100%;
+  height: 100%;
 
-    text-align: center;
-    text-transform: uppercase;
+  text-align: center;
+  text-transform: uppercase;
 
-    font-size: 1.5rem;
-}
-
-.pg-edicao-area-botoes-confirmar:hover{
-    border-radius: 0 0 1rem 0;
-    background-color: green;
-    color: white;
+  font-size: 1.5rem;
 }
 
-.pg-edicao-area-botoes-cancelar:hover{
-    border-radius: 0 0 0 1rem;
-    background-color: red;
-    color: white;
+.pg-edicao-area-botoes-confirmar:hover {
+  border-radius: 0 0 1rem 0;
+  background-color: green;
+  color: white;
+}
+
+.pg-edicao-area-botoes-cancelar:hover {
+  border-radius: 0 0 0 1rem;
+  background-color: red;
+  color: white;
 }

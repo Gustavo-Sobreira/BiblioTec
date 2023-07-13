@@ -6,65 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiblioTec</title>
     
-    <!-- Reset.css -->
+    <!-- Padrões -->
     <link rel="stylesheet" href="reset.css">
-
-       <!-- Side-bar -->
-       <link rel="stylesheet" href="Side-Bar/side-bar.css">
-       <script src="Side-Bar/side-bar.js"></script>
-   
-    <!-- Livro -->
-    <script src="Livros/Cadastrar/livroCadastro.js"></script>
-
-    <script src="Livros/Listar/livroListar.js"></script>
-    <script src="Livros/livro.js"></script>
-
-    <!-- Aluno -->
-    <link rel="stylesheet" href="Aluno/alunos.css">
-    <script src="Aluno/alunos.js"></script>
-
-    <link rel="stylesheet" href="Aluno/Cadastrar/alunoCadastro.css">
-    <script src="Aluno/Cadastrar/alunosCadastro.js"></script>
-
-    <link rel="stylesheet" href="Aluno/Listar/alunoListar.css">
-    <script src="Aluno/Listar/alunoListar.js"></script>
-
-    <link rel="stylesheet" href="Aluno/Deletar/alunoDeletar.css">
-    <script src="Aluno/Deletar/alunoDeletar.js"></script>
-
-    <link rel="stylesheet" href="Aluno/Editar/alunoEditar.css">
-    <script src="Aluno/Editar/alunoEditar.js"></script>
+    <link rel="stylesheet" href="global.css">
 
 
-
-    <!-- Respostas -->
-
-    <link rel="stylesheet" href="Respostas/erros.css">
-    <script src="Respostas/erro.js"></script>
-
-    <link rel="stylesheet" href="Respostas/sucesso.css">
-    <script src="Respostas/sucesso.js"></script>
- 
-
-    <!-- Edição -->
-    <link rel="stylesheet" href="tela-editar-generica.css">
+    <!-- Side-bar -->
+    <link rel="stylesheet" href="Side-Bar/side-bar.css">
+    <script src="Side-Bar/side-bar.js"></script>
 
 
-    <link rel="stylesheet" href="estrutura.css">
-    <link rel="stylesheet" href="geral.css">
-    <link rel="stylesheet" href="emprestimos.css">
-    <link rel="stylesheet" href="livros.css">
+    <!-- COMPONENTES - GENÉRICOS -->
+    <link rel="stylesheet" href="Tela/telas.css">
 
-   
-<link rel="stylesheet" href="tela-cadastro-generica.css">
-<link rel="stylesheet" href="tela-lista-generica.css">
- 
+    <link rel="stylesheet" href="Componentes/Cadastro/tela-cadastro-generica.css">
+
+    <link rel="stylesheet" href="Componentes/Edicao/tela-editar-generica.css">
+    <script src="Componentes/Edicao/editar.js"></script>
+
+    <link rel="stylesheet" href="Componentes/Deletar/tela-generica-deletar.css">
+
+    <link rel="stylesheet" href="Componentes/Lista/tela-lista-generica.css">
+    <script src="Componentes/Lista/menu-de-tabelas.js"></script>
+
+    
+    <!-- TELA - ALUNO -->
+    <link rel="stylesheet" href="Tela/Aluno/alunos.css">
+    <script src="Tela/Aluno/alunos.js"></script>
+
+    <link rel="stylesheet" href="Tela/Aluno/Cadastrar/alunoCadastro.css">
+    <script src="Tela/Aluno/Cadastrar/alunoCadastro.js"></script>
+
+    <link rel="stylesheet" href="Tela/Aluno/Listar/alunoListar.css">
+    <script src="Tela/Aluno/Listar/alunoListar.js"></script>
+
+    <!-- TELA - DASHBOARD -->
+    <link rel="stylesheet" href="Tela/Dashboard/dashboard.css">
+
+
+    <!-- TELA - EMPRESTIMO -->
+    <link rel="stylesheet" href="Tela/Emprestimo/emprestimos.css">
+
+
+    <!-- TELA - LIVRO -->
+    <script src="Tela/Livro/Cadastrar/livroCadastro.js"></script>
+    <script src="Tela/Livro/Editar/editarLivro.js"></script>
+    <script src="Tela/Livro/Deletar/deletarLivro.js"></script>
+    <script src="Tela/Livro/Lista/lista-livros.js"></script>    
+    <script src="Tela/Livro/livro.js"></script>
+
+
+    <!-- TELA - RESPOSTA -->
+    <link rel="stylesheet" href="Tela/Resposta/erros.css">
+    <script src="Tela/Resposta/erro.js"></script>
+
+    <link rel="stylesheet" href="Tela/Resposta/sucesso.css">
+    <script src="Tela/Resposta/sucesso.js"></script>
+
 </head>
 <body>
     <nav id="side-bar" class="">
         <h1>BiblioTec</h1>
         <ul>
-            <li onclick="sideBarGeral()">📊 Geral     </li>
+            <li onclick="sideBarDashboard()">📊 Dashboard     </li>
             <li onclick="sideBarEmprestimo()">🔄 Emprestimo </li>
             <li onclick="sideBarLivros()">📚 Livros     </li>
             <li onclick="sideBarAlunos()">🧑‍🎓 Alunos     </li>
@@ -180,48 +184,61 @@
 
     <div id="pg-livros" class="hiddenc pagina">
         <div id="pg-livros-conteudo">
+
             <h2>📚 Livros</h2>
-            <!-- TODO deixar componentes mais genéricos -->
-            <div id="alunos-menu">
+
+            <div id="alunos-menu" class="menu-controle-pagina">
                 <button class="menu-bt-cadastrar" onclick="abrirPaginaLivroCadastrar()">Cadastrar</button>
                 <button class="menu-bt-listar" onclick="abrirPaginaLivroListar()">Listar</button>
             </div>
-            <span></span>
+
             
             <!-- Cadastro -->
-            <div id="pg-livros-cadastrar" class="hidden paginaLivro area-cadastro ">
+            <div id="pg-livros-cadastrar" class="hidden paginaLivro area-cadastro">
                 <h3>Cadastrar</h3>
 
                 <form id="pg-livros-cadastrar-formulario">
-                    <label>Registro</label>
-                    <input name="Registro" type="number" placeholder="Registro"></input>
+                    <div>
+                        <label>Registro</label>
+                        <input name="Registro" type="number" placeholder="Registro"></input>
+                    </div>
 
-                    <label>Título</label>
-                    <input name="Titulo" type="text" placeholder="Título"></input>
+                    <div>
+                        <label>Título</label>
+                        <input name="Titulo" type="text" placeholder="Título"></input>
+                    </div>
 
-                    <label>Autor</label>
-                    <input name="Autor" type="text" placeholder="Autor"></input>
+                    <div>
+                        <label>Autor</label>
+                        <input name="Autor" type="text" placeholder="Autor"></input>
+                    </div>
 
-                    <label>Gênero</label>
-                    <input name="Genero" type="text" placeholder="Gênero"></input>
+                    <div>
+                        <label>Gênero</label>
+                        <input name="Genero" type="text" placeholder="Gênero"></input>
+                    </div>
 
-                    <label>Editora</label>
-                    <input name="Editora" type="text" placeholder="Editora"></input>
+                    <div>
+                        <label>Editora</label>
+                        <input name="Editora" type="text" placeholder="Editora"></input>
+                    </div>
 
-                    <label>Prateleira</label>
-                    <input name="Prateleira" type="text" placeholder="Prateleira"></input>
+                    <div>
+                        <label>Prateleira</label>
+                        <input name="Prateleira" type="text" placeholder="Prateleira"></input>
+                    </div>
 
                 </form>
                 <button type="button" id="bt-cadastrar-livro" onclick="cadastrarLivro()">Cadastrar</button>
             </div>
 
 
-            <!-- Nova Lista -->
+            <!-- Lista -->
             <div id="pg-livros-listar" class="area-lista paginaLivro">
                 
                 <div id="pg-livros-listar-opcoes" class="area-lista-opcoes">
                     <input type="text" id="pg-livros-listar-campo-busca" placeholder="Título / Registro"></input>
-                    <button class="" onclick="buscarLivros()">🔍 Buscar Livro</button>
+                    <button class="" onclick="buscarElementosParaTabela('t_livro')">🔍 Buscar Livro</button>
                 </div>
 
                 <div id="pg-livros-listar-tabela" class="area-lista-tabela">
@@ -246,34 +263,8 @@
                 
             </div>
 
-
-
-
-
-
-            
-
-
-
-
-<!-- Livros -->
-            <div id="pg-livros-apagar" class="hidden">
-                <h3>Apagar</h3>
-                <div id="pg-livro-buscar-livro">Buscar Livro</div>
-                <ul>
-                    <li>Registro</li>
-                    <li>Nome</li>
-                    <li>Autor</li>
-                    <li>Gênero</li>
-                    <li>Editora</li>
-                    <li>Prateleira</li>
-                </ul>
-                <button>Apagar</button>
-            </div>
-            <span></span>
-     
         </div>
-    </div>
+    </div>     
 
     <div id="pg-alunos" class="hidden pagina">
         <div id="conteudo-pg-alunos">
@@ -404,24 +395,41 @@
 
             <div class="pg-edicao-area-comparacao">
                 <ul class="pg-edicao-area-dados-antigos" id="pg-edicao-area-dados-antigos">
-                    <li>ds</li>
                 </ul>
 
                 <span></span>
 
-                <ul class="pg-edicao-area-dados-novos">
-                    <li>ss</li>
-                </ul>
+                <form class="pg-edicao-area-dados-novos" id="pg-edicao-area-dados-novos">
+                    
+                </form>
             </div>
 
             <div class="pg-edicao-area-botoes">
-                <button class="pg-edicao-area-botoes-cancelar">Cancelar</button>
-                <button class="pg-edicao-area-botoes-confirmar">Confirmar</button>
+                <button class="pg-edicao-area-botoes-cancelar" onclick="pgEdicaoAreaBotoesCancelar()">Cancelar</button>
+                <button class="pg-edicao-area-botoes-confirmar" onclick="pgEdicaoAreaBotoesConfirmar('pg-edicao-area-dados-novos','PUT','editado')">Confirmar</button>
             </div>
         </div>
     </div>
 
+<!-- PÁGINA DELETAR -->
 
+    <div id="pg-deletar" class="hidden pagina ">
+        <div class="pg-deletar-area">
+            <div class="pg-deletar-area-menu">
+                <h4>Deletar</h4>
+            </div>
+
+            <div class="pg-deletar-area-comparacao">
+                <ul class="pg-deletar-area-dados-antigos" id="pg-deletar-area-dados-antigos">
+                </ul>
+            </div>
+
+            <div class="pg-deletar-area-botoes">
+                <button class="pg-deletar-area-botoes-cancelar" onclick="pgDeletarAreaBotoesCancelar()">Cancelar</button>
+                <button class="pg-deletar-area-botoes-confirmar" onclick="pgDeletarAreaBotoesConfirmar()">Apagar</button>
+            </div>
+        </div>
+    </div>
 
     <div id="pg-erros" class="hidden pagina">
         <div>

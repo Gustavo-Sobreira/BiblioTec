@@ -1,0 +1,142 @@
+#pg-deletar {
+    margin-top: 0;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(
+      212,
+      240,
+      248,
+      0.5
+    ); /* Cor de fundo com transparência */
+    backdrop-filter: blur(2px);
+  }
+  
+  .pg-deletar-area {
+    width: 50%;
+    min-height: 80vh;
+  
+    margin: auto;
+    margin-top: 10vh;
+  
+    border-radius: 1rem;
+    box-shadow: 1px 1px 10px black;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .pg-deletar-area-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6vh;
+  
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+  
+    border-radius: 1rem 1rem 0 0;
+    color: white;
+    background-color: rgb(255, 0, 0);
+  }
+  
+  .pg-deletar-area-comparacao {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    height: 65vh;
+  }
+  
+  .pg-deletar-area-comparacao span {
+    height: 64vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+  
+    background-color: rgba(0, 0, 0, 0.349);
+  }
+  
+  .pg-deletar-area-dados-antigos {
+    
+    width: 100%;
+    max-height: 65vh;
+  
+    white-space: nowrap;
+    overflow: auto;
+    padding-bottom: 4px;
+  }
+  
+  .pg-deletar-area-dados-antigos p {
+    padding: 1vw;
+  
+    font-size: 1rem;
+  }
+  
+  .pg-deletar-area-dados-novos {
+    display: flex;
+    flex-direction: column;
+  
+    width: 100%;
+    max-height: 65vh;
+  
+    white-space: nowrap;
+    overflow: auto;
+    padding-bottom: 4px;
+  }
+  
+  .pg-deletar-area-dados-novos input {
+    padding: 1vw;
+  
+    font-size: 1rem;
+  }
+  
+  .pg-deletar-area-dados-novos input:hover {
+    padding: 1vw;
+  
+    font-size: 1rem;
+  
+  background-color: rgb(215, 252, 252);
+  }
+  
+  .pg-deletar-area-botoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    height: 10vh;
+  
+    border-radius: 0 0 1rem 1rem;
+  }
+
+  .pg-deletar-area-botoes button {
+    width: 100%;
+    height: 100%;
+  
+    text-align: center;
+    text-transform: uppercase;
+  
+    font-size: 1.5rem;
+  }
+
+  .pg-deletar-area-botoes-confirmar{
+    border-radius: 0 0 1rem 0;
+    background-color: rgba(0, 34, 255, 0.6);
+    color: white;
+  }
+  
+  .pg-deletar-area-botoes-cancelar{
+    border-radius: 0 0 0 1rem;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.36);
+  }
+  
+  .pg-deletar-area-botoes-confirmar:hover {
+    border-radius: 0 0 1rem 0;
+    background-color: red;
+    color: white;
+  }
+  
+  .pg-deletar-area-botoes-cancelar:hover {
+    border-radius: 0 0 0 1rem;
+    background-color: rgb(4, 96, 46);
+    color: white;
+  }
+  
