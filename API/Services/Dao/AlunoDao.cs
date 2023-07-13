@@ -38,11 +38,11 @@ public class AlunoDao : IAlunoDao
 
     public List<Aluno> BuscarTodosAlunos(int skip, int take)
     {
-        return _context.Alunos.OrderBy(alunos => alunos.Matricula).Skip(skip).Take(take).ToList();
+        return _context.Alunos.OrderBy(alunos => alunos.Nome).Skip(skip).Take(take).ToList();
     }
 
     internal List<Aluno> BuscarPeloNome(string nome)
     {
-        return _context.Alunos.Where(aluno => aluno.Nome!.StartsWith(nome)).ToList();
+        return _context.Alunos.Where(aluno => aluno.Nome!.StartsWith(nome)).OrderBy(a => a.Nome).ToList();
     }
 }

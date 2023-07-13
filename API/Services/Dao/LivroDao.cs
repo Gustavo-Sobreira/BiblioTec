@@ -40,7 +40,7 @@ public class LivroDao : ILivroDao
     public List<Livro> ListarTodosLivrosExistentes(int skip, int take)
     {
         return _context.Livros
-        .OrderBy(livro => livro.Registro)
+        .OrderBy(livro => livro.Titulo)
         .Skip(skip)
         .Take(take)
         .ToList();
@@ -51,7 +51,7 @@ public class LivroDao : ILivroDao
     {
         return _context.Livros
             .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro))
-            .OrderBy(livro => livro.Autor)
+            .OrderBy(livro => livro.Titulo)
             .ToList();
     }
 
@@ -61,7 +61,7 @@ public class LivroDao : ILivroDao
             .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro)
             && _context.Livros.Any(e => e.Autor == autor)
             && _context.Livros.Any(e => e.Titulo == titulo))
-            .OrderBy(livro => livro.Autor)
+            .OrderBy(livro => livro.Titulo)
             .ToList().Count();
     }
 
@@ -70,6 +70,7 @@ public class LivroDao : ILivroDao
         return _context.Livros
         .Where(l => !_context.Emprestimos.Any(e => e.Registro == l.Registro) 
         && l.Titulo.Contains(titulo))
+        .OrderBy(l => l.Titulo)
         .Skip(skip)
         .Take(take)
         .ToList();
