@@ -1,0 +1,10 @@
+@echo off
+
+cd C:\Users\Sobreira\Desktop\Bibliotec\BiblioTec-Front-main
+start /B "" h.html
+
+cd C:\Users\Sobreira\Desktop\Bibliotec\BiblioTec-main
+start /B dotnet run
+
+
+exit

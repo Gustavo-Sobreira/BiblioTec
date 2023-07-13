@@ -1,0 +1,112 @@
+#pg-edicao {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(
+    212,
+    240,
+    248,
+    0.5
+  ); /* Cor de fundo com transparência */
+  backdrop-filter: blur(2px);
+}
+
+.pg-edicao-area {
+  width: 50%;
+  min-height: 80vh;
+
+  margin: auto;
+  margin-top: 10vh;
+
+  border-radius: 1rem;
+  box-shadow: 1px 1px 10px black;
+  background-color: rgb(255, 255, 255);
+}
+
+.pg-edicao-area-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 6vh;
+
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+
+  border-radius: 1rem 1rem 0 0;
+  background-color: rgba(255, 255, 0, 0.575);
+}
+
+
+.pg-edicao-area-comparacao{
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+}
+
+.pg-edicao-area-comparacao span{
+    height: 64vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+
+    background-color: rgba(0, 0, 0, 0.349);
+}
+
+.pg-edicao-area-dados-antigos {
+    width: 100%;
+    padding: 1vw;
+  max-height: 65vh;
+
+  white-space: nowrap;
+  overflow: auto;
+  padding-bottom: 4px;
+}
+
+.pg-edicao-area-dados-editar li {
+
+}
+
+.pg-edicao-area-dados-novos {
+    padding: 1vw;
+  max-height: 65vh;
+
+  white-space: nowrap;
+  overflow: auto;
+  padding-bottom: 4px;
+}
+
+.pg-edicao-area-dados-editar li {
+
+}
+
+.pg-edicao-area-botoes{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 10vh;
+  
+  border-radius: 0 0 1rem 1rem;
+    background-color: rgba(255, 255, 0, 0.575);
+}
+.pg-edicao-area-botoes button{ 
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+    text-transform: uppercase;
+
+    font-size: 1.5rem;
+}
+
+.pg-edicao-area-botoes-confirmar:hover{
+    border-radius: 0 0 1rem 0;
+    background-color: green;
+    color: white;
+}
+
+.pg-edicao-area-botoes-cancelar:hover{
+    border-radius: 0 0 0 1rem;
+    background-color: red;
+    color: white;
+}

@@ -46,6 +46,8 @@
     <script src="Respostas/sucesso.js"></script>
  
 
+    <!-- Edição -->
+    <link rel="stylesheet" href="tela-editar-generica.css">
 
 
     <link rel="stylesheet" href="estrutura.css">
@@ -59,7 +61,7 @@
  
 </head>
 <body>
-    <nav id="side-bar">
+    <nav id="side-bar" class="">
         <h1>BiblioTec</h1>
         <ul>
             <li onclick="sideBarGeral()">📊 Geral     </li>
@@ -181,8 +183,8 @@
             <h2>📚 Livros</h2>
             <!-- TODO deixar componentes mais genéricos -->
             <div id="alunos-menu">
-                <button id="alunos-bt-cadastrar" onclick="abrirPaginaLivroCadastrar()">Cadastrar</button>
-                <button id="alunos-bt-listar" onclick="abrirPaginaLivroListar()">Listar</button>
+                <button class="menu-bt-cadastrar" onclick="abrirPaginaLivroCadastrar()">Cadastrar</button>
+                <button class="menu-bt-listar" onclick="abrirPaginaLivroListar()">Listar</button>
             </div>
             <span></span>
             
@@ -213,14 +215,18 @@
                 <button type="button" id="bt-cadastrar-livro" onclick="cadastrarLivro()">Cadastrar</button>
             </div>
 
-            <!-- Lista -->
-            <div id="pg-livros-listar" class="paginaLivro area-lista">
-                <div>
+
+            <!-- Nova Lista -->
+            <div id="pg-livros-listar" class="area-lista paginaLivro">
+                
+                <div id="pg-livros-listar-opcoes" class="area-lista-opcoes">
                     <input type="text" id="pg-livros-listar-campo-busca" placeholder="Título / Registro"></input>
-                    <button class="area-lista-bt-pesquisa" onclick="buscarLivros()">🔍 Buscar Livro</button>
+                    <button class="" onclick="buscarLivros()">🔍 Buscar Livro</button>
                 </div>
-                <ul id="pg-livros-listar-resultados">
-                    <li id="pg-livros-listar-cabecalho" class="area-lista-cabecalho">
+
+                <div id="pg-livros-listar-tabela" class="area-lista-tabela">
+
+                    <div id="pg-livros-listar-cabecalho" class="area-lista-tabela-cabecalho">
                         <h6>Registro</h6>
                         <span></span>
                         <h6>Título</h6>
@@ -234,19 +240,23 @@
                         <h6>Prateleira</h6>
                         <span></span>
                         <h6>Ações</h6>
-                    </li>
-                </ul>
-                <!-- <div id="pg-livros-listar-menu-paginacao" class="area-lista-paginacao">
-                    <button id="pg-livros-listar-bt-voltar">⬅️</button>
-                    <input type="number" placeholder="Total de itens por página"/>
-                    <button id="pg-livros-listar-bt-avancar">➡️</button>
-                </div> -->
+                    </div>
+                    <ul id="pg-livros-listar-resultados" class="area-lista-tabela-conteudo"></ul>
+                </div>
+                
             </div>
 
 
 
 
 
+
+            
+
+
+
+
+<!-- Livros -->
             <div id="pg-livros-apagar" class="hidden">
                 <h3>Apagar</h3>
                 <div id="pg-livro-buscar-livro">Buscar Livro</div>
@@ -269,8 +279,8 @@
         <div id="conteudo-pg-alunos">
             <h2>Alunos</h2>
             <div id="alunos-menu">
-                <button id="alunos-bt-cadastrar" onclick="abrirPaginaAlunoCadastrar()">Cadastrar</button>
-                <button id="alunos-bt-listar" onclick="abrirPaginaAlunoListar()">Listar</button>
+                <button class="menu-bt-cadastrar" onclick="abrirPaginaAlunoCadastrar()">Cadastrar</button>
+                <button class="menu-bt-listar" onclick="abrirPaginaAlunoListar()">Listar</button>
             </div>
             
             <div id="pg-alunos-cadastrar" class="hidden paginaAluno area-cadastro">
@@ -374,7 +384,7 @@
                         </div>
                     </li>
                    
-                    </li>
+                    
                 </ul>
                 <div id="pg-alunos-listar-menu-paginacao" class="area-lista-paginacao">
                     <button id="pg-alunos-listar-bt-voltar">⬅️</button>
@@ -384,6 +394,34 @@
             </div>
         </div>
     </div>
+
+<!-- PÁGINA DE EDIÇAO -->
+    <div id="pg-edicao" class="hidden pagina ">
+        <div class="pg-edicao-area">
+            <div class="pg-edicao-area-menu">
+                <h4>Editar</h4>
+            </div>
+
+            <div class="pg-edicao-area-comparacao">
+                <ul class="pg-edicao-area-dados-antigos" id="pg-edicao-area-dados-antigos">
+                    <li>ds</li>
+                </ul>
+
+                <span></span>
+
+                <ul class="pg-edicao-area-dados-novos">
+                    <li>ss</li>
+                </ul>
+            </div>
+
+            <div class="pg-edicao-area-botoes">
+                <button class="pg-edicao-area-botoes-cancelar">Cancelar</button>
+                <button class="pg-edicao-area-botoes-confirmar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+
 
     <div id="pg-erros" class="hidden pagina">
         <div>

@@ -51,3 +51,20 @@
 .hidden{
     display: none;
 }
+
+
+
+
+
+
+
+.menu-bt-cadastrar:hover {
+    background-color: rgba(0, 255, 55, 0.1);
+    border: 2px solid rgba(4, 88, 22, 0.152);
+  }
+  
+ .menu-bt-listar:hover {
+    background-color: rgb(215, 252, 252);
+    border: 2px solid rgba(40, 97, 125, 0.452);
+  }
+  

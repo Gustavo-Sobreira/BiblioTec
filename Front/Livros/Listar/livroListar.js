@@ -10,6 +10,8 @@ function buscarLivros() {
   } else {
     buscarLivrosPeloTitulo(pesquisa);
   }
+
+  document.getElementById("pg-livros-listar-campo-busca").value = '';
 }
 
 async function buscarLivrosPeloRegistro(registro) {
@@ -35,6 +37,7 @@ async function buscarLivrosPeloRegistro(registro) {
 
 function adicionarLivro(livro) {
   var ul = document.getElementById("pg-livros-listar-resultados");
+  ul.innerHTML = '';
 
   criarLI(livro, 0, ul);
 }
@@ -65,6 +68,7 @@ async function buscarLivrosPeloTitulo(titulo) {
 
 function adicionarListaDeLivros(listaDeLivros) {
   var ul = document.getElementById("pg-livros-listar-resultados");
+  ul.innerHTML = '';
 
   listaDeLivros.forEach(function (livro, indice) {
     criarLI(livro, indice, ul);
@@ -73,7 +77,7 @@ function adicionarListaDeLivros(listaDeLivros) {
 
 function criarLI(livro, indice, ul) {
   var novoLi = document.createElement("li");
-  novoLi.classList.add("area-lista-dados");
+  novoLi.classList.add("area-lista-tabela-dados");
 
   var pRegistro = document.createElement("p");
   pRegistro.textContent = livro.registro;
@@ -145,12 +149,53 @@ function criarLI(livro, indice, ul) {
 }
 
 //TODO Arrumar
-function abrirTelaEdicao(indice, livro){
-  console.log("Abrir tela de edição para o livro de índice:", indice);
-  console.log("Dados do livro:", livro);
+function abrirTelaEdicao(indice, livro) {
+  // console.log("Abrir tela de edição para o livro de índice:", indice);
+  // console.log("Dados do livro:", livro);
+
+  var pgEdicao = document.getElementById("pg-edicao");
+  var campoAntigo = document.getElementById("pg-edicao-area-dados-antigos");
+
+  pgEdicao.classList.remove("hidden");
+
+  while (campoAntigo.firstChild) {
+    campoAntigo.removeChild(campoAntigo.firstChild);
+  }
+
+
+  var pRegistro = document.createElement("p");
+  pRegistro.textContent = livro.registro;
+  campoAntigo.appendChild(pRegistro);
+
+
+  var pTitulo = document.createElement("p");
+  pTitulo.textContent = livro.titulo;
+  campoAntigo.appendChild(pTitulo);
+
+
+
+  var pAutor = document.createElement("p");
+  pAutor.textContent = livro.autor;
+  campoAntigo.appendChild(pAutor);
+
+
+  var pEditora = document.createElement("p");
+  pEditora.textContent = livro.editora;
+  campoAntigo.appendChild(pEditora);
+
+
+  var pGenero = document.createElement("p");
+  pGenero.textContent = livro.genero;
+  campoAntigo.appendChild(pGenero);
+
+
+  var pPrateleira = document.createElement("p");
+  pPrateleira.textContent = livro.prateleira;
+  campoAntigo.appendChild(pPrateleira);
+
 }
 
-function abrirTelaApagar(indice, livro){
+function abrirTelaDeletar(indice, livro){
   console.log("Abrir tela de edição para o livro de índice:", indice);
   console.log("Dados do livro:", livro);
 }
