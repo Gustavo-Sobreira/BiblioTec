@@ -2,9 +2,18 @@ function abrirTelaEdicaoLivro(livro) {
     var pgEdicao = document.getElementById("pg-edicao");
     var campoAntigo = document.getElementById("pg-edicao-area-dados-antigos");
     var campoNovo = document.getElementById("pg-edicao-area-dados-novos");
+
+    var btnEditar = document.getElementsByClassName(
+      "pg-edicao-area-botoes-confirmar"
+    );
+  
+    for (var i = 0; i < btnEditar.length; i++) {
+      btnEditar[i].removeEventListener("click", pgEdicaoAreaBotoesConfirmarAluno);
+      btnEditar[i].addEventListener("click", pgEdicaoAreaBotoesConfirmar);
+    }
   
     pgEdicao.classList.remove("hidden");
-  
+    
     preencherCamposDoEstadoAtualDoObjeto(campoAntigo, livro);
     preencherCamposDoEstadoFuturoDoObjeto(campoNovo, livro);
   }

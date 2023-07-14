@@ -7,7 +7,6 @@ namespace BackBiblioteca.Services.Dao;
 public class AlunoDao : IAlunoDao
 {
     private readonly BibliotecContext _context;
-       
     public AlunoDao(BibliotecContext context)
     {
         _context = context;
@@ -41,8 +40,12 @@ public class AlunoDao : IAlunoDao
         return _context.Alunos.OrderBy(alunos => alunos.Nome).Skip(skip).Take(take).ToList();
     }
 
-    internal List<Aluno> BuscarPeloNome(string nome)
+    internal List<Aluno> BuscarPeloNome(string nome, int skip, int take)
     {
-        return _context.Alunos.Where(aluno => aluno.Nome!.StartsWith(nome)).OrderBy(a => a.Nome).ToList();
+        return _context.Alunos.Where(aluno => aluno.Nome!.Contains(nome))
+        .OrderBy(a => a.Nome)
+        .Skip(skip)
+        .Take(take)
+        .ToList();
     }
 }

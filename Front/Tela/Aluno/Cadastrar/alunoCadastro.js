@@ -1,5 +1,3 @@
-
-
 function handleNetworkError(error) {
 
   const p_erro = document.getElementById("pg-erros");
@@ -10,17 +8,18 @@ function handleNetworkError(error) {
 }
 
 async function cadastrarAluno() {
+
   var matriculaRecebida = document.querySelector(
     "#pg-alunos-cadastrar-formulario input[name='Matricula']"
   ).value;
   var nomeRecebido = document.querySelector(
     "#pg-alunos-cadastrar-formulario input[name='Nome']"
   ).value;
-  var salaREcebida = document.querySelector(
+  var salaRecebida = document.querySelector(
     "#pg-alunos-cadastrar-formulario input[name='Sala']"
   ).value;
   var serieRecebida = document.querySelector(
-    "#pg-alunos-cadastrar-formulario input[name='Série']"
+    "#pg-alunos-cadastrar-formulario input[name='Serie']"
   ).value;
   var professorRecebido = document.querySelector(
     "#pg-alunos-cadastrar-formulario input[name='Professor']"
@@ -28,12 +27,11 @@ async function cadastrarAluno() {
   var turnoRecebido = document.querySelector(
     "#pg-alunos-cadastrar-formulario-turno"
   ).value;
-
-  // Verificação de campos vazios
+ 
   if (
     matriculaRecebida === "" ||
     nomeRecebido === "" ||
-    salaREcebida === "" ||
+    salaRecebida === "" ||
     serieRecebida === "" ||
     professorRecebido === "" ||
     turnoRecebido === ""
@@ -46,7 +44,7 @@ async function cadastrarAluno() {
     matricula: matriculaRecebida,
     nome: nomeRecebido,
     professor: professorRecebido,
-    sala: salaREcebida,
+    sala: salaRecebida,
     turno: turnoRecebido,
     serie: serieRecebida,
   };
@@ -65,7 +63,6 @@ async function cadastrarAluno() {
 
 
     const data = await response.json();
-    console.log(data)
    
     if (data.value.toString().startsWith("[ ERRO ]")) {
       const p_erro = document.getElementById("pg-erros");
@@ -86,4 +83,3 @@ async function cadastrarAluno() {
     handleNetworkError(error);
   }
 }
-

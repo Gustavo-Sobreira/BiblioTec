@@ -2,6 +2,14 @@
 function abrirTelaDeletar(indice, livro) {
     var pgDeletar = document.getElementById("pg-deletar");
     var campoAntigo = document.getElementById("pg-deletar-area-dados-antigos");
+
+    var btnDeletar = document.getElementsByClassName("pg-deletar-area-botoes-confirmar");
+
+    for (var i = 0; i < btnDeletar.length; i++) {
+      btnDeletar[i].removeEventListener("click", pgDeletarAreaBotoesConfirmarAluno);
+      btnDeletar[i].addEventListener("click", pgDeletarAreaBotoesConfirmar);
+    }
+  
   
     pgDeletar.classList.remove("hidden");
     preencherCamposDoEstadoAtualDoObjeto(campoAntigo, livro);

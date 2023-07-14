@@ -29,16 +29,22 @@
     <link rel="stylesheet" href="Componentes/Lista/tela-lista-generica.css">
     <script src="Componentes/Lista/menu-de-tabelas.js"></script>
 
+    <link rel="stylesheet" href="Tela/Aluno/Deletar/alunoDeletar.css">
+    <script src="Tela/Aluno/Deletar/alunoDeletar.js"></script>
     
     <!-- TELA - ALUNO -->
-    <link rel="stylesheet" href="Tela/Aluno/alunos.css">
     <script src="Tela/Aluno/alunos.js"></script>
 
     <link rel="stylesheet" href="Tela/Aluno/Cadastrar/alunoCadastro.css">
     <script src="Tela/Aluno/Cadastrar/alunoCadastro.js"></script>
 
-    <link rel="stylesheet" href="Tela/Aluno/Listar/alunoListar.css">
+    
     <script src="Tela/Aluno/Listar/alunoListar.js"></script>
+
+    <link rel="stylesheet" href="Tela/Aluno/Editar/alunoEditar.css">
+    <script src="Tela/Aluno/Editar/alunoEditar.js"></script>
+
+
 
     <!-- TELA - DASHBOARD -->
     <link rel="stylesheet" href="Tela/Dashboard/dashboard.css">
@@ -75,6 +81,7 @@
             <li onclick="sideBarPendentes()">🚨 Pendentes  </li>
         </ul>
     </nav>
+<!-- PÁG - DASHBOARD  -->
     <div id="pg-geral" class="pagina hidden">
         <div id="conteudo-pg-geral">
             <div>
@@ -140,6 +147,7 @@
         </div>
     </div>
 
+<!-- PÁG - EMPRÉSTIMOS -->
     <div id="pg-emprestimo" class="hidden pagina">
         <div id="conteudo-pg-emprestimos">
             <h2>Emprestimo</h2>
@@ -182,18 +190,19 @@
         </div>
     </div>
 
-    <div id="pg-livros" class="hiddenc pagina">
+<!-- PÁG - LIVROS  -->
+    <div id="pg-livros" class="hiddenk pagina">
         <div id="pg-livros-conteudo">
 
             <h2>📚 Livros</h2>
 
-            <div id="alunos-menu" class="menu-controle-pagina">
+            <div id="livros-menu" class="menu-controle-pagina">
                 <button class="menu-bt-cadastrar" onclick="abrirPaginaLivroCadastrar()">Cadastrar</button>
                 <button class="menu-bt-listar" onclick="abrirPaginaLivroListar()">Listar</button>
             </div>
 
             
-            <!-- Cadastro -->
+            <!-- LIVRO - CADASTRAR -->
             <div id="pg-livros-cadastrar" class="hidden paginaLivro area-cadastro">
                 <h3>Cadastrar</h3>
 
@@ -233,7 +242,7 @@
             </div>
 
 
-            <!-- Lista -->
+            <!-- LIVRO - LISTA -->
             <div id="pg-livros-listar" class="area-lista paginaLivro">
                 
                 <div id="pg-livros-listar-opcoes" class="area-lista-opcoes">
@@ -266,14 +275,18 @@
         </div>
     </div>     
 
+<!-- PÁG - ALUNOS -->
     <div id="pg-alunos" class="hidden pagina">
-        <div id="conteudo-pg-alunos">
-            <h2>Alunos</h2>
-            <div id="alunos-menu">
+        <div id="pg-alunos-conteudo">
+
+            <h2>🧑‍🎓 Alunos</h2>
+
+            <div id="alunos-menu" class="menu-controle-pagina">
                 <button class="menu-bt-cadastrar" onclick="abrirPaginaAlunoCadastrar()">Cadastrar</button>
                 <button class="menu-bt-listar" onclick="abrirPaginaAlunoListar()">Listar</button>
             </div>
-            
+
+            <!-- ALUNO - CADASTRAR -->
             <div id="pg-alunos-cadastrar" class="hidden paginaAluno area-cadastro">
                 <h3>Cadastrar</h3>
 
@@ -289,7 +302,7 @@
 
                     
                     <label>Série</label>
-                    <input name="Série" type="text" placeholder="Série"/>
+                    <input name="Serie" type="text" placeholder="Série"/>
                     
                     <label>Professor</label>
                     <input name="Professor" type="text" placeholder="Professor"/>
@@ -303,45 +316,17 @@
                 <button type="button" id="bt-cadastrar-alunos" onclick="cadastrarAluno()">Cadastrar</button>
             </div>
 
-            <div id="pg-alunos-apagar" class="hidden paginaAluno">
-                <h3>Apagar</h3>
-                <form>
-                    <label for="">Matricula</label>
-                    <input type="text" placeholder="Matricula"></input>
-                </form>
-                <button id="bt-apagar-aluno">Apagar</button>
-            </div>
-           
-            <div id="pg-alunos-editar" class="hidden paginaAluno">
-                <h3>Editar</h3>
+            <!-- ALUNO - LISTA -->
+            <div id="pg-alunos-listar" class="area-lista paginaAluno">
 
-                <form>
-                    <label for="">Matricula</label>
-                    <input type="text" placeholder="Matricula"/>
+                <div id="pg-alunos-listar-opcoes" class="area-lista-opcoes">
+                    <input type="text" id="pg-alunos-listar-campo-busca" placeholder="Nome / Matrícula"></input>
+                    <button class="" onclick="buscarElementosParaTabela('t_aluno')">🔍 Buscar Aluno</button>
+                </div>
 
-                    <label for="">Nome</label>
-                    <input type="text" placeholder="Nome"/>
+                <div id="pg-alunos-listar-tabela" class="area-lista-tabela">
 
-                    <label for="">Sala</label>
-                    <input type="text" placeholder="Sala"/>
-
-                    <label for="">Turno</label>
-                    <input type="text" placeholder="Turno"/>
-
-                    <label for="">Série</label>
-                    <input type="text" placeholder="Série"/>
-
-                    <label for="">Professor</label>
-                    <input type="text" placeholder="Professor"/>
-                </form>
-                <button id="bt-editar-alunos">Editar</button>
-            </div>
-            
-            <div id="pg-alunos-listar" class="paginaAluno area-lista">
-                <h3>Listar</h3>
-                <div><input placeholder="Buscar Aluno"></input></div>
-                <ul>
-                    <li id="pg-alunos-listar-cabecalho" class="area-lista-cabecalho">
+                    <div id="pg-alunos-listar-cabecalho" class="area-lista-tabela-cabecalho">
                         <h6>Matrícula</h6>
                         <span></span>
                         <h6>Nome</h6>
@@ -355,32 +340,8 @@
                         <h6>Turno</h6>
                         <span></span>
                         <h6>Ações</h6>
-                    </li>
-                    <li class="area-lista-dados">
-                        <p>145236789154</p>
-                        <span></span>
-                        <p>Gustavo Sobreira Pinto</p>
-                        <span></span>
-                        <p>Joselaine</p>
-                        <span></span>
-                        <p>32</p>
-                        <span></span>
-                        <p>1</p>
-                        <span></span>
-                        <p>Manhã</p>
-                        <span></span>
-                        <div>
-                            <button id="alunos-bt-editar" class="area-lista-dados-bt-editar">Editar</button>
-                            <button id="alunos-bt-deletar" class="area-lista-dados-bt-apagar">Apagar</button>
-                        </div>
-                    </li>
-                   
-                    
-                </ul>
-                <div id="pg-alunos-listar-menu-paginacao" class="area-lista-paginacao">
-                    <button id="pg-alunos-listar-bt-voltar">⬅️</button>
-                    <input type="number" placeholder="Total de itens por página"/>
-                    <button id="pg-alunos-listar-bt-avancar">➡️</button>
+                    </div>
+                    <ul id="pg-alunos-listar-resultados" class="area-lista-tabela-conteudo"></ul>
                 </div>
             </div>
         </div>
@@ -406,7 +367,7 @@
 
             <div class="pg-edicao-area-botoes">
                 <button class="pg-edicao-area-botoes-cancelar" onclick="pgEdicaoAreaBotoesCancelar()">Cancelar</button>
-                <button class="pg-edicao-area-botoes-confirmar" onclick="pgEdicaoAreaBotoesConfirmar('pg-edicao-area-dados-novos','PUT','editado')">Confirmar</button>
+                <button class="pg-edicao-area-botoes-confirmar" >Confirmar</button>
             </div>
         </div>
     </div>
@@ -426,7 +387,7 @@
 
             <div class="pg-deletar-area-botoes">
                 <button class="pg-deletar-area-botoes-cancelar" onclick="pgDeletarAreaBotoesCancelar()">Cancelar</button>
-                <button class="pg-deletar-area-botoes-confirmar" onclick="pgDeletarAreaBotoesConfirmar()">Apagar</button>
+                <button class="pg-deletar-area-botoes-confirmar">Apagar</button>
             </div>
         </div>
     </div>

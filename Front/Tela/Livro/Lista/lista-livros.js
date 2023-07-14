@@ -32,7 +32,6 @@ async function buscarTodos(){
     p_erro.classList.remove("hidden");
     campo_erro.innerHTML = data.value;
   } else {
-    console.log(data.value)
     adicionarListaDeLivros(data.value);
   }
 } catch (error) {

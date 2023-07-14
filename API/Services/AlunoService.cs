@@ -33,9 +33,9 @@ public class AlunoService : IAlunoService
         return _alunoDao.BuscarTodosAlunos(skip, take);
     }
 
-    public List<Aluno> BuscarAlunoPeloNome(string nome)
+    public List<Aluno> BuscarAlunoPeloNome(string nome, int skip, int take)
     {
-        return _alunoDao.BuscarPeloNome(nome);
+        return _alunoDao.BuscarPeloNome(nome, skip, take);
     }
 
     public bool VerificarPendenciaAluno(string matricula)

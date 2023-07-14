@@ -34,7 +34,7 @@ public class AlunoController : Controller
             if(alunoEncotrado == null){
                 throw new AlunoMatriculaNaoEncontradaException();
             }
-            return StatusCode(200,alunoEncotrado);
+            return StatusCode(200, Json(alunoEncotrado));
         }
         catch (Exception e)
         {
@@ -42,17 +42,17 @@ public class AlunoController : Controller
         }
     }
 
-    [HttpGet("buscar/aluno/{nome}")]
-    public ActionResult ProcurarAlunoPeloNome(string nome)
+    [HttpGet("buscar/aluno/{nome}/{skip}/{take}")]
+    public ActionResult ProcurarAlunoPeloNome(string nome, int skip = 0, int take = 25)
     {
         try
         {
             string nomeFormatado = _formatarTextos.FormatarTextos(nome);
-            List<Aluno> alunoEncotrado = _alunoAtual.BuscarAlunoPeloNome(nomeFormatado)!;
+            List<Aluno> alunoEncotrado = _alunoAtual.BuscarAlunoPeloNome(nomeFormatado, skip, take)!;
             if(alunoEncotrado.Count == 0){
                 throw new AlunoNomeNaoEncontradoException();
             }
-            return StatusCode(200,alunoEncotrado);
+            return StatusCode(200, Json(alunoEncotrado));
         }
         catch (Exception e)
         {
@@ -67,7 +67,7 @@ public class AlunoController : Controller
         try
         {
             List<Aluno> listaGerada = _alunoAtual.BuscarTodosAlunos(skip, take);
-            return StatusCode(200,listaGerada);
+            return StatusCode(200, Json(listaGerada));
         }
         catch (Exception e)
         {
@@ -84,7 +84,7 @@ public class AlunoController : Controller
             Aluno alunoFormatado = _alunoAtual.FormatarCampos(aluno);
             _alunoAtual.RegrasParaCadastro(alunoFormatado);
             _alunoAtual.Cadastrar(alunoFormatado);
-            return StatusCode(200,Json(alunoFormatado));
+            return StatusCode(200, Json(alunoFormatado));
         }
         catch (Exception e)
         {
@@ -110,7 +110,7 @@ public class AlunoController : Controller
             Aluno alunoEditado = _alunoAtual.Editar(alunoFormatado)!;
 
             List<Aluno> comparacao = new List<Aluno>{dadosAntigos,alunoEditado};
-            return StatusCode(200,comparacao);
+            return StatusCode(200, Json(comparacao));
         }
         catch (Exception e)
         {
@@ -130,7 +130,7 @@ public class AlunoController : Controller
             }
             _alunoAtual.RegrasParaEdicao(aluno);
             Aluno? alunoApagado = _alunoAtual.Apagar(aluno.Matricula!);
-            return StatusCode(200,alunoApagado);
+            return StatusCode(200, Json(alunoApagado));
         }
         catch (Exception e)
         {
